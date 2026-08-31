@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Admin TBP</title>
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">
+      <img src="/assets/logo.jpg" alt="TBP Logo">
+      <div><div class="sb-brand">TU<span>/</span>BOCADO</div><div class="sb-tag">Admin</div></div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-item on" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+    <a class="sb-item" href="publicar.html"><span class="ico">✏️</span> Nueva noticia</a>
+    <a class="sb-item admin-only" href="usuarios.html"><span class="ico">👥</span> Usuarios</a>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-uname" id="userNombre">—</div>
+    <div class="sb-urol" id="userRol">—</div>
+    <button class="sb-out" onclick="TBP.logout()">🚪 Cerrar sesión</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <h1>Dashboard</h1>
+    <a class="btn btn-yellow" href="publicar.html">✏️ NUEVA NOTICIA</a>
+  </div>
+  <div class="content">
+
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="statTotal">—</div><div class="stat-l">Noticias publicadas</div></div>
+      <div class="stat"><div class="stat-n" id="statSemana">—</div><div class="stat-l">Esta semana</div></div>
+      <div class="stat"><div class="stat-n" id="statDest">—</div><div class="stat-l">Destacadas</div></div>
+    </div>
+
+    <div class="section-hd"><h2>Todas las noticias</h2></div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th><th>Categoría</th><th>Autor</th><th>Fecha</th><th>Dest.</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="6"><div class="empty"><div class="ico">⏳</div><p>Cargando...</p></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script src="_layout.js"></script>
+<script>
+async function init() {
+  const u = await TBP.requireAuth();
+  if (!u) return;
+  const res  = await fetch('/api/admin/noticias');
+  const data = await res.json();
+
+  const ahora  = new Date();
+  const semana = data.filter(n => (ahora - new Date(n.created_at)) < 7*24*60*60*1000).length;
+  document.getElementById('statTotal').textContent = data.length;
+  document.getElementById('statSemana').textContent = semana;
+  document.getElementById('statDest').textContent  = data.filter(n => n.destacada).length;
+
+  const tbody = document.getElementById('tbody');
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="ico">📭</div><p>Aún no hay noticias.</p><a class="btn btn-yellow" href="publicar.html">✏️ PUBLICAR LA PRIMERA</a></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(n => `
+    <tr>
+      <td style="max-width:300px;font-weight:600">${n.titulo}</td>
+      <td><span class="cat-badge ${n.categoria==='urgente'?'cat-urgente':'cat-otras'}">${TBP.catLabel(n.categoria)}</span></td>
+      <td style="color:var(--muted)">${n.autor_nombre}</td>
+      <td style="color:var(--muted);font-size:13px">${TBP.fmtFecha(n.created_at)}</td>
+      <td style="text-align:center">${n.destacada?'<span class="destacada-dot"></span>':'—'}</td>
+      <td style="display:flex;gap:8px">
+        <a class="btn btn-ghost btn-sm" href="publicar.html?id=${n.id}">Editar</a>
+        <button class="btn btn-red btn-sm" onclick="del(${n.id},this)">Borrar</button>
+      </td>
+    </tr>`).join('');
+}
+
+async function del(id, btn) {
+  if (!TBP.confirm('¿Borrar esta noticia? No se puede recuperar.')) return;
+  btn.disabled = true;
+  const r = await fetch(`/api/admin/noticias/${id}`, {method:'DELETE'});
+  if (r.ok) { TBP.toast('Noticia eliminada'); init(); }
+  else { TBP.toast('Error al eliminar','error'); btn.disabled=false; }
+}
+
+init();
+</script>
+</body>
+</html>

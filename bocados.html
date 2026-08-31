@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:site_name" content="Tu Bocado Político">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bocados Rápidos — Tu Bocado Político">
+<meta property="og:description" content="Las noticias más importantes de Colombia en formato corto y digestible.">
+<meta property="og:image" content="/assets/logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Las noticias más importantes de Colombia en formato corto y digestible.">
+<title>Bocados Rápidos — Tu Bocado Político</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+body { background: var(--dark); }
+.page-hero { background: var(--dark); color: var(--yellow); border-bottom-color: var(--yellow); }
+.page-hero .hero-dots {
+  background-image: radial-gradient(circle, rgba(245,195,26,0.15) 1.5px, transparent 1.5px) !important;
+}
+.page-hero h1 { color: var(--yellow); }
+.page-hero p  { color: rgba(245,195,26,0.55); }
+
+/* filter */
+.filter-bar {
+  background: #16181E; border-bottom: 3px solid var(--yellow);
+  padding: 14px 32px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.filter-label {
+  font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 0.14em;
+  color: rgba(245,195,26,0.4); margin-right: 8px;
+}
+.filter-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 5px 16px; border: 2px solid rgba(245,195,26,0.4); background: transparent;
+  color: rgba(245,195,26,0.6); cursor: pointer; transition: all 0.15s;
+}
+.filter-btn:hover, .filter-btn.on { border-color: var(--yellow); color: var(--yellow); }
+.filter-btn.on { background: rgba(245,195,26,0.08); }
+
+/* count bar */
+.count-bar {
+  background: var(--dark); padding: 14px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid rgba(245,195,26,0.15);
+}
+.count-text {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: rgba(245,195,26,0.4);
+}
+.count-text span { color: var(--yellow); }
+
+/* timeline list */
+.timeline { padding: 32px 32px 48px; max-width: 820px; margin: 0 auto; }
+
+.bocado-row {
+  display: grid; grid-template-columns: 90px 1fr;
+  gap: 0; margin-bottom: 0;
+  border: 3px solid rgba(245,195,26,0.2);
+  border-bottom: none;
+}
+.bocado-row:last-child { border-bottom: 3px solid rgba(245,195,26,0.2); }
+.bocado-row:hover { border-color: var(--yellow); }
+.bocado-row:hover + .bocado-row { border-top-color: var(--yellow); }
+
+.time-col {
+  background: #16181E;
+  border-right: 3px solid rgba(245,195,26,0.2);
+  padding: 20px 14px;
+  display: flex; flex-direction: column; gap: 4px;
+  align-items: center; text-align: center;
+}
+.bocado-row:hover .time-col { border-right-color: var(--yellow); }
+.time-ago {
+  font-family: 'Bebas Neue', sans-serif; font-size: 18px;
+  color: var(--yellow); line-height: 1;
+}
+.time-unit {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: rgba(245,195,26,0.4);
+}
+
+.bocado-content { padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; }
+.bocado-content .bocado-tag {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.14em;
+  padding: 2px 8px; display: inline-flex; align-self: flex-start; border: 2px solid;
+}
+.bocado-content h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px; font-weight: 900; line-height: 1.2;
+  text-transform: uppercase; letter-spacing: 0.01em; color: #fff;
+}
+.bocado-content p { font-size: 13.5px; color: rgba(247,244,236,0.7); line-height: 1.55; }
+.bocado-read {
+  font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.1em;
+  color: var(--blue); align-self: flex-start; transition: color 0.15s;
+}
+.bocado-read:hover { color: var(--yellow); }
+
+/* date divider */
+.date-divider {
+  display: flex; align-items: center; gap: 14px;
+  padding: 20px 0 14px; max-width: 820px; margin: 0 auto;
+}
+.date-divider span {
+  font-family: 'Bebas Neue', sans-serif; font-size: 13px;
+  letter-spacing: 0.18em; color: rgba(245,195,26,0.4);
+  white-space: nowrap;
+}
+.date-divider::before, .date-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(245,195,26,0.15);
+}
+
+@media (max-width: 600px) {
+  .timeline { padding: 20px 16px 40px; }
+  .bocado-row { grid-template-columns: 70px 1fr; }
+  .filter-bar { padding: 12px 16px; }
+  .count-bar  { padding: 12px 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html"><img class="nav-logo" src="/assets/logo.jpg" alt="Logo TBP">TU<span class="slash">/</span>BOCADO</a>
+  <ul class="nav-links">
+    <li><a href="noticias.html">Noticias</a></li>
+    <li><a href="opinion.html">Opinión</a></li>
+    <li><a href="explicame.html">Explícame</a></li>
+    <li><a href="bocados.html" class="active">Bocados</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+  <a class="nav-cta" href="suscribirme.html">Suscribirme</a>
+</nav>
+
+<div class="ticker" aria-label="Titulares del momento">
+  <div class="ticker-label">Ahora</div>
+  <div class="ticker-track" aria-hidden="true">
+    <span class="ticker-item">Reforma pensional: ¿Qué cambia para ti?</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Congreso: nueva votación esta semana</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Petro anuncia cambios en el gabinete</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Marcha nacional este sábado</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Reforma pensional: ¿Qué cambia para ti?</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Congreso: nueva votación esta semana</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Petro anuncia cambios en el gabinete</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Marcha nacional este sábado</span>
+    <span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<section class="page-hero dark-hero">
+  <div class="hero-dots"></div>
+  <div class="page-hero-inner">
+    <div class="page-tag on-dark">🥙 Sección</div>
+    <h1>Bocados rápidos</h1>
+    <p>Noticias cortas, directas y sin relleno. Lo que pasó hoy en Colombia.</p>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <span class="filter-label">Filtrar:</span>
+  <button class="filter-btn on" onclick="setFilter(this)">Todos</button>
+  <button class="filter-btn" onclick="setFilter(this)">🔴 Urgente</button>
+  <button class="filter-btn" onclick="setFilter(this)">Noticias</button>
+  <button class="filter-btn" onclick="setFilter(this)">Economía</button>
+  <button class="filter-btn" onclick="setFilter(this)">Ambiente</button>
+  <button class="filter-btn" onclick="setFilter(this)">Internacional</button>
+</div>
+
+<div class="count-bar">
+  <span class="count-text"><span>12</span> bocados hoy · Actualizado hace 2 h</span>
+  <span class="count-text" style="font-size:12px;">30 ago 2026</span>
+</div>
+
+<div class="date-divider"><span>Hoy · 30 agosto 2026</span></div>
+
+<div class="timeline">
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">2</div>
+      <div class="time-unit">horas</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag ur" style="color:var(--red);border-color:var(--red);">Urgente</span>
+      <h3>Senado aplaza debate de reforma a la salud hasta octubre</h3>
+      <p>No hubo quórum decisorio. Las EPS siguen en alerta roja mientras el Congreso no llega a un acuerdo sobre el modelo de financiación.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">4</div>
+      <div class="time-unit">horas</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag nt" style="color:var(--blue);border-color:var(--blue);">Noticias</span>
+      <h3>Petro firma decreto que regula uso de IA en justicia colombiana</h3>
+      <p>El decreto establece límites para el uso de herramientas de inteligencia artificial en juzgados y fiscalías. Es el primero de su tipo en Latinoamérica.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">6</div>
+      <div class="time-unit">horas</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag am" style="color:var(--green);border-color:var(--green);">Ambiente</span>
+      <h3>Minambiente anuncia ampliación de la Serranía de la Macarena</h3>
+      <p>40,000 hectáreas adicionales se suman al área protegida. La decisión es polémica porque afecta a comunidades que habitan la zona desde hace décadas.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">8</div>
+      <div class="time-unit">horas</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag ec" style="color:var(--yellow);border-color:var(--yellow);">Economía</span>
+      <h3>Banco de la República baja tasas de interés a 9.25%</h3>
+      <p>La Junta del Banrep votó 5 a 2 a favor del recorte. Los créditos de consumo y vivienda deberían abaratarse en las próximas semanas.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">10</div>
+      <div class="time-unit">horas</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag nt" style="color:var(--blue);border-color:var(--blue);">Noticias</span>
+      <h3>El 67% de jóvenes entre 18-25 no confía en partidos políticos</h3>
+      <p>Encuesta del Centro Nacional de Consultoría presentada en la Comisión de Paz del Senado. El desenganche generacional es el principal hallazgo.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+
+  <div class="date-divider"><span>Ayer · 29 agosto 2026</span></div>
+
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">1</div>
+      <div class="time-unit">día</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag ur" style="color:var(--red);border-color:var(--red);">Urgente</span>
+      <h3>Paro de camioneros en Eje Cafetero afecta abastecimiento en Bogotá</h3>
+      <p>El conflicto por los fletes lleva 48 horas. El gobierno convocó a una mesa de concertación para esta tarde pero sin acuerdo previo.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">1</div>
+      <div class="time-unit">día</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag nt" style="color:var(--blue);border-color:var(--blue);">Internacional</span>
+      <h3>Venezuela anuncia ruptura de relaciones consulares con Ecuador</h3>
+      <p>La decisión de Maduro complica la ruta migratoria de venezolanos que usaban Ecuador como tránsito hacia Colombia y Perú.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+  <div class="bocado-row">
+    <div class="time-col">
+      <div class="time-ago">1</div>
+      <div class="time-unit">día</div>
+    </div>
+    <div class="bocado-content">
+      <span class="bocado-tag ec" style="color:var(--yellow);border-color:var(--yellow);">Economía</span>
+      <h3>IPC de julio: 0.4% mensual, 6.8% anual — por debajo del pronóstico</h3>
+      <p>Los alimentos y el transporte bajaron. La energía y el arriendo subieron. El Dane publicó el desglose completo esta mañana.</p>
+      <a href="#" class="bocado-read">Ver más →</a>
+    </div>
+  </div>
+</div>
+
+<section class="nl-wrap" style="border-top:4px solid var(--yellow);">
+  <div class="nl-bg-dots"></div>
+  <h2>Bocados frescos<br>cada <em>lunes.</em></h2>
+  <p>Recibe el resumen semanal en tu correo — curado, sin ruido, listo para leer.</p>
+  <a href="suscribirme.html" style="display:inline-block;background:var(--yellow);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.12em;padding:16px 40px;border:3px solid #fff;position:relative;z-index:1;">Suscribirme →</a>
+</section>
+
+<footer>
+  <span class="footer-brand">TU/BOCADO POLÍTICO 🇨🇴</span>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com/tubocadopolitico" target="_blank">Instagram</a></li>
+    <li><a href="#">TikTok</a></li>
+    <li><a href="#">YouTube</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="suscribirme.html">Contacto</a></li>
+    <li><a href="/admin/login.html" style="opacity:.85;font-size:12px;letter-spacing:.1em;">Ingresar</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Tu Bocado Político — Hecho con actitud. Porque la política sí se puede masticar.</p>
+</footer>
+
+<script>
+function setFilter(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+</script>
+<script src="/mascota.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,475 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:site_name" content="Tu Bocado Político">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Suscribirme — Tu Bocado Político">
+<meta property="og:description" content="Recibe tu bocado político cada lunes. Gratis, sin spam, sin aburrición.">
+<meta property="og:image" content="/assets/logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Recibe tu bocado político cada lunes. Gratis, sin spam, sin aburrición.">
+<title>Suscribirme — Tu Bocado Político</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ─── HERO ─────────────────────────────────────────────── */
+.sub-hero {
+  background: var(--blue);
+  position: relative; overflow: hidden;
+  padding: 64px 40px 56px;
+  border-bottom: 4px solid var(--dark);
+}
+.sub-hero-dots {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+.sub-hero-inner { position: relative; z-index: 1; max-width: 640px; }
+.sub-eyebrow {
+  font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 0.22em;
+  background: var(--yellow); color: var(--dark);
+  padding: 4px 12px; display: inline-block; margin-bottom: 20px;
+}
+.sub-hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 7vw, 88px); line-height: 0.92;
+  letter-spacing: 0.01em; text-transform: uppercase;
+  color: #fff; text-wrap: balance;
+}
+.sub-hero h1 em { color: var(--yellow); font-style: normal; }
+.sub-hero-desc {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px; font-weight: 700; letter-spacing: 0.03em;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+  margin-top: 16px; max-width: 520px; line-height: 1.4;
+}
+
+/* ─── PERKS BAR ─────────────────────────────────────────── */
+.perks-bar {
+  background: var(--dark); border-bottom: 3px solid var(--yellow);
+  padding: 20px 40px; display: flex; gap: 40px; flex-wrap: wrap; align-items: center;
+}
+.perk {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: rgba(247,244,236,0.8);
+}
+.perk-icon { color: var(--yellow); font-size: 18px; flex-shrink: 0; }
+
+/* ─── FORM SECTION ──────────────────────────────────────── */
+.form-section {
+  background: var(--white); border-bottom: 4px solid var(--dark);
+  padding: 56px 40px; display: grid;
+  grid-template-columns: 1fr 400px; gap: 0;
+}
+.form-col { padding-right: 60px; border-right: 3px solid var(--dark); }
+.form-col h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; letter-spacing: 0.01em; text-transform: uppercase;
+  color: var(--dark); margin-bottom: 28px;
+}
+
+/* field */
+.field { margin-bottom: 22px; }
+.field label {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--dark); margin-bottom: 8px;
+}
+.field label span { color: var(--blue); }
+.field input, .field select {
+  width: 100%; padding: 14px 16px;
+  border: 3px solid var(--dark); border-radius: 0;
+  background: #fff; color: var(--dark);
+  font-family: 'DM Sans', sans-serif; font-size: 15px;
+  outline: none; transition: border-color 0.15s; -webkit-appearance: none;
+}
+.field input:focus, .field select:focus { border-color: var(--blue); }
+.field input::placeholder { color: rgba(12,13,15,0.35); }
+
+/* categories checkboxes */
+.field-cats { margin-bottom: 28px; }
+.field-cats label.main {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--dark); margin-bottom: 12px;
+}
+.cats-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.cat-check {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 10px 14px; border: 2px solid var(--dark);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--dark);
+  transition: all 0.15s; user-select: none;
+}
+.cat-check input[type="checkbox"] { display: none; }
+.cat-check .box {
+  width: 18px; height: 18px; border: 2px solid var(--dark);
+  background: #fff; flex-shrink: 0; position: relative;
+  transition: all 0.15s;
+}
+.cat-check input:checked ~ .box { background: var(--blue); border-color: var(--blue); }
+.cat-check input:checked ~ .box::after {
+  content: '✓'; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 11px; font-weight: 700;
+  font-family: sans-serif;
+}
+.cat-check:has(input:checked) { background: rgba(61,86,240,0.06); border-color: var(--blue); }
+
+/* nota lunes */
+.lunes-note {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--yellow);
+  border: 3px solid var(--dark); padding: 16px 18px; margin-bottom: 28px;
+}
+.lunes-icon { font-size: 24px; flex-shrink: 0; margin-top: -2px; }
+.lunes-text {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.4; color: var(--dark);
+}
+.lunes-text strong { display: block; font-size: 18px; margin-bottom: 2px; }
+
+/* submit */
+.submit-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.submit-btn {
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.12em;
+  background: var(--dark); color: var(--yellow);
+  padding: 16px 40px; border: 3px solid var(--dark); cursor: pointer;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.submit-btn:hover { background: var(--blue); border-color: var(--blue); }
+.submit-note { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+/* sidebar info */
+.form-sidebar { padding-left: 48px; display: flex; flex-direction: column; gap: 28px; }
+.sidebar-block { border-bottom: 2px solid rgba(12,13,15,0.12); padding-bottom: 24px; }
+.sidebar-block:last-child { border-bottom: none; padding-bottom: 0; }
+.sidebar-label {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.18em;
+  color: var(--blue); margin-bottom: 10px; display: block;
+}
+.sidebar-block h3 {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 8px;
+}
+.sidebar-block p { font-size: 13.5px; color: rgba(12,13,15,0.65); line-height: 1.6; }
+.preview-card {
+  background: var(--dark); padding: 18px 20px;
+  border: 3px solid var(--dark); margin-top: 4px;
+}
+.preview-day {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.18em;
+  color: var(--blue); margin-bottom: 8px;
+}
+.preview-title {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 900;
+  text-transform: uppercase; color: var(--yellow); line-height: 1.2; margin-bottom: 8px;
+}
+.preview-body { font-size: 12px; color: rgba(247,244,236,0.6); line-height: 1.5; }
+
+/* ─── SUCCESS STATE ─────────────────────────────────────── */
+#success-screen {
+  display: none;
+  background: var(--yellow);
+  min-height: 60vh;
+  border-bottom: 4px solid var(--dark);
+  padding: 80px 40px;
+  position: relative; overflow: hidden;
+}
+#success-screen.visible { display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; gap: 24px; }
+.success-icon { font-size: 72px; line-height: 1; }
+#success-screen h2 {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 6vw, 72px);
+  line-height: 0.95; letter-spacing: 0.01em; text-transform: uppercase; color: var(--dark);
+}
+#success-screen h2 em { color: var(--blue); font-style: normal; }
+#success-screen p { font-size: 16px; color: rgba(12,13,15,0.65); max-width: 440px; line-height: 1.6; }
+.success-next {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px;
+}
+.success-link {
+  font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.12em;
+  background: var(--dark); color: var(--yellow);
+  padding: 12px 28px; border: 3px solid var(--dark); transition: all 0.15s;
+}
+.success-link:hover { background: var(--blue); border-color: var(--blue); }
+.success-dots {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(12,13,15,0.18) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+
+@media (max-width: 860px) {
+  .form-section { grid-template-columns: 1fr; }
+  .form-col { border-right: none; padding-right: 0; border-bottom: 3px solid var(--dark); padding-bottom: 40px; }
+  .form-sidebar { padding-left: 0; padding-top: 40px; }
+  .perks-bar { padding: 16px 20px; gap: 20px; }
+}
+@media (max-width: 600px) {
+  .sub-hero { padding: 48px 20px 40px; }
+  .form-section { padding: 36px 20px; }
+  .cats-grid { grid-template-columns: 1fr; }
+  #success-screen { padding: 60px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html"><img class="nav-logo" src="/assets/logo.jpg" alt="Logo TBP">TU<span class="slash">/</span>BOCADO</a>
+  <ul class="nav-links">
+    <li><a href="noticias.html">Noticias</a></li>
+    <li><a href="opinion.html">Opinión</a></li>
+    <li><a href="explicame.html">Explícame</a></li>
+    <li><a href="bocados.html">Bocados</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+  <a class="nav-cta" href="suscribirme.html" style="background:var(--blue);border-color:var(--blue);color:#fff;">Ya estoy aquí</a>
+</nav>
+
+<!-- HERO -->
+<section class="sub-hero">
+  <div class="sub-hero-dots"></div>
+  <div class="sub-hero-inner">
+    <div class="sub-eyebrow">📩 Suscripción gratuita</div>
+    <h1>Tu bocado<br>político cada<br><em>lunes.</em></h1>
+    <p class="sub-hero-desc">Una columna de opinión, bien investigada, lista para debatir. Sin spam. Sin costo. Sin aburrición.</p>
+  </div>
+</section>
+
+<!-- PERKS -->
+<div class="perks-bar">
+  <div class="perk">
+    <span class="perk-icon">📅</span>
+    Todos los lunes
+  </div>
+  <div class="perk">
+    <span class="perk-icon">⚡</span>
+    5 minutos de lectura
+  </div>
+  <div class="perk">
+    <span class="perk-icon">🔒</span>
+    Sin spam, nunca
+  </div>
+  <div class="perk">
+    <span class="perk-icon">✂️</span>
+    Cancelas cuando quieras
+  </div>
+  <div class="perk">
+    <span class="perk-icon">🧠</span>
+    Investigado y curado por TBP
+  </div>
+</div>
+
+<!-- FORM + SIDEBAR -->
+<section class="form-section" id="form-section">
+  <div class="form-col">
+    <h2>¡Suscríbete gratis!</h2>
+
+    <form id="sub-form" novalidate>
+      <div class="field">
+        <label>Nombre <span>*</span></label>
+        <input type="text" id="f-nombre" placeholder="¿Cómo te llamamos?" required autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label>Correo electrónico <span>*</span></label>
+        <input type="email" id="f-email" placeholder="tu@correo.com" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label>¿Cómo llegaste a TBP?</label>
+        <select id="f-fuente">
+          <option value="">— Selecciona una opción —</option>
+          <option>Instagram</option>
+          <option>TikTok</option>
+          <option>Un amigo me recomendó</option>
+          <option>YouTube</option>
+          <option>Buscando en Google</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="field-cats">
+        <label class="main">¿Qué temas te interesan más? (elige los que quieras)</label>
+        <div class="cats-grid">
+          <label class="cat-check">
+            <input type="checkbox" value="política" checked>
+            <span class="box"></span>
+            Política
+          </label>
+          <label class="cat-check">
+            <input type="checkbox" value="economía">
+            <span class="box"></span>
+            Economía
+          </label>
+          <label class="cat-check">
+            <input type="checkbox" value="ambiente">
+            <span class="box"></span>
+            Ambiente
+          </label>
+          <label class="cat-check">
+            <input type="checkbox" value="sociedad">
+            <span class="box"></span>
+            Sociedad
+          </label>
+          <label class="cat-check">
+            <input type="checkbox" value="internacional">
+            <span class="box"></span>
+            Internacional
+          </label>
+          <label class="cat-check">
+            <input type="checkbox" value="todo">
+            <span class="box"></span>
+            Todo TBP
+          </label>
+        </div>
+      </div>
+
+      <div class="lunes-note">
+        <span class="lunes-icon">📅</span>
+        <div class="lunes-text">
+          <strong>Envío garantizado cada lunes</strong>
+          Recibirás tu bocado editorial antes del mediodía — listo para empezar la semana con criterio.
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn">Quiero mi bocado →</button>
+        <p class="submit-note">Gratuito. Sin spam.<br>Cancelas en un clic.</p>
+      </div>
+    </form>
+  </div>
+
+  <div class="form-sidebar">
+    <div class="sidebar-block">
+      <span class="sidebar-label">¿Qué recibes?</span>
+      <h3>La columna del lunes</h3>
+      <p>Cada semana un tema político relevante, explicado con rigor y sin rodeos. Una opinión editorial fundamentada, no un resumen de lo que ya viste en redes.</p>
+      <div class="preview-card">
+        <div class="preview-day">Lunes · 28 ago 2026</div>
+        <div class="preview-title">Votar a los 18 no es suficiente — necesitamos ser escuchados antes</div>
+        <div class="preview-body">Las reglas del juego político colombiano están escritas por adultos, para adultos. Esta semana en TBP: por qué la participación juvenil no puede depender solo del tarjetón...</div>
+      </div>
+    </div>
+    <div class="sidebar-block">
+      <span class="sidebar-label">¿Puedes enviar tu opinión?</span>
+      <h3>Sí, leemos todas</h3>
+      <p>Si tienes una columna de opinión que vale la pena compartir, escríbenos a través de Instagram. Las mejores pueden ser publicadas en la edición del lunes siguiente.</p>
+    </div>
+    <div class="sidebar-block">
+      <span class="sidebar-label">Privacidad</span>
+      <h3>Tu correo es tuyo</h3>
+      <p>No vendemos datos. No compartimos tu correo con nadie. Solo lo usamos para enviarte el bocado del lunes — nada más.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS -->
+<div id="success-screen">
+  <div class="success-dots"></div>
+  <div class="success-icon">🥙</div>
+  <h2>¡Ya eres parte de <em>TBP!</em></h2>
+  <p id="success-name-msg">El próximo lunes llega tu primer bocado político. Mientras tanto, chécanos en Instagram.</p>
+  <div class="success-next">
+    <a href="noticias.html" class="success-link">Ver noticias →</a>
+    <a href="https://instagram.com/tubocadopolitico" target="_blank" class="success-link">Ir al Instagram →</a>
+  </div>
+</div>
+
+<section class="nl-wrap" id="bottom-nl" style="border-top:4px solid var(--dark);">
+  <div class="nl-bg-dots"></div>
+  <h2>¿Ya te <em>suscribiste?</em></h2>
+  <p>Cuéntale a tus amigos. La política cambia cuando más gente la entiende.</p>
+  <a href="https://instagram.com/tubocadopolitico" target="_blank" style="display:inline-block;background:var(--yellow);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.12em;padding:16px 40px;border:3px solid #fff;position:relative;z-index:1;">Ver Instagram →</a>
+</section>
+
+<footer>
+  <span class="footer-brand">TU/BOCADO POLÍTICO 🇨🇴</span>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com/tubocadopolitico" target="_blank">Instagram</a></li>
+    <li><a href="#">TikTok</a></li>
+    <li><a href="#">YouTube</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Tu Bocado Político — Hecho con actitud. Porque la política sí se puede masticar.</p>
+</footer>
+
+<script>
+document.getElementById('sub-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const email  = document.getElementById('f-email').value.trim();
+  const fuente = document.getElementById('f-fuente').value;
+  const temas  = [...document.querySelectorAll('.cat-check input:checked')].map(i => i.value);
+
+  if (!nombre) { document.getElementById('f-nombre').focus(); document.getElementById('f-nombre').style.borderColor='#E03030'; return; }
+  if (!email || !email.includes('@')) { document.getElementById('f-email').focus(); document.getElementById('f-email').style.borderColor='#E03030'; return; }
+
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Suscribiendo...';
+  btn.disabled = true;
+
+  try {
+    const r = await fetch('/api/suscriptores', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, email, fuente, temas })
+    });
+    const data = await r.json();
+    if (!r.ok) {
+      btn.textContent = 'Quiero mi bocado →';
+      btn.disabled = false;
+      if (data.error === 'Ya estás suscrito con ese correo') {
+        document.getElementById('f-email').style.borderColor = '#E03030';
+        alert('Ya estás suscrito con ese correo 😊');
+      } else {
+        alert(data.error || 'Hubo un error, intenta de nuevo');
+      }
+      return;
+    }
+  } catch(err) {
+    btn.textContent = 'Quiero mi bocado →';
+    btn.disabled = false;
+    alert('No se pudo conectar. Intenta de nuevo.');
+    return;
+  }
+
+  document.getElementById('form-section').style.display = 'none';
+  const success = document.getElementById('success-screen');
+  success.classList.add('visible');
+  document.getElementById('success-name-msg').textContent =
+    `Listo, ${nombre}. El próximo lunes llega tu primer bocado político. Mientras tanto, síguenos en Instagram.`;
+  success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// Reset error highlight on focus
+['f-nombre','f-email'].forEach(id => {
+  document.getElementById(id).addEventListener('focus', function() {
+    this.style.borderColor = '';
+  });
+});
+
+// Toggle checkbox style on click
+document.querySelectorAll('.cat-check').forEach(label => {
+  label.addEventListener('click', () => {
+    const cb = label.querySelector('input[type="checkbox"]');
+    // timeout to let the default toggle happen
+    setTimeout(() => {
+      label.style.borderColor = cb.checked ? 'var(--blue)' : '';
+    }, 0);
+  });
+});
+</script>
+<script src="/mascota.js"></script>
+</body>
+</html>
+

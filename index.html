@@ -1,0 +1,470 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:site_name" content="Tu Bocado Político">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tu Bocado Político — Política colombiana para jóvenes">
+<meta property="og:description" content="Noticias, opinión y análisis político colombiano. Explicado sin rodeos para la generación que quiere entender.">
+<meta property="og:image" content="/assets/logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Noticias, opinión y análisis político colombiano. Explicado sin rodeos para la generación que quiere entender.">
+<title>Tu Bocado Político</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ─── HERO (homepage) ────────────────────────────────── */
+.hero {
+  background: var(--yellow);
+  position: relative; overflow: hidden;
+  border-bottom: 4px solid var(--dark);
+}
+.hero-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(12,13,15,0.2) 1.5px, transparent 1.5px);
+  background-size: 10px 10px; pointer-events: none;
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 380px; min-height: 520px;
+}
+.hero-left {
+  padding: 48px 40px 48px;
+  border-right: 4px solid var(--dark);
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.hero-tag {
+  display: inline-flex; align-items: center;
+  background: var(--dark); color: var(--yellow);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px; letter-spacing: 0.14em;
+  padding: 4px 12px; margin-bottom: 20px; align-self: flex-start;
+}
+.hero-h1 {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(52px, 7vw, 88px);
+  line-height: 0.95; letter-spacing: 0.01em;
+  color: var(--dark); text-transform: uppercase;
+  text-wrap: balance; margin-bottom: 20px;
+}
+.hero-sub {
+  background: var(--dark); color: var(--yellow);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 12px 18px; line-height: 1.45;
+  display: inline-block; margin-bottom: 28px; max-width: 560px;
+}
+.hero-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.hero-author {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--dark);
+}
+.hero-date { font-size: 13px; color: rgba(12,13,15,0.55); font-weight: 500; }
+.hero-read {
+  font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.1em;
+  background: var(--blue); color: #fff;
+  padding: 10px 22px; border: 3px solid var(--dark);
+  display: inline-block; transition: background 0.15s; margin-left: auto;
+}
+.hero-read:hover { background: var(--blue2); }
+.hero-right { display: flex; flex-direction: column; }
+.hero-panel {
+  flex: 1; padding: 24px 22px;
+  border-bottom: 3px solid var(--dark);
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--yellow); transition: background 0.15s; cursor: pointer;
+}
+.hero-panel:last-child { border-bottom: none; }
+.hero-panel:hover { background: rgba(12,13,15,0.06); }
+.panel-tag {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.16em;
+  padding: 2px 8px; display: inline-flex; align-self: flex-start; border: 2px solid;
+}
+.panel-tag.nt { color: var(--blue);  border-color: var(--blue); }
+.panel-tag.op { color: var(--dark);  border-color: var(--dark); }
+.panel-tag.ur { color: var(--red);   border-color: var(--red); }
+.hero-panel h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 19px; font-weight: 900; line-height: 1.2;
+  text-transform: uppercase; letter-spacing: 0.01em;
+}
+.panel-meta { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+/* ─── GRID WRAP ──────────────────────────────────────── */
+.grid-wrap {
+  background: var(--white); border-bottom: 4px solid var(--dark);
+  padding: 40px 32px;
+}
+/* ─── EXPLÍCAME SECTION ──────────────────────────────── */
+.explicame-wrap {
+  background: var(--yellow); border-bottom: 4px solid var(--dark);
+  padding: 40px 32px; position: relative; overflow: hidden;
+}
+.explicame-wrap .bg-dots {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(12,13,15,0.18) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+.explicame-wrap .sec-hd { position: relative; z-index: 1; }
+.explicame-wrap .explain-grid { position: relative; z-index: 1; }
+/* ─── RESPONSIVE HERO ────────────────────────────────── */
+@media (max-width: 860px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-right { flex-direction: row; border-top: 3px solid var(--dark); }
+  .hero-panel { border-right: 3px solid var(--dark); border-bottom: none; }
+  .hero-panel:last-child { border-right: none; }
+  .grid-wrap, .explicame-wrap { padding: 28px 20px; }
+}
+@media (max-width: 600px) {
+  .hero-left { padding: 32px 20px; }
+  .grid-wrap, .explicame-wrap { padding: 28px 16px; }
+  .bocados-wrap { padding: 28px 16px; }
+  .nl-wrap { padding: 48px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-brand" href="index.html"><img class="nav-logo" src="/assets/logo.jpg" alt="Logo TBP">TU<span class="slash">/</span>BOCADO</a>
+  <ul class="nav-links">
+    <li><a href="noticias.html">Noticias</a></li>
+    <li><a href="opinion.html">Opinión</a></li>
+    <li><a href="explicame.html">Explícame</a></li>
+    <li><a href="bocados.html">Bocados</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+  <a class="nav-cta" href="suscribirme.html">Suscribirme</a>
+</nav>
+
+<!-- AL BOCADO STRIP -->
+<div class="al-bocado" aria-label="Noticias al momento">
+  <div class="al-bocado-label">
+    <div class="al-dot"></div>
+    <span class="abl-text">AL BOCADO</span>
+  </div>
+  <div class="al-bocado-track" id="albocadoTrack">
+    <div class="al-bocado-card"><span class="abc-cat nt">Cargando...</span><h4>Noticias recientes</h4></div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker" aria-label="Titulares del momento">
+  <div class="ticker-label">Ahora</div>
+  <div class="ticker-track" aria-hidden="true">
+    <span class="ticker-item">Reforma pensional: ¿Qué cambia para ti?</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Congreso: nueva votación esta semana</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">#PolíticaSinRollos — suscríbete y recibe tu bocado cada lunes</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Petro anuncia cambios en el gabinete</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">¿Sabes qué hace el alcalde por ti? — Explícame eso</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">IPC sube 0.4% en julio · Colombia</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">#JuventudConVoz — Porque la política sí se puede masticar</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Reforma pensional: ¿Qué cambia para ti?</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Congreso: nueva votación esta semana</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">#PolíticaSinRollos — suscríbete y recibe tu bocado cada lunes</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Petro anuncia cambios en el gabinete</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">¿Sabes qué hace el alcalde por ti? — Explícame eso</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">IPC sube 0.4% en julio · Colombia</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">#JuventudConVoz — Porque la política sí se puede masticar</span>
+    <span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-left" id="heroLeft">
+      <span class="hero-badge">01</span>
+      <div>
+        <div class="hero-num" id="heroLabel">EN PORTADA</div>
+        <h1 class="hero-h1" id="heroTitulo">Cargando...</h1>
+        <div class="hero-sub" id="heroSub"></div>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-author" id="heroAutor"></span>
+        <span class="hero-date" id="heroFecha"></span>
+        <a href="#" class="hero-read" id="heroLink">Leer ahora →</a>
+      </div>
+    </div>
+    <div class="hero-right" id="heroPanels">
+      <div class="hero-panel"><span class="panel-tag nt">Cargando</span><h3>...</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE GRID -->
+<section class="grid-wrap">
+  <div class="sec-hd">
+    <h2>Lo más reciente</h2>
+    <div class="sec-line"></div>
+    <a class="sec-more" href="noticias.html">Ver todo →</a>
+  </div>
+  <div class="article-grid" id="indexGrid">
+    <div style="padding:40px;text-align:center;color:var(--muted);grid-column:1/-1">Cargando...</div>
+  </div>
+</section>
+
+<!-- VOCES TBP -->
+<section class="voces-section">
+  <div class="voces-header">
+    <h2>Voces TBP</h2>
+    <a href="opinion.html" class="voces-more">Ver columnas →</a>
+  </div>
+  <div class="voces-grid">
+    <div class="voce-card">
+      <div class="voce-photo">
+        <span class="voce-initial">NR</span>
+        <span class="voce-name-tag">Natalia Restrepo</span>
+      </div>
+      <div class="voce-body">
+        <span class="voce-eyebrow">Columna · Opinión</span>
+        <p class="voce-title">Votar a los 18 no es suficiente. Necesitamos que nos escuchen antes.</p>
+        <p class="voce-excerpt">El problema no es la apatía juvenil — es un sistema diseñado para que participar sea difícil. Los datos lo confirman.</p>
+        <a href="opinion.html" class="voce-cta">Leer columna →</a>
+      </div>
+    </div>
+    <div class="voce-card">
+      <div class="voce-photo" style="background:var(--dark);background-image:radial-gradient(circle,rgba(245,195,26,0.12) 1.5px,transparent 1.5px);background-size:8px 8px;">
+        <span class="voce-initial">AN</span>
+        <span class="voce-name-tag" style="background:var(--blue);color:#fff;">Andrés Navarrete</span>
+      </div>
+      <div class="voce-body">
+        <span class="voce-eyebrow">Análisis · Economía</span>
+        <p class="voce-title">Reforma laboral: lo que nadie te contó en 5 minutos</p>
+        <p class="voce-excerpt">Horas extras, contratos de aprendizaje, plataformas digitales — el proyecto toca todo lo que ya vives. Aquí lo desmenuzamos artículo por artículo.</p>
+        <a href="noticias.html" class="voce-cta">Leer análisis →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLÍCAME ESO -->
+<section class="explicame-wrap">
+  <div class="bg-dots"></div>
+  <div class="sec-hd">
+    <h2>Explícame eso</h2>
+    <div class="sec-line"></div>
+    <a class="sec-more" href="explicame.html">Ver guías →</a>
+  </div>
+  <div class="explain-grid">
+    <div class="explain-card">
+      <div class="explain-num">A</div>
+      <h3>¿Para qué sirve el Congreso si nunca hacen nada?</h3>
+      <p>Hacen más de lo que crees — o menos, dependiendo de a quién elijas. Entender el Congreso es saber a quién rendirle cuentas.</p>
+      <a href="explicame.html" class="explain-cta">Empezar →</a>
+    </div>
+    <div class="explain-card">
+      <div class="explain-num">B</div>
+      <h3>¿Por qué sube el precio de todo si nadie me sube el sueldo?</h3>
+      <p>Inflación, dólar, importaciones — suena difícil pero no lo es. Te lo explicamos con ejemplos de tu vida real.</p>
+      <a href="explicame.html" class="explain-cta">Empezar →</a>
+    </div>
+    <div class="explain-card">
+      <div class="explain-num">C</div>
+      <h3>El IVA, la renta y todo lo que te cobran antes de que te des cuenta</h3>
+      <p>Ya pagas impuestos aunque creas que no. Esto es lo que va a dónde — y quién decide qué se hace con esa plata.</p>
+      <a href="explicame.html" class="explain-cta">Empezar →</a>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIGACIÓN ESPECIAL -->
+<section class="investigacion">
+  <div class="bg-dots"></div>
+  <div class="inv-left">
+    <div class="inv-label">Investigación especial · TBP</div>
+    <h2>El presupuesto 2027:<br>más deuda, <em>menos plata</em><br>para ti</h2>
+    <p>El gobierno propone 634.9 billones — casi 60 billones más que el año pasado. ¿Adivina quién lo paga? Analizamos artículo por artículo qué cambia para un joven colombiano.</p>
+    <a href="noticias.html" class="inv-cta">Leer investigación →</a>
+  </div>
+  <div class="inv-right">
+    <div class="inv-stat">
+      <span class="inv-num">634B</span>
+      <div class="inv-stat-text">
+        <h4>Billones propuestos para 2027</h4>
+        <p>El proyecto de presupuesto más grande en la historia del país.</p>
+      </div>
+    </div>
+    <div class="inv-stat">
+      <span class="inv-num">67%</span>
+      <div class="inv-stat-text">
+        <h4>De jóvenes sin confianza en partidos</h4>
+        <p>Encuesta presentada ante la Comisión de Paz del Congreso.</p>
+      </div>
+    </div>
+    <div class="inv-stat">
+      <span class="inv-num">18</span>
+      <div class="inv-stat-text">
+        <h4>Años — la edad mínima para votar</h4>
+        <p>Pero en práctica los partidos no ponen jóvenes en las listas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOCADOS RÁPIDOS -->
+<section class="bocados-wrap">
+  <div class="sec-hd">
+    <h2>Bocados rápidos</h2>
+    <div class="sec-line"></div>
+    <a class="sec-more" href="bocados.html" style="color:var(--yellow);">Ver todos →</a>
+  </div>
+  <div class="bocados-strip" id="bocadosStrip">
+    <div class="bocado"><span class="bocado-tag nt">Cargando</span><p>...</p></div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="nl-wrap" id="newsletter">
+  <div class="nl-bg-dots"></div>
+  <h2>La política sí se<br>puede <em>masticar.</em></h2>
+  <p>Recibe cada lunes un bocado editorial — sin maña, sin relleno, sin aburrición. Solo lo que necesitas saber.</p>
+  <div style="position:relative;z-index:1;">
+    <a href="suscribirme.html" style="display:inline-block;background:var(--yellow);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.12em;padding:16px 40px;border:3px solid #fff;transition:background 0.15s;">Suscribirme →</a>
+  </div>
+  <p class="nl-sub" style="margin-top:18px;">Sin spam. Cancelas cuando quieras. Prometido.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">TU/BOCADO POLÍTICO 🇨🇴</span>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com/tubocadopolitico" target="_blank">Instagram</a></li>
+    <li><a href="#">TikTok</a></li>
+    <li><a href="#">YouTube</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="suscribirme.html">Contacto</a></li>
+    <li><a href="/admin/login.html" style="opacity:.85;font-size:12px;letter-spacing:.1em;">Ingresar</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Tu Bocado Político — Hecho con actitud. Porque la política sí se puede masticar.</p>
+</footer>
+
+<script>
+const CAT_LABELS = { noticias:'Noticias', política:'Política', politica:'Política', economía:'Economía', economia:'Economía', ambiente:'Ambiente', internacional:'Internacional', urgente:'Urgente' };
+const CAT_BADGE  = { urgente:'ur', ambiente:'am', economía:'ec', economia:'ec', noticias:'nt', política:'nt', politica:'nt', internacional:'nt' };
+const CARD_TOPS  = ['card-top-a','card-top-b','card-top-c','card-top-d'];
+
+function fmtFecha(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('es-CO', { day:'numeric', month:'short', year:'numeric' });
+}
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const h = Math.floor(diff / 3600000);
+  const d = Math.floor(diff / 86400000);
+  if (h < 1) return 'Hace un momento';
+  if (h < 24) return `Hace ${h} hora${h===1?'':'s'}`;
+  if (d === 1) return 'Ayer';
+  return `Hace ${d} días`;
+}
+function readMin(txt) { return Math.max(1, Math.round((txt||'').split(/\s+/).length / 200)); }
+
+async function initIndex() {
+  let noticias = [];
+  try {
+    const r = await fetch('/api/noticias');
+    noticias = await r.json();
+  } catch(e) { return; }
+  if (!noticias.length) return;
+
+  // ── AL BOCADO strip ─────────────────────────
+  const track = document.getElementById('albocadoTrack');
+  if (track) {
+    track.innerHTML = noticias.slice(0,6).map(n => {
+      const badge = CAT_BADGE[n.categoria] || 'nt';
+      const label = CAT_LABELS[n.categoria] || n.categoria;
+      return `<div class="al-bocado-card" onclick="location.href='articulo.html?id=${n.id}'" style="cursor:pointer">
+        <span class="abc-cat ${badge}">${label}</span>
+        <h4>${n.titulo}</h4>
+        <span class="abc-time">${timeAgo(n.created_at)}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // ── HERO ─────────────────────────────────────
+  const dest = noticias.find(n => n.destacada) || noticias[0];
+  const resto = noticias.filter(n => n.id !== dest.id);
+
+  document.getElementById('heroTitulo').textContent = dest.titulo;
+  document.getElementById('heroSub').textContent    = dest.subtitulo || '';
+  document.getElementById('heroAutor').textContent  = dest.autor_nombre;
+  document.getElementById('heroFecha').textContent  = `${fmtFecha(dest.created_at)} · ${readMin(dest.cuerpo)} min`;
+  document.getElementById('heroLink').href          = `articulo.html?id=${dest.id}`;
+  document.getElementById('heroLabel').textContent  = dest.destacada ? 'DESTACADA' : 'EN PORTADA';
+
+  const panelsCss = ['op','ur','nt','nt'];
+  const panels = document.getElementById('heroPanels');
+  if (panels) {
+    panels.innerHTML = resto.slice(0,3).map((n, i) => {
+      const badge = panelsCss[i] || 'nt';
+      const label = CAT_LABELS[n.categoria] || n.categoria;
+      return `<div class="hero-panel" onclick="location.href='articulo.html?id=${n.id}'" style="cursor:pointer">
+        <span class="panel-tag ${badge}">${label}</span>
+        <h3>${n.titulo}</h3>
+        <span class="panel-meta">${fmtFecha(n.created_at)} · ${readMin(n.cuerpo)} min</span>
+      </div>`;
+    }).join('');
+  }
+
+  // ── GRID "Lo más reciente" ───────────────────
+  const grid = document.getElementById('indexGrid');
+  if (grid) {
+    grid.innerHTML = noticias.slice(0,3).map((n, i) => {
+      const top   = CARD_TOPS[i % CARD_TOPS.length];
+      const badge = CAT_BADGE[n.categoria] || 'nt';
+      const label = CAT_LABELS[n.categoria] || n.categoria;
+      return `<article class="card" onclick="location.href='articulo.html?id=${n.id}'" style="cursor:pointer">
+        <div class="card-top ${top}">
+          <span class="card-cat ${badge}">${label}</span>
+          <span class="card-num">${String(i+1).padStart(2,'0')}</span>
+        </div>
+        <div class="card-body">
+          <h3>${n.titulo}</h3>
+          <p>${(n.subtitulo||n.cuerpo||'').substring(0,120)}${(n.subtitulo||n.cuerpo||'').length>120?'…':''}</p>
+          <div class="card-ft"><span class="date">${fmtFecha(n.created_at)}</span><span class="cta">Leer →</span></div>
+        </div>
+      </article>`;
+    }).join('');
+  }
+
+  // ── BOCADOS RÁPIDOS ──────────────────────────
+  const bocados = document.getElementById('bocadosStrip');
+  if (bocados) {
+    bocados.innerHTML = noticias.slice(0,6).map(n => {
+      const badge = CAT_BADGE[n.categoria] || 'nt';
+      const label = CAT_LABELS[n.categoria] || n.categoria;
+      const snippet = (n.subtitulo || n.titulo).substring(0, 100);
+      return `<div class="bocado" onclick="location.href='articulo.html?id=${n.id}'" style="cursor:pointer">
+        <span class="bocado-tag ${badge}">${label}</span>
+        <p>${snippet}${snippet.length>=100?'…':''}</p>
+        <span class="bocado-time">${timeAgo(n.created_at)}</span>
+      </div>`;
+    }).join('');
+  }
+}
+
+initIndex();
+</script>
+<script src="/mascota.js"></script>
+</body>
+</html>
+

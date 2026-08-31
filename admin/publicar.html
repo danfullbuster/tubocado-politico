@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publicar — Admin TBP</title>
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<link rel="stylesheet" href="admin.css">
+<style>
+.content { max-width: 840px; }
+.btn-lg   { font-size: 16px; padding: 14px 32px; }
+.char-count { font-size: 11px; color: var(--muted); text-align: right; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">
+      <img src="/assets/logo.jpg" alt="TBP Logo">
+      <div><div class="sb-brand">TU<span>/</span>BOCADO</div><div class="sb-tag">Admin</div></div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+    <a class="sb-item on" href="publicar.html"><span class="ico">✏️</span> Nueva noticia</a>
+    <a class="sb-item admin-only" href="usuarios.html"><span class="ico">👥</span> Usuarios</a>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-uname" id="userNombre">—</div>
+    <div class="sb-urol" id="userRol">—</div>
+    <button class="sb-out" onclick="TBP.logout()">🚪 Cerrar sesión</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <h1 id="pageTitle">Nueva noticia</h1>
+    <span class="editing-pill" id="editPill" style="display:none">EDITANDO</span>
+  </div>
+  <div class="content">
+    <form id="form">
+
+      <div class="form-group">
+        <label class="form-label">Título <span class="req">*</span></label>
+        <input class="form-input" id="titulo" type="text" placeholder="El titular que va a enganchar a la gente..." maxlength="120" required>
+        <div class="char-count"><span id="tCount">0</span>/120</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Subtítulo <span style="color:var(--muted);font-size:11px">(opcional)</span></label>
+        <input class="form-input" id="subtitulo" type="text" placeholder="Un poco más de contexto..." maxlength="200">
+      </div>
+
+      <div class="grid2">
+        <div class="form-group">
+          <label class="form-label">Categoría <span class="req">*</span></label>
+          <select class="form-select" id="categoria">
+            <option value="noticias">📰 Noticias generales</option>
+            <option value="política">🏛️ Política</option>
+            <option value="economía">💰 Economía</option>
+            <option value="ambiente">🌿 Ambiente</option>
+            <option value="internacional">🌎 Internacional</option>
+            <option value="urgente">🔴 Urgente</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Imagen <span style="color:var(--muted);font-size:11px">(URL, opcional)</span></label>
+          <input class="form-input" id="imagen_url" type="url" placeholder="https://...">
+          <div class="form-hint">Link de una imagen de Google, Instagram, etc.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Contenido <span class="req">*</span></label>
+        <textarea class="form-textarea" id="cuerpo" placeholder="Escribe aquí el contenido completo — claro, directo, al estilo TBP." required></textarea>
+        <div class="form-hint">Separa los párrafos con una línea en blanco.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">¿Destacar esta noticia?</label>
+        <div class="toggle-row" onclick="toggleDest(this)">
+          <div class="toggle-box" id="toggleBox"></div>
+          <div class="toggle-txt">
+            <strong id="toggleLabel">No destacar</strong>
+            <small>Las destacadas aparecen en la parte superior del sitio</small>
+          </div>
+        </div>
+        <input type="hidden" id="destacada" value="false">
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px">
+        <button class="btn btn-yellow btn-lg" type="submit" id="btnOk">✅ PUBLICAR AHORA</button>
+        <a class="btn btn-ghost btn-lg" href="dashboard.html">← CANCELAR</a>
+        <button class="btn btn-red" type="button" id="btnDel" style="display:none;margin-left:auto" onclick="delNoticia()">🗑️ ELIMINAR</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script src="_layout.js"></script>
+<script>
+let editId = null;
+
+async function init() {
+  const u = await TBP.requireAuth();
+  if (!u) return;
+  const id = new URLSearchParams(location.search).get('id');
+  editId = id ? parseInt(id) : null;
+  if (!editId) return;
+
+  const res  = await fetch('/api/admin/noticias');
+  const data = await res.json();
+  const n    = data.find(x => x.id === editId);
+  if (!n) { TBP.toast('No encontrada','error'); location.href='dashboard.html'; return; }
+
+  document.getElementById('pageTitle').textContent = 'Editar noticia';
+  document.getElementById('editPill').style.display = 'inline-flex';
+  document.getElementById('btnOk').textContent  = '💾 GUARDAR CAMBIOS';
+  document.getElementById('btnDel').style.display = 'inline-flex';
+  document.getElementById('titulo').value     = n.titulo;
+  document.getElementById('subtitulo').value  = n.subtitulo || '';
+  document.getElementById('categoria').value  = n.categoria;
+  document.getElementById('imagen_url').value = n.imagen_url || '';
+  document.getElementById('cuerpo').value     = n.cuerpo;
+  document.getElementById('tCount').textContent = n.titulo.length;
+  if (n.destacada) setDest(true);
+}
+
+function setDest(on) {
+  document.getElementById('toggleBox').classList.toggle('on', on);
+  document.getElementById('toggleLabel').textContent = on ? '⭐ Sí, destacar' : 'No destacar';
+  document.getElementById('destacada').value = String(on);
+}
+function toggleDest() { setDest(document.getElementById('destacada').value !== 'true'); }
+
+document.getElementById('titulo').addEventListener('input', () => {
+  document.getElementById('tCount').textContent = document.getElementById('titulo').value.length;
+});
+
+document.getElementById('form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('btnOk');
+  btn.disabled = true; btn.textContent = 'Publicando...';
+  const body = {
+    titulo:     document.getElementById('titulo').value,
+    subtitulo:  document.getElementById('subtitulo').value,
+    categoria:  document.getElementById('categoria').value,
+    imagen_url: document.getElementById('imagen_url').value,
+    cuerpo:     document.getElementById('cuerpo').value,
+    destacada:  document.getElementById('destacada').value === 'true',
+  };
+  const res = await fetch(editId ? `/api/admin/noticias/${editId}` : '/api/admin/noticias', {
+    method: editId ? 'PUT' : 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  if (res.ok) { TBP.toast(editId ? '✅ Cambios guardados' : '✅ ¡Publicado!'); setTimeout(() => location.href='dashboard.html', 1200); }
+  else { const d = await res.json(); TBP.toast(d.error||'Error','error'); btn.disabled=false; btn.textContent = editId?'💾 GUARDAR CAMBIOS':'✅ PUBLICAR AHORA'; }
+});
+
+async function delNoticia() {
+  if (!TBP.confirm('¿Eliminar esta noticia? No se puede recuperar.')) return;
+  const r = await fetch(`/api/admin/noticias/${editId}`, {method:'DELETE'});
+  if (r.ok) { TBP.toast('Eliminada'); setTimeout(() => location.href='dashboard.html', 1200); }
+  else TBP.toast('Error','error');
+}
+
+init();
+</script>
+</body>
+</html>

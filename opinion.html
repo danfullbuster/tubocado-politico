@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:site_name" content="Tu Bocado Político">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Opinión — Tu Bocado Político">
+<meta property="og:description" content="Columnas de opinión sobre política colombiana. Fundamentadas, directas y para jóvenes.">
+<meta property="og:image" content="/assets/logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Columnas de opinión sobre política colombiana. Fundamentadas, directas y para jóvenes.">
+<title>Opinión — Tu Bocado Político</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+.page-hero { background: var(--yellow); }
+.page-hero h1 { color: var(--dark); }
+.page-hero p  { color: rgba(12,13,15,0.6); }
+
+/* columna destacada */
+.col-featured {
+  background: var(--dark);
+  border-bottom: 4px solid var(--yellow);
+  padding: 0; display: grid;
+  grid-template-columns: 420px 1fr;
+}
+.col-sidebar {
+  padding: 48px 40px;
+  border-right: 4px solid var(--yellow);
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--dark);
+}
+.col-label {
+  font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 0.18em;
+  color: var(--blue); border-bottom: 1px solid var(--blue);
+  padding-bottom: 8px; margin-bottom: 20px;
+}
+.col-sidebar h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 4vw, 58px); line-height: 0.95; letter-spacing: 0.01em;
+  text-transform: uppercase; color: #fff; text-wrap: balance; flex: 1;
+}
+.col-sidebar h2 em { color: var(--yellow); font-style: normal; }
+.col-author-block { margin-top: 28px; }
+.col-author {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 900;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--yellow);
+}
+.col-author-role {
+  font-size: 12px; color: rgba(247,244,236,0.4); margin-top: 2px; letter-spacing: 0.04em;
+}
+.col-main {
+  padding: 48px 44px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.pullquote {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 26px; font-weight: 900;
+  line-height: 1.25; text-transform: uppercase;
+  color: var(--yellow); letter-spacing: 0.01em;
+  border-left: 5px solid var(--yellow); padding-left: 18px;
+}
+.col-main p {
+  font-size: 15px; color: rgba(247,244,236,0.8); line-height: 1.65;
+}
+.col-read {
+  font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.1em;
+  background: var(--yellow); color: var(--dark);
+  padding: 12px 26px; border: 3px solid var(--yellow);
+  display: inline-block; align-self: flex-start;
+  transition: background 0.15s;
+}
+.col-read:hover { background: var(--yellow2); }
+
+/* grid section */
+.grid-section {
+  background: var(--white); border-bottom: 4px solid var(--dark); padding: 40px 32px;
+}
+
+/* submit CTA */
+.submit-cta {
+  background: var(--yellow);
+  border-bottom: 4px solid var(--dark);
+  padding: 52px 40px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+}
+.submit-cta .bg-dots {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(12,13,15,0.18) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+.submit-cta-text { position: relative; z-index: 1; }
+.submit-cta h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 4vw, 52px); line-height: 0.95;
+  letter-spacing: 0.01em; text-transform: uppercase; text-wrap: balance;
+}
+.submit-cta p {
+  font-size: 15px; color: rgba(12,13,15,0.65); margin-top: 10px; max-width: 480px; line-height: 1.5;
+}
+.submit-btn {
+  position: relative; z-index: 1;
+  font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.12em;
+  background: var(--dark); color: var(--yellow);
+  padding: 16px 36px; border: 3px solid var(--dark);
+  white-space: nowrap; display: inline-block; transition: all 0.15s;
+  flex-shrink: 0;
+}
+.submit-btn:hover { background: var(--blue); border-color: var(--blue); }
+
+@media (max-width: 860px) {
+  .col-featured { grid-template-columns: 1fr; }
+  .col-sidebar { border-right: none; border-bottom: 4px solid var(--yellow); }
+  .grid-section { padding: 28px 20px; }
+}
+@media (max-width: 600px) {
+  .col-sidebar { padding: 32px 20px; }
+  .col-main { padding: 28px 20px; }
+  .submit-cta { padding: 36px 20px; }
+  .grid-section { padding: 28px 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html"><img class="nav-logo" src="/assets/logo.jpg" alt="Logo TBP">TU<span class="slash">/</span>BOCADO</a>
+  <ul class="nav-links">
+    <li><a href="noticias.html">Noticias</a></li>
+    <li><a href="opinion.html" class="active">Opinión</a></li>
+    <li><a href="explicame.html">Explícame</a></li>
+    <li><a href="bocados.html">Bocados</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+  <a class="nav-cta" href="suscribirme.html">Suscribirme</a>
+</nav>
+
+<div class="ticker" aria-label="Titulares del momento">
+  <div class="ticker-label">Opinión</div>
+  <div class="ticker-track" aria-hidden="true">
+    <span class="ticker-item">Votar a los 18 ya no basta — Nati Resbo</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">¿Por qué los jóvenes no van a las urnas? — Carla Navalop</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">El meme político como arma — Redacción TBP</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Colombia necesita un nuevo pacto generacional — invitado</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Votar a los 18 ya no basta — Nati Resbo</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">¿Por qué los jóvenes no van a las urnas? — Carla Navalop</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">El meme político como arma — Redacción TBP</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Colombia necesita un nuevo pacto generacional — invitado</span>
+    <span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="hero-dots"></div>
+  <div class="page-hero-inner">
+    <div class="page-tag">✊ Sección</div>
+    <h1>Opinión</h1>
+    <p>Lo que pensamos. Lo que tú piensas. Sin filtros institucionales.</p>
+  </div>
+</section>
+
+<!-- COLUMNA DESTACADA -->
+<section class="col-featured">
+  <div class="col-sidebar">
+    <div>
+      <div class="col-label">Columna del lunes · 28 ago 2026</div>
+      <h2>Votar a los 18 no es suficiente. Necesitamos que nos <em>escuchen antes.</em></h2>
+    </div>
+    <div class="col-author-block">
+      <div class="col-author">Natalia Restrepo</div>
+      <div class="col-author-role">Coordinación General · @natiresbo</div>
+    </div>
+  </div>
+  <div class="col-main">
+    <blockquote class="pullquote">"Las ideas valen cuando se comparten. El futuro existe cuando lo peleamos."</blockquote>
+    <p>Tenemos la edad para votar pero no para ser candidatos. Tenemos criterio pero no presupuesto para hacer campaña. Tenemos propuestas pero los espacios de decisión siguen siendo de los mismos de siempre. El problema no es la apatía juvenil — es un sistema diseñado para que participar sea difícil.</p>
+    <p>En Colombia, la edad mínima para ser representante a la Cámara son 18 años. Pero en la práctica, los partidos no ponen jóvenes en las listas. Y cuando los ponen, los ubican en los puestos del fondo. No es desinterés: es exclusión con estadísticas bonitas.</p>
+    <a href="#" class="col-read">Leer columna completa →</a>
+  </div>
+</section>
+
+<!-- GRID OPINIONES -->
+<section class="grid-section">
+  <div class="sec-hd">
+    <h2>Más opiniones</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="article-grid">
+    <article class="card">
+      <div class="card-top card-top-b">
+        <span class="card-cat op">Opinión</span>
+        <span class="card-num">02</span>
+      </div>
+      <div class="card-body">
+        <h3>Los 8 políticos más virales del mes y por qué eso importa</h3>
+        <p>No es solo chisme — cuando un político se vuelve meme, algo político está pasando. Aquí lo desmenuzamos sin memes, pero con análisis.</p>
+        <div class="card-ft"><span class="date">19 ago 2026 · Andrés N.</span><span class="cta">Leer →</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top card-top-a">
+        <span class="card-cat op">Opinión</span>
+        <span class="card-num">03</span>
+      </div>
+      <div class="card-body">
+        <h3>Por qué Colombia necesita un nuevo pacto generacional — ya</h3>
+        <p>Cada generación hereda las consecuencias de las decisiones que tomó la anterior. Qué están heredando los jóvenes colombianos de hoy.</p>
+        <div class="card-ft"><span class="date">12 ago 2026 · Invitado</span><span class="cta">Leer →</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top card-top-c">
+        <span class="card-cat op">Opinión</span>
+        <span class="card-num">04</span>
+      </div>
+      <div class="card-body">
+        <h3>La política no es aburrida. La presentamos mal.</h3>
+        <p>Cuando te explican el presupuesto nacional con términos técnicos nadie pregunta. Cuando te lo explican con cuánto vale un almuerzo, cambia todo.</p>
+        <div class="card-ft"><span class="date">5 ago 2026 · Nati R.</span><span class="cta">Leer →</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- SUBMIT CTA -->
+<section class="submit-cta">
+  <div class="bg-dots"></div>
+  <div class="submit-cta-text">
+    <h2>¿Tienes una opinión que vale la pena compartir?</h2>
+    <p>Cada lunes publicamos una columna de opinión. Si tienes algo que decir sobre política colombiana, mándanosla — leemos todas.</p>
+  </div>
+  <a href="suscribirme.html" class="submit-btn">Enviar mi opinión →</a>
+</section>
+
+<footer>
+  <span class="footer-brand">TU/BOCADO POLÍTICO 🇨🇴</span>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com/tubocadopolitico" target="_blank">Instagram</a></li>
+    <li><a href="#">TikTok</a></li>
+    <li><a href="#">YouTube</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="suscribirme.html">Contacto</a></li>
+    <li><a href="/admin/login.html" style="opacity:.85;font-size:12px;letter-spacing:.1em;">Ingresar</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Tu Bocado Político — Hecho con actitud. Porque la política sí se puede masticar.</p>
+</footer>
+
+<script src="/mascota.js"></script>
+</body>
+</html>
+

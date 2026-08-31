@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:site_name" content="Tu Bocado Político">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Noticias — Tu Bocado Político">
+<meta property="og:description" content="Las últimas noticias de Colombia, explicadas sin rodeos. Política, economía, ambiente e internacional.">
+<meta property="og:image" content="/assets/logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Las últimas noticias de Colombia, explicadas sin rodeos. Política, economía, ambiente e internacional.">
+<title>Noticias — Tu Bocado Político</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+.page-hero { background: var(--dark); color: var(--yellow); }
+.page-hero h1 { color: var(--yellow); }
+.page-hero p  { color: rgba(245,195,26,0.65); }
+
+/* filter bar */
+.filter-bar {
+  background: var(--white); border-bottom: 3px solid var(--dark);
+  padding: 14px 32px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.filter-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 12px; letter-spacing: 0.14em; color: var(--muted);
+  margin-right: 8px;
+}
+.filter-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 5px 16px; border: 2px solid var(--dark); background: transparent;
+  color: var(--dark); cursor: pointer; transition: all 0.15s;
+}
+.filter-btn:hover, .filter-btn.on { background: var(--dark); color: var(--yellow); }
+
+/* featured article */
+.featured {
+  background: var(--yellow);
+  border-bottom: 4px solid var(--dark);
+  padding: 0; display: grid;
+  grid-template-columns: 1fr 420px;
+}
+.featured-img {
+  background: var(--blue);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+  min-height: 320px;
+  display: flex; align-items: center; justify-content: center;
+  border-right: 4px solid var(--dark);
+}
+.featured-img span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 100px; color: rgba(255,255,255,0.1);
+}
+.featured-body {
+  padding: 44px 36px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.featured-tag {
+  display: inline-flex; align-items: center;
+  background: var(--dark); color: var(--yellow);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 12px; letter-spacing: 0.14em;
+  padding: 3px 12px; align-self: flex-start;
+}
+.featured-body h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 4vw, 52px); line-height: 0.95;
+  letter-spacing: 0.01em; text-transform: uppercase;
+  text-wrap: balance;
+}
+.featured-body p { font-size: 15px; line-height: 1.6; color: rgba(12,13,15,0.7); }
+.featured-meta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.featured-author {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.featured-date { font-size: 13px; color: rgba(12,13,15,0.5); }
+.featured-read {
+  font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.1em;
+  background: var(--blue); color: #fff;
+  padding: 10px 22px; border: 3px solid var(--dark);
+  display: inline-block; transition: background 0.15s; margin-left: auto;
+}
+.featured-read:hover { background: var(--blue2); }
+
+/* grid section */
+.grid-section {
+  background: var(--white); border-bottom: 4px solid var(--dark);
+  padding: 40px 32px;
+}
+.two-col { grid-template-columns: 1fr 1fr !important; }
+
+/* load more */
+.load-more-wrap { background: var(--white); padding: 32px; text-align: center; border-bottom: 4px solid var(--dark); }
+.load-more {
+  font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 0.14em;
+  background: transparent; color: var(--dark);
+  padding: 12px 36px; border: 3px solid var(--dark); cursor: pointer;
+  transition: all 0.15s;
+}
+.load-more:hover { background: var(--dark); color: var(--yellow); }
+
+@media (max-width: 860px) {
+  .featured { grid-template-columns: 1fr; }
+  .featured-img { min-height: 180px; }
+  .filter-bar { padding: 12px 16px; }
+}
+@media (max-width: 600px) {
+  .grid-section { padding: 28px 16px; }
+  .featured-body { padding: 28px 20px; }
+  .two-col { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html"><img class="nav-logo" src="/assets/logo.jpg" alt="Logo TBP">TU<span class="slash">/</span>BOCADO</a>
+  <ul class="nav-links">
+    <li><a href="noticias.html" class="active">Noticias</a></li>
+    <li><a href="opinion.html">Opinión</a></li>
+    <li><a href="explicame.html">Explícame</a></li>
+    <li><a href="bocados.html">Bocados</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+  </ul>
+  <a class="nav-cta" href="suscribirme.html">Suscribirme</a>
+</nav>
+
+<div class="ticker" aria-label="Titulares del momento">
+  <div class="ticker-label">Ahora</div>
+  <div class="ticker-track" aria-hidden="true">
+    <span class="ticker-item">Reforma pensional: ¿Qué cambia para ti?</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Congreso: nueva votación esta semana</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Petro anuncia cambios en el gabinete</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Marcha nacional este sábado — aquí los detalles</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">IPC sube 0.4% en julio · Colombia</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Reforma pensional: ¿Qué cambia para ti?</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Congreso: nueva votación esta semana</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Petro anuncia cambios en el gabinete</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">Marcha nacional este sábado — aquí los detalles</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-item">IPC sube 0.4% en julio · Colombia</span>
+    <span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<section class="page-hero dark-hero">
+  <div class="hero-dots"></div>
+  <div class="page-hero-inner">
+    <div class="page-tag on-dark">📰 Sección</div>
+    <h1>Noticias</h1>
+    <p>Lo que pasó, explicado sin rodeos. Política colombiana que sí entiendes.</p>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <span class="filter-label">Filtrar:</span>
+  <button class="filter-btn on" onclick="setFilter(this,'todas')">Todas</button>
+  <button class="filter-btn" onclick="setFilter(this,'política')">Política</button>
+  <button class="filter-btn" onclick="setFilter(this,'economía')">Economía</button>
+  <button class="filter-btn" onclick="setFilter(this,'ambiente')">Ambiente</button>
+  <button class="filter-btn" onclick="setFilter(this,'internacional')">Internacional</button>
+  <button class="filter-btn" onclick="setFilter(this,'urgente')">🔴 Urgente</button>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:0;border:2px solid var(--dark);">
+    <input id="searchInput" type="search" placeholder="Buscar noticia..." autocomplete="off"
+      style="border:none;outline:none;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:14px;width:200px;background:#fff;color:var(--dark);"
+      oninput="render()">
+    <span style="padding:0 10px;color:var(--muted);font-size:14px;pointer-events:none;">🔍</span>
+  </div>
+</div>
+
+<section class="featured" id="featuredSection" style="display:none">
+  <div class="featured-img no-img" id="featuredImg" style="background:var(--blue);background-image:radial-gradient(circle,rgba(255,255,255,0.15) 1.5px,transparent 1.5px);background-size:10px 10px;min-height:320px;display:flex;align-items:center;justify-content:center;border-right:4px solid var(--dark);">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:80px;color:rgba(255,255,255,0.15)">📰</span>
+  </div>
+  <div class="featured-body">
+    <span class="featured-tag">Destacada de hoy</span>
+    <h2 id="featuredTitulo"></h2>
+    <p id="featuredSub"></p>
+    <div class="featured-meta">
+      <span class="featured-author" id="featuredAutor"></span>
+      <span class="featured-date" id="featuredFecha"></span>
+      <a id="featuredLink" href="#" class="featured-read">Leer ahora →</a>
+    </div>
+  </div>
+</section>
+
+<section class="grid-section" id="gridSection">
+  <div class="sec-hd"><h2 id="gridTitle">Últimas noticias</h2><div class="sec-line"></div></div>
+  <div class="article-grid two-col" id="artGrid">
+    <div style="padding:60px;text-align:center;color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;grid-column:1/-1">Cargando...</div>
+  </div>
+</section>
+
+<section class="nl-wrap">
+  <div class="nl-bg-dots"></div>
+  <h2>Noticias que <em>sí importan</em><br>en tu correo cada lunes.</h2>
+  <p>Sin clickbait, sin drama innecesario. Solo lo relevante.</p>
+  <a href="suscribirme.html" style="display:inline-block;background:var(--yellow);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.12em;padding:16px 40px;border:3px solid #fff;position:relative;z-index:1;">Suscribirme →</a>
+</section>
+
+<footer>
+  <span class="footer-brand">TU/BOCADO POLÍTICO 🇨🇴</span>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com/tubocadopolitico" target="_blank">Instagram</a></li>
+    <li><a href="#">TikTok</a></li>
+    <li><a href="#">YouTube</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="suscribirme.html">Contacto</a></li>
+    <li><a href="/admin/login.html" style="opacity:.85;font-size:12px;letter-spacing:.1em;">Ingresar</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Tu Bocado Político — Hecho con actitud. Porque la política sí se puede masticar.</p>
+</footer>
+
+<script>
+const CAT_LABELS = { noticias:'Noticias', política:'Política', economía:'Economía', ambiente:'Ambiente', internacional:'Internacional', urgente:'Urgente' };
+const CAT_TOPS   = { urgente:'card-top-c', política:'card-top-a', economía:'card-top-b', ambiente:'card-top-b', internacional:'card-top-a', noticias:'card-top-a' };
+const CAT_BADGE  = { urgente:'ur', ambiente:'amb', economía:'eco' };
+const PAGE_SIZE  = 8;
+
+let allNoticias = [];
+let filtroActivo = 'todas';
+let visibles = PAGE_SIZE;
+
+function fmtFecha(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('es-CO', { day:'numeric', month:'short', year:'numeric' });
+}
+
+function setFilter(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  filtroActivo = cat;
+  visibles = PAGE_SIZE;
+  render();
+}
+
+function render() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  let lista = allNoticias.filter(n => {
+    const catOk = filtroActivo === 'todas' || n.categoria === filtroActivo;
+    const qOk   = !q || n.titulo.toLowerCase().includes(q) || (n.subtitulo||'').toLowerCase().includes(q) || (n.cuerpo||'').toLowerCase().includes(q);
+    return catOk && qOk;
+  });
+
+  // Destacada
+  const dest = lista.find(n => n.destacada);
+  const featSec = document.getElementById('featuredSection');
+  if (dest && filtroActivo === 'todas' && !q) {
+    featSec.style.display = 'grid';
+    const img = document.getElementById('featuredImg');
+    if (dest.imagen_url) { img.style.backgroundImage=`url('${dest.imagen_url}')`; img.innerHTML=''; img.style.backgroundSize='cover'; img.style.backgroundPosition='center'; }
+    document.getElementById('featuredTitulo').textContent = dest.titulo;
+    document.getElementById('featuredSub').textContent    = dest.subtitulo || '';
+    document.getElementById('featuredAutor').textContent  = dest.autor_nombre;
+    document.getElementById('featuredFecha').textContent  = fmtFecha(dest.created_at);
+    document.getElementById('featuredLink').href = `articulo.html?id=${dest.id}`;
+    lista = lista.filter(n => n.id !== dest.id);
+  } else {
+    featSec.style.display = 'none';
+  }
+
+  document.getElementById('gridTitle').textContent = q ? `Resultados para "${q}"` : filtroActivo === 'todas' ? 'Últimas noticias' : CAT_LABELS[filtroActivo] || filtroActivo;
+
+  const pagina = lista.slice(0, visibles);
+  const grid = document.getElementById('artGrid');
+
+  if (!pagina.length) {
+    grid.innerHTML = `<div style="padding:60px;text-align:center;color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;grid-column:1/-1">${q ? 'Sin resultados para esa búsqueda' : 'Aún no hay noticias en esta categoría'}</div>`;
+    document.getElementById('loadMoreWrap').style.display = 'none';
+    return;
+  }
+
+  grid.innerHTML = pagina.map((n, i) => {
+    const top   = CAT_TOPS[n.categoria] || 'card-top-a';
+    const badge = CAT_BADGE[n.categoria] || '';
+    const imgStyle = n.imagen_url ? `background-image:url('${n.imagen_url}');background-size:cover;background-position:center;` : '';
+    return `<article class="card" onclick="location.href='articulo.html?id=${n.id}'" style="cursor:pointer">
+      <div class="card-top ${top}" style="${imgStyle}">
+        <span class="card-cat ${badge}">${CAT_LABELS[n.categoria]||n.categoria}</span>
+        <span class="card-num">${String(i+1).padStart(2,'0')}</span>
+      </div>
+      <div class="card-body">
+        <h3>${n.titulo}</h3>
+        <p>${(n.subtitulo||n.cuerpo||'').substring(0,120)}${(n.subtitulo||n.cuerpo||'').length>120?'…':''}</p>
+        <div class="card-ft"><span class="date">${fmtFecha(n.created_at)}</span><span class="cta">Leer →</span></div>
+      </div>
+    </article>`;
+  }).join('');
+
+  const wrap = document.getElementById('loadMoreWrap');
+  wrap.style.display = lista.length > visibles ? 'block' : 'none';
+}
+
+function mostrarMas() { visibles += PAGE_SIZE; render(); }
+
+async function init() {
+  try {
+    const r = await fetch('/api/noticias');
+    allNoticias = await r.json();
+  } catch(e) { allNoticias = []; }
+  render();
+}
+
+init();
+</script>
+<div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+  <button class="load-more" onclick="mostrarMas()">Cargar más noticias ↓</button>
+</div>
+<script src="/mascota.js"></script>
+</body>
+</html>
+

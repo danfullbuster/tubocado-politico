@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Usuarios — Admin TBP</title>
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">
+      <img src="/assets/logo.jpg" alt="TBP Logo">
+      <div><div class="sb-brand">TU<span>/</span>BOCADO</div><div class="sb-tag">Admin</div></div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+    <a class="sb-item" href="publicar.html"><span class="ico">✏️</span> Nueva noticia</a>
+    <a class="sb-item on admin-only" href="usuarios.html"><span class="ico">👥</span> Usuarios</a>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-uname" id="userNombre">—</div>
+    <div class="sb-urol" id="userRol">—</div>
+    <button class="sb-out" onclick="TBP.logout()">🚪 Cerrar sesión</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <h1>Usuarios</h1>
+    <button class="btn btn-yellow" onclick="abrirModal()">➕ AGREGAR USUARIO</button>
+  </div>
+  <div class="content">
+    <div class="card" style="max-width:860px">
+      <table>
+        <thead>
+          <tr><th>Persona</th><th>Correo</th><th>Rol</th><th>Desde</th><th></th></tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="5" style="padding:40px;text-align:center;color:var(--muted)">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: crear usuario -->
+<div class="overlay" id="overlayNew">
+  <div class="modal">
+    <div class="modal-hd">
+      <h2>➕ Nuevo usuario</h2>
+      <button class="modal-close" onclick="cerrarModal('overlayNew')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Nombre <span class="req">*</span></label>
+        <input class="form-input" id="mNombre" type="text" placeholder="Ej: María Camila">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo electrónico <span class="req">*</span></label>
+        <input class="form-input" id="mEmail" type="email" placeholder="correo@ejemplo.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contraseña temporal <span class="req">*</span></label>
+        <input class="form-input" id="mPassword" type="text" placeholder="Algo fácil de recordar">
+        <div class="form-hint">Dísela por privado. La puede cambiar después.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Rol</label>
+        <select class="form-select" id="mRol">
+          <option value="editor">Editor — puede publicar noticias</option>
+          <option value="admin">Administrador — puede publicar y gestionar usuarios</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-yellow" style="flex:1" id="btnCrear" onclick="crearUsuario()">✅ CREAR USUARIO</button>
+      <button class="btn btn-ghost" onclick="cerrarModal('overlayNew')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: cambiar contraseña -->
+<div class="overlay" id="overlayPw">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-hd">
+      <h2>🔑 Nueva contraseña</h2>
+      <button class="modal-close" onclick="cerrarModal('overlayPw')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:var(--muted);margin-bottom:18px">
+        Crea una nueva contraseña para <strong id="pwNombre"></strong>. Luego dísela por privado.
+      </p>
+      <div class="form-group">
+        <label class="form-label">Nueva contraseña <span class="req">*</span></label>
+        <input class="form-input" id="pwInput" type="text" placeholder="Mínimo 6 caracteres">
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-yellow" style="flex:1" id="btnPw" onclick="guardarPw()">💾 GUARDAR</button>
+      <button class="btn btn-ghost" onclick="cerrarModal('overlayPw')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="_layout.js"></script>
+<script>
+let yo = null;
+let pwId = null;
+
+async function init() {
+  yo = await TBP.requireAuth();
+  if (!yo || yo.rol !== 'admin') { location.href = 'dashboard.html'; return; }
+  cargar();
+}
+
+async function cargar() {
+  const r    = await fetch('/api/admin/usuarios');
+  const data = await r.json();
+  document.getElementById('tbody').innerHTML = data.map(u => `
+    <tr>
+      <td>
+        <div class="user-cell">
+          <div class="avatar">${u.nombre[0].toUpperCase()}</div>
+          <span style="font-weight:600">${u.nombre}</span>
+          ${u.id === yo.id ? '<span style="font-size:11px;color:var(--muted);margin-left:4px">(tú)</span>' : ''}
+        </div>
+      </td>
+      <td style="color:var(--muted)">${u.email}</td>
+      <td><span class="rol-badge ${u.rol==='admin'?'rol-admin':'rol-editor'}">${u.rol==='admin'?'Admin':'Editor'}</span></td>
+      <td style="color:var(--muted);font-size:13px">${TBP.fmtFecha(u.created_at)}</td>
+      <td style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="abrirPw(${u.id},'${u.nombre.replace(/'/g,"\\'")}')">🔑 Contraseña</button>
+        ${u.id !== yo.id ? `<button class="btn btn-red btn-sm" onclick="eliminar(${u.id},'${u.nombre.replace(/'/g,"\\'")}')">✕ Eliminar</button>` : ''}
+      </td>
+    </tr>`).join('');
+}
+
+function abrirModal(id) {
+  ['mNombre','mEmail','mPassword'].forEach(i => document.getElementById(i).value='');
+  document.getElementById('mRol').value = 'editor';
+  document.getElementById('overlayNew').classList.add('show');
+  setTimeout(() => document.getElementById('mNombre').focus(), 50);
+}
+
+function cerrarModal(id) { document.getElementById(id).classList.remove('show'); }
+
+async function crearUsuario() {
+  const btn = document.getElementById('btnCrear');
+  const [nombre, email, password, rol] = ['mNombre','mEmail','mPassword','mRol'].map(i => document.getElementById(i).value.trim());
+  if (!nombre || !email || !password) { TBP.toast('Completa todos los campos','error'); return; }
+  btn.disabled = true; btn.textContent = 'Creando...';
+  const r = await fetch('/api/admin/usuarios', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({nombre, email, password, rol})
+  });
+  btn.disabled = false; btn.textContent = '✅ CREAR USUARIO';
+  if (r.ok) { TBP.toast(`✅ ${nombre} ya puede entrar al admin`); cerrarModal('overlayNew'); cargar(); }
+  else { const d = await r.json(); TBP.toast(d.error||'Error','error'); }
+}
+
+async function eliminar(id, nombre) {
+  if (!TBP.confirm(`¿Eliminar a ${nombre}? Ya no podrá entrar al panel.`)) return;
+  const r = await fetch(`/api/admin/usuarios/${id}`, {method:'DELETE'});
+  if (r.ok) { TBP.toast(`${nombre} eliminado`); cargar(); }
+  else TBP.toast('Error al eliminar','error');
+}
+
+function abrirPw(id, nombre) {
+  pwId = id;
+  document.getElementById('pwNombre').textContent = nombre;
+  document.getElementById('pwInput').value = '';
+  document.getElementById('overlayPw').classList.add('show');
+  setTimeout(() => document.getElementById('pwInput').focus(), 50);
+}
+
+async function guardarPw() {
+  const btn = document.getElementById('btnPw');
+  const pw  = document.getElementById('pwInput').value.trim();
+  if (pw.length < 6) { TBP.toast('Mínimo 6 caracteres','error'); return; }
+  btn.disabled = true;
+  const r = await fetch(`/api/admin/usuarios/${pwId}/password`, {
+    method:'PUT', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({password:pw})
+  });
+  btn.disabled = false;
+  if (r.ok) { TBP.toast('✅ Contraseña actualizada'); cerrarModal('overlayPw'); }
+  else TBP.toast('Error','error');
+}
+
+document.addEventListener('keydown', e => { if (e.key==='Escape') { cerrarModal('overlayNew'); cerrarModal('overlayPw'); }});
+init();
+</script>
+</body>
+</html>
