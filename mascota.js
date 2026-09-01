@@ -1,141 +1,140 @@
-/* Tu Bocado Político — Loro político 8-bit v2 */
+/* Tu Bocado Político — Palomita política 8-bit v1 */
 (function () {
   'use strict';
 
   // ── Paleta ────────────────────────────────────────────────────
   const P = {
     _: null,
-    A: '#0a1f05',   // verde muy oscuro (outline)
-    B: '#1e5c0a',   // verde oscuro (cuerpo)
-    C: '#3a8c1a',   // verde medio
-    D: '#65cc30',   // verde claro (plumas)
-    E: '#FF3300',   // rojo vivo (cabeza)
-    F: '#FF7A00',   // naranja vivo (pico arriba)
-    G: '#F5C31A',   // amarillo TBP (pico abajo, patas)
-    H: '#ffffff',   // blanco (ojo)
-    I: '#000000',   // negro (pupila)
-    J: '#F5C31A',   // amarillo patas
-    K: '#3D56F0',   // azul TBP (acento ala)
+    A: '#2a2a38',   // outline oscuro (azul-gris)
+    B: '#4a4a60',   // cuerpo gris oscuro
+    C: '#7878a0',   // cuerpo gris medio
+    D: '#d0d0e0',   // pecho blanco/gris claro
+    E: '#6b3fa0',   // cuello iridiscente morado
+    F: '#3a8050',   // cuello iridiscente verde
+    G: '#cc5500',   // pico naranja
+    H: '#ffeeee',   // ojo (fondo claro)
+    I: '#cc2200',   // ojo (pupila roja - paloma)
+    J: '#cc5500',   // patas naranjas
+    K: '#383845',   // barra alar oscura
     M: '#c8860a',   // galleta relleno
     N: '#8b4513',   // galleta borde
     O: '#f0b040',   // galleta brillo
   };
 
-  // Variables de pixel art (una por letra de paleta)
   const _='_',A='A',B='B',C='C',D='D',E='E',F='F',G='G',H='H',I='I',J='J',K='K',M='M',N='N',O='O';
 
   // ── Frames base (12×16) ───────────────────────────────────────
   const IDLE_A = [
-    [_,_,_,E,E,E,E,_,_,_,_,_],
-    [_,_,E,E,E,E,E,E,_,_,_,_],
-    [_,_,E,F,F,E,E,E,_,_,_,_],
-    [_,_,E,F,H,I,E,E,_,_,_,_],
-    [_,_,_,G,G,_,_,_,_,_,_,_],
+    [_,_,_,_,B,B,B,_,_,_,_,_],
+    [_,_,_,B,C,C,B,B,_,_,_,_],
+    [_,_,_,C,G,G,H,I,_,_,_,_],
+    [_,_,E,E,F,E,E,_,_,_,_,_],
+    [_,E,E,F,E,E,E,E,_,_,_,_],
     [_,A,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,B,B,C,B,A,_,_,_],
-    [B,C,C,C,C,C,C,C,B,_,_,_],
-    [B,C,D,C,C,C,D,C,B,_,_,_],
-    [B,C,K,C,C,C,K,C,B,_,_,_],
-    [_,B,B,C,C,C,B,B,_,_,_,_],
-    [_,_,A,B,C,B,A,_,_,_,_,_],
-    [_,_,_,D,D,D,_,_,_,_,_,_],
+    [A,B,C,C,B,C,C,B,A,_,_,_],
+    [B,C,C,D,D,D,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,C,B,_,_,_],
+    [B,C,K,C,D,D,C,K,B,_,_,_],
+    [_,B,C,C,D,D,C,B,_,_,_,_],
+    [_,_,B,B,C,C,B,_,_,_,_,_],
+    [_,_,_,C,C,C,_,_,_,_,_,_],
     [_,_,_,J,_,J,_,_,_,_,_,_],
     [_,_,J,J,_,J,J,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   const IDLE_B = [
-    [_,_,_,E,E,E,E,_,_,_,_,_],
-    [_,_,E,E,E,E,E,E,_,_,_,_],
-    [_,_,E,F,F,E,E,E,_,_,_,_],
-    [_,_,E,F,H,I,E,E,_,_,_,_],
-    [_,_,_,G,G,_,_,_,_,_,_,_],
+    [_,_,_,_,B,B,B,_,_,_,_,_],
+    [_,_,_,B,C,C,B,B,_,_,_,_],
+    [_,_,_,C,G,G,H,I,_,_,_,_],
+    [_,_,E,E,F,E,E,_,_,_,_,_],
+    [_,E,E,F,E,E,E,E,_,_,_,_],
     [_,A,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,B,B,C,B,A,_,_,_],
-    [B,C,C,C,C,C,C,C,B,_,_,_],
-    [B,D,D,C,C,C,D,D,B,_,_,_],
-    [B,C,K,C,C,C,K,C,B,_,_,_],
-    [_,B,B,C,C,C,B,B,_,_,_,_],
-    [_,_,A,D,C,D,A,_,_,_,_,_],
-    [_,_,_,D,D,D,_,_,_,_,_,_],
+    [A,B,C,C,B,C,C,B,A,_,_,_],
+    [B,D,D,D,D,C,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,C,B,_,_,_],
+    [B,C,K,C,D,D,C,K,B,_,_,_],
+    [_,B,D,C,D,D,C,B,_,_,_,_],
+    [_,_,B,B,C,C,B,_,_,_,_,_],
+    [_,_,_,C,C,C,_,_,_,_,_,_],
     [_,_,_,J,_,J,_,_,_,_,_,_],
     [_,_,J,J,_,J,J,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
-  // Frame gordo (cuerpo más ancho, 14 cols × 17 filas)
+  // Frame gordo (14×17)
   const FAT_A = [
-    [_,_,_,_,E,E,E,E,_,_,_,_,_,_],
-    [_,_,_,E,E,E,E,E,E,_,_,_,_,_],
-    [_,_,_,E,F,F,F,E,E,E,_,_,_,_],
-    [_,_,_,E,F,H,I,E,E,E,_,_,_,_],
-    [_,_,_,_,G,G,G,_,_,_,_,_,_,_],
-    [_,_,A,B,B,B,B,B,B,A,_,_,_,_],
-    [_,A,B,C,C,C,B,C,B,B,A,_,_,_],
-    [A,B,C,C,C,C,C,C,C,C,B,A,_,_],
-    [B,C,C,D,C,C,C,D,C,C,C,B,_,_],
-    [B,C,K,C,C,C,C,C,K,C,C,B,_,_],
-    [B,C,C,C,C,C,C,C,C,C,C,B,_,_],
-    [_,B,B,C,C,C,C,C,B,B,_,_,_,_],
-    [_,_,A,B,D,C,C,D,A,_,_,_,_,_],
-    [_,_,_,_,D,D,D,_,_,_,_,_,_,_],
+    [_,_,_,_,_,B,B,B,_,_,_,_,_,_],
+    [_,_,_,_,B,C,C,B,B,_,_,_,_,_],
+    [_,_,_,_,C,G,G,H,I,_,_,_,_,_],
+    [_,_,_,E,E,F,E,E,_,_,_,_,_,_],
+    [_,_,E,E,F,E,E,E,E,_,_,_,_,_],
+    [_,A,B,B,B,B,B,B,B,A,_,_,_,_],
+    [A,B,C,C,C,B,C,C,C,B,A,_,_,_],
+    [B,C,C,D,D,D,D,C,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,D,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,D,D,C,B,_,_,_],
+    [B,C,K,D,D,D,D,D,K,C,B,_,_,_],
+    [_,B,C,C,D,D,D,C,C,B,_,_,_,_],
+    [_,_,B,B,C,C,C,C,B,_,_,_,_,_],
+    [_,_,_,_,C,C,C,_,_,_,_,_,_,_],
     [_,_,_,_,J,_,J,_,_,_,_,_,_,_],
     [_,_,_,J,J,_,J,J,_,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   const FAT_B = [
-    [_,_,_,_,E,E,E,E,_,_,_,_,_,_],
-    [_,_,_,E,E,E,E,E,E,_,_,_,_,_],
-    [_,_,_,E,F,F,F,E,E,E,_,_,_,_],
-    [_,_,_,E,F,H,I,E,E,E,_,_,_,_],
-    [_,_,_,_,G,G,G,_,_,_,_,_,_,_],
-    [_,_,A,B,B,B,B,B,B,A,_,_,_,_],
-    [_,A,B,C,C,C,B,C,B,B,A,_,_,_],
-    [A,B,C,C,C,C,C,C,C,C,B,A,_,_],
-    [B,D,D,D,C,C,C,D,D,D,C,B,_,_],
-    [B,C,K,C,C,C,C,C,K,C,C,B,_,_],
-    [B,C,C,C,C,C,C,C,C,C,C,B,_,_],
-    [_,B,B,D,C,C,C,C,B,B,_,_,_,_],
-    [_,_,A,B,D,C,C,D,A,_,_,_,_,_],
-    [_,_,_,_,D,D,D,_,_,_,_,_,_,_],
+    [_,_,_,_,_,B,B,B,_,_,_,_,_,_],
+    [_,_,_,_,B,C,C,B,B,_,_,_,_,_],
+    [_,_,_,_,C,G,G,H,I,_,_,_,_,_],
+    [_,_,_,E,E,F,E,E,_,_,_,_,_,_],
+    [_,_,E,E,F,E,E,E,E,_,_,_,_,_],
+    [_,A,B,B,B,B,B,B,B,A,_,_,_,_],
+    [A,B,C,C,C,B,C,C,C,B,A,_,_,_],
+    [B,D,D,D,D,D,C,C,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,D,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,D,D,C,B,_,_,_],
+    [B,C,K,D,D,D,D,D,K,C,B,_,_,_],
+    [_,B,D,C,D,D,D,C,C,B,_,_,_,_],
+    [_,_,B,B,C,C,C,C,B,_,_,_,_,_],
+    [_,_,_,_,C,C,C,_,_,_,_,_,_,_],
     [_,_,_,_,J,_,J,_,_,_,_,_,_,_],
     [_,_,_,J,J,_,J,J,_,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_,_,_],
   ];
-  // Frame comiendo (pico abierto)
+  // Frame comiendo — pico extendido (paloma picoteando)
   const EAT_A = [
-    [_,_,_,E,E,E,E,_,_,_,_,_],
-    [_,_,E,E,E,E,E,E,_,_,_,_],
-    [_,_,E,F,F,F,E,E,_,_,_,_],
-    [_,_,E,F,H,I,E,E,_,_,_,_],
-    [_,F,F,F,_,_,_,_,_,_,_,_],
-    [_,_,G,G,G,_,_,_,_,_,_,_],
-    [_,A,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,B,B,C,B,A,_,_,_],
-    [B,C,C,C,C,C,C,C,B,_,_,_],
-    [B,C,D,C,C,C,D,C,B,_,_,_],
-    [B,C,K,C,C,C,K,C,B,_,_,_],
-    [_,B,B,C,C,C,B,B,_,_,_,_],
-    [_,_,A,B,C,B,A,_,_,_,_,_],
-    [_,_,_,D,D,D,_,_,_,_,_,_],
+    [_,_,_,_,_,_,_,_,_,_,_,_],
+    [_,_,_,_,B,B,B,_,_,_,_,_],
+    [_,_,_,B,C,C,B,B,_,_,_,_],
+    [_,G,G,G,H,I,C,_,_,_,_,_],
+    [_,_,E,E,F,E,E,_,_,_,_,_],
+    [_,E,E,F,E,E,E,_,_,_,_,_],
+    [A,B,B,B,B,B,B,A,_,_,_,_],
+    [B,C,C,C,B,C,C,B,A,_,_,_],
+    [B,C,D,D,D,C,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,C,B,_,_,_],
+    [B,C,K,C,D,D,C,K,B,_,_,_],
+    [_,B,C,C,D,D,C,B,_,_,_,_],
+    [_,_,B,B,C,C,B,_,_,_,_,_],
     [_,_,_,J,_,J,_,_,_,_,_,_],
     [_,_,J,J,_,J,J,_,_,_,_,_],
+    [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   const EAT_B = [
-    [_,_,_,E,E,E,E,_,_,_,_,_],
-    [_,_,E,E,E,E,E,E,_,_,_,_],
-    [_,_,E,F,F,E,E,E,_,_,_,_],
-    [_,_,E,F,H,I,E,E,_,_,_,_],
-    [_,_,F,F,_,_,_,_,_,_,_,_],
-    [_,_,G,G,_,_,_,_,_,_,_,_],
+    [_,_,_,_,B,B,B,_,_,_,_,_],
+    [_,_,_,B,C,C,B,B,_,_,_,_],
+    [_,_,_,C,G,G,_,I,_,_,_,_],
+    [_,_,E,G,G,E,E,_,_,_,_,_],
+    [_,E,E,F,E,E,E,E,_,_,_,_],
     [_,A,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,B,B,C,B,A,_,_,_],
-    [B,C,C,C,C,C,C,C,B,_,_,_],
-    [B,C,D,C,C,C,D,C,B,_,_,_],
-    [B,C,K,C,C,C,K,C,B,_,_,_],
-    [_,B,B,C,C,C,B,B,_,_,_,_],
-    [_,_,A,B,C,B,A,_,_,_,_,_],
-    [_,_,_,D,D,D,_,_,_,_,_,_],
+    [A,B,C,C,B,C,C,B,A,_,_,_],
+    [B,C,C,D,D,D,C,C,B,_,_,_],
+    [B,C,D,D,D,D,D,C,B,_,_,_],
+    [B,C,K,C,D,D,C,K,B,_,_,_],
+    [_,B,C,C,D,D,C,B,_,_,_,_],
+    [_,_,B,B,C,C,B,_,_,_,_,_],
+    [_,_,_,C,C,C,_,_,_,_,_,_],
     [_,_,_,J,_,J,_,_,_,_,_,_],
     [_,_,J,J,_,J,J,_,_,_,_,_],
+    [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   // Galleta 10×10
   const COOKIE = [
@@ -153,48 +152,51 @@
 
   // ── Frases ───────────────────────────────────────────────────
   const FRASES_COMER = [
-    '¡Uy qué rico bocado político, parce! 🍪',
-    '¡Qué delicia! ¿Me das otra galletica?',
-    '¡Mmm! Ahora sí entiendo la reforma 😏',
-    '¡Gracias! La política me da mucha hambre...',
-    '¡Eso sí se puede masticar! 🇨🇴',
-    '¡Más, más! Soy adicto a los bocados políticos 🗳️',
+    '¡Arrú! ¡Qué rico bocadito, parce! 🍪',
+    '¡Gracias! Las palomas también merecemos galleticas 🐦',
+    '¡Arrú arrú! ¡Más, más!',
+    '¡Qué delicia! Mejor que las migajas del Congreso 🏛️',
+    '¡Eso sí se llama política de verdad! 🇨🇴',
+    '¡Mmm! La democracia sabe rico hoy 😏',
     '¡Juepucha, qué buena! Dame otra plis 🙏',
-    '¡Tô engordando pero valió la pena! 😄',
-    '¡Uy llave, ya estoy lleno pero quiero más!',
-    '¡Esto es mejor que cualquier debate del Congreso!',
+    '¡Tô engordando pero feliz! 😄',
+    '¡Arrú! Ya no quepo en la Plaza de Bolívar 🏛️',
+    '¡Mejor que las palomitas de maíz del cine!',
   ];
   const FRASES_GORDO = [
-    '¡Uy, ya estoy gordito! 😅',
+    '¡Arrú! Ya estoy gordita 😅',
     '¡Me estás engordando con tanto bocado! 🍪',
-    '¡Barrigón pero feliz, parce! 🇨🇴',
-    '¡Tanto bocado político y ya no quepo! 😂',
+    '¡Barrigona pero feliz, parce! 🇨🇴',
+    '¡Tanto bocado y ya no puedo volar! 😂',
   ];
   const FRASES_TRUCO = [
-    '¡Tachán! ¿Eso o no es un truco? 🎪',
-    '¡Así hace el loro político! 💫',
+    '¡Arrú! ¿Eso o no es un truco? 🎪',
+    '¡Así hace la paloma política! 💫',
     '¡Mejor que el Congreso, jaja! 🎭',
     '¡Aprendo trucos más rápido que las reformas! 🔄',
   ];
   const FRASES_IDLE = [
-    '¿Sabías que en Colombia puedes votar desde los 18? 🗳️',
-    'La política no muerde... ¡pero yo sí! 😅',
-    '¿Leíste la noticia de hoy?',
-    'El Congreso tiene 108 senadores. ¿Sabes quién es el tuyo?',
-    'Dale clic a la galleta y aliméntame 🍪',
-    '¡Política que sí se puede masticar! 💛',
-    '¿Quién le mete la mano a tu bolsillo? 🤔',
-    '¡Ey! ¿Me vas a dar galleta o qué, parce?',
+    '¿Sabías que llevo 10 años en la Plaza de Bolívar? 🏛️',
+    'Arrú... ¿me das un bocado, parce? 🍞',
+    'Yo vi cuando aprobaron esa ley. Estaba en la escalinata del Congreso.',
+    'El Congreso tiene 108 senadores. Yo tengo 108 plumas. ¿Coincidencia? 🤔',
     'Suscríbete al boletín — llega fresquito cada lunes 📩',
+    'Arrú arrú... la política se entiende mejor con bocados 💛',
+    '¿Leíste la noticia de hoy? Dale clic y te cuento',
+    '¡Ey! No me mires así, que yo también tengo derechos 🐦',
+    'En Bogotá hay más palomas que votos válidos 😅',
+    '¡Política sin rollos! Eso es lo que hace TBP 🇨🇴',
+    '¿Quién le mete la mano a tu bolsillo? Yo lo sé... 🤔',
+    '¡Ey parce! ¿Me vas a dar galleta o qué?',
   ];
 
   // ── Niveles de gordura ────────────────────────────────────────
   const GORDURA = [
-    { galletas: 0,  label: 'Flaquito',    scale: 1.0  },
-    { galletas: 3,  label: 'Gordito',     scale: 1.25 },
-    { galletas: 6,  label: 'Barrigón',    scale: 1.5  },
-    { galletas: 10, label: 'Mazacote',    scale: 1.8  },
-    { galletas: 15, label: 'MEGA GORDO',  scale: 2.1  },
+    { galletas: 0,  label: 'Flaquita',   scale: 1.0  },
+    { galletas: 3,  label: 'Gordita',    scale: 1.25 },
+    { galletas: 6,  label: 'Barrigona',  scale: 1.5  },
+    { galletas: 10, label: 'Mazacota',   scale: 1.8  },
+    { galletas: 15, label: 'MEGA GORDA', scale: 2.1  },
   ];
 
   function getNivel(n) {
@@ -269,9 +271,9 @@
       padding:'10px 10px 8px', backdropFilter:'blur(4px)',
     });
 
-    // ── Tab lateral (siempre visible, toggle) ──
+    // ── Tab lateral ──
     const tab = document.createElement('button');
-    tab.title = 'El lorito político';
+    tab.title = 'La palomita política';
     Object.assign(tab.style, {
       position:'fixed', right:'0', bottom:'100px', zIndex:'9989',
       background:'rgba(12,13,15,0.85)', border:'2px solid rgba(245,195,26,0.45)',
@@ -280,15 +282,15 @@
       transition:'background .15s, border-color .15s',
       backdropFilter:'blur(4px)',
     });
-    tab.innerHTML = '<span style="font-size:18px;line-height:1">🦜</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:9px;color:#F5C31A;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg)">LORO</span>';
+    tab.innerHTML = '<span style="font-size:18px;line-height:1">🕊️</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:9px;color:#F5C31A;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg)">PALOMA</span>';
     tab.addEventListener('mouseenter', () => { tab.style.background='rgba(245,195,26,0.15)'; tab.style.borderColor='rgba(245,195,26,0.8)'; });
     tab.addEventListener('mouseleave', () => { tab.style.background='rgba(12,13,15,0.85)'; tab.style.borderColor='rgba(245,195,26,0.45)'; });
     document.body.appendChild(tab);
 
-    // ── Botón cerrar (X) ──
+    // ── Botón cerrar ──
     const btnClose = document.createElement('button');
     btnClose.textContent = '✕';
-    btnClose.title = 'Esconder al lorito';
+    btnClose.title = 'Esconder la palomita';
     Object.assign(btnClose.style, {
       position:'absolute', top:'4px', right:'6px',
       background:'none', border:'none', cursor:'pointer',
@@ -330,9 +332,9 @@
     const bubbleTxt = document.createElement('span');
     bubble.appendChild(arrow); bubble.appendChild(bubbleTxt);
 
-    // ── Canvas loro ──
+    // ── Canvas paloma ──
     const canvas = document.createElement('canvas');
-    canvas.width = FCW; canvas.height = FCH;   // usa el mayor (gordo)
+    canvas.width = FCW; canvas.height = FCH;
     Object.assign(canvas.style, {
       imageRendering:'pixelated', display:'block', cursor:'pointer',
       transformOrigin:'center bottom',
@@ -346,7 +348,7 @@
       fontFamily:'"Bebas Neue",sans-serif', fontSize:'10px',
       letterSpacing:'.1em', color:'#F5C31A', margin:'2px 0 4px',
     });
-    badge.textContent = 'FLAQUITO';
+    badge.textContent = 'FLAQUITA';
 
     // ── Botones ──
     const btnRow = document.createElement('div');
@@ -382,7 +384,6 @@
     galletaLbl.textContent = 'GALLETA';
     btnGalleta.appendChild(galletaLbl);
 
-    // Botón truco
     const btnTruco = mkBtn('🎪 TRUCO', 'Hazme hacer un truco');
 
     btnRow.appendChild(btnGalleta);
@@ -411,7 +412,7 @@
     let idleTimer  = Math.floor(Math.random() * 400) + 300;
     let esFat      = galletasComidas >= 6;
     let tick       = 0;
-    let haciendo   = false;   // truco en curso
+    let haciendo   = false;
 
     function fatScale() { return getNivel(galletasComidas).scale; }
 
@@ -430,28 +431,21 @@
       bubble.style.opacity = '0'; bubble.style.transform = 'translateY(6px)';
     }
 
-    // ── Dar galleta ──
     function darGalleta() {
       galletasComidas++;
       state = 'eating'; stateTimer = 80;
-
       const nivelAnt = getNivel(galletasComidas - 1);
       const nivelNow = getNivel(galletasComidas);
       esFat = galletasComidas >= 6;
-
-      // ¿Subió de nivel?
       if (nivelNow !== nivelAnt) {
         badge.textContent = nivelNow.label.toUpperCase();
-        const frase = FRASES_GORDO[Math.floor(Math.random() * FRASES_GORDO.length)];
-        mostrarBurbuja(frase);
-        // pequeño bounce al engordar
+        mostrarBurbuja(FRASES_GORDO[Math.floor(Math.random() * FRASES_GORDO.length)]);
         canvas.classList.remove('tbp-jump');
         requestAnimationFrame(() => canvas.classList.add('tbp-jump'));
         setTimeout(() => canvas.classList.remove('tbp-jump'), 700);
       } else {
         mostrarBurbuja(FRASES_COMER[Math.floor(Math.random() * FRASES_COMER.length)]);
       }
-
       applyScale();
       try { localStorage.setItem('tbp-galletas', galletasComidas); } catch(e) {}
       counter.textContent = galletasComidas === 1 ? '1 galleta comida 🍪' : `${galletasComidas} galletas comidas 🍪`;
@@ -459,7 +453,6 @@
       setTimeout(() => btnGalleta.style.transform = 'scale(1)', 150);
     }
 
-    // ── Truco ──
     function hacerTruco() {
       if (haciendo) return;
       haciendo = true;
@@ -484,7 +477,6 @@
       mostrarBurbuja(FRASES_IDLE[Math.floor(Math.random() * FRASES_IDLE.length)]);
     });
 
-    // ── Loop de animación ──
     function loop() {
       tick++;
       const f = Math.floor(tick / 18) % 2;
@@ -498,7 +490,6 @@
       }
       dibujar(ctx, art);
 
-      // Timers
       stateTimer--;
       if (stateTimer <= 0) { state = 'idle'; stateTimer = 120; }
       if (speechTimer > 0 && --speechTimer === 0) ocultarBurbuja();
@@ -511,10 +502,8 @@
     }
     loop();
     applyScale();
-    // Iniciar el badge y counter con el estado guardado
     badge.textContent = getNivel(galletasComidas).label.toUpperCase();
     counter.textContent = galletasComidas > 0 ? `${galletasComidas} galleta${galletasComidas===1?'':' comidas'} 🍪` : '0 galletas';
-    // Empezar colapsado (solo tab lateral visible)
     setVisible(false);
   }
 
