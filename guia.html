@@ -1,0 +1,925 @@
+<title>Guía de Administración TBP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --yellow: #F5C31A;
+  --yellow2: #E0B010;
+  --dark: #0C0D0F;
+  --blue: #3D56F0;
+  --red: #E03030;
+  --green: #22C97A;
+  --white: #F7F4EC;
+  --bg: #F7F4EC;
+  --surface: #fff;
+  --muted: rgba(12,13,15,0.5);
+  --border: rgba(12,13,15,0.12);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C0D0F;
+    --surface: #16181E;
+    --white: #F7F4EC;
+    --muted: rgba(245,195,26,0.5);
+    --border: rgba(245,195,26,0.15);
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body { color: var(--white); }
+}
+
+/* ── Cover ── */
+.cover {
+  background: var(--dark);
+  padding: 72px 40px 64px;
+  border-bottom: 5px solid var(--yellow);
+  position: relative; overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(245,195,26,0.12) 1.5px, transparent 1.5px);
+  background-size: 10px 10px; pointer-events: none;
+}
+.cover-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+.cover-tag {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.22em;
+  color: var(--yellow); border: 1px solid rgba(245,195,26,0.4);
+  padding: 4px 12px; display: inline-block; margin-bottom: 28px; text-transform: uppercase;
+}
+.cover h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 88px); line-height: 0.92; letter-spacing: 0.01em;
+  color: var(--white); text-transform: uppercase; margin-bottom: 20px;
+}
+.cover h1 em { color: var(--yellow); font-style: normal; }
+.cover-sub {
+  font-size: 16px; color: rgba(247,244,236,0.65); max-width: 480px; line-height: 1.6;
+}
+.cover-names {
+  margin-top: 36px; display: flex; gap: 16px; flex-wrap: wrap;
+}
+.name-chip {
+  background: var(--yellow); color: var(--dark);
+  font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.1em;
+  padding: 8px 20px;
+}
+
+/* ── TOC ── */
+.toc {
+  background: var(--yellow);
+  border-bottom: 4px solid var(--dark);
+  padding: 32px 40px;
+}
+.toc-inner { max-width: 720px; margin: 0 auto; }
+.toc h2 {
+  font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--dark); margin-bottom: 16px;
+}
+.toc-list { display: flex; flex-direction: column; gap: 8px; list-style: none; }
+.toc-list a {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--dark);
+  text-decoration: none; transition: gap 0.15s;
+}
+.toc-list a:hover { gap: 16px; }
+.toc-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px;
+  background: var(--dark); color: var(--yellow);
+  width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Sección ── */
+.sec {
+  border-bottom: 4px solid var(--dark);
+  padding: 56px 40px;
+}
+.sec.alt { background: var(--surface); }
+.sec-inner { max-width: 720px; margin: 0 auto; }
+.sec-eyebrow {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.22em;
+  color: var(--blue); text-transform: uppercase;
+  border-bottom: 1px solid rgba(61,86,240,0.35); padding-bottom: 6px;
+  display: inline-block; margin-bottom: 18px;
+}
+.sec h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 5vw, 52px); line-height: 0.95; letter-spacing: 0.01em;
+  text-transform: uppercase; color: var(--dark); margin-bottom: 20px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sec h2 { color: var(--yellow); }
+  :root:not([data-theme="light"]) .sec.alt { background: #1a1c24; }
+}
+.sec p { font-size: 16px; line-height: 1.7; color: var(--dark); margin-bottom: 16px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sec p { color: rgba(247,244,236,0.8); }
+}
+.sec p:last-child { margin-bottom: 0; }
+
+/* ── Steps ── */
+.steps { display: flex; flex-direction: column; gap: 0; margin-top: 32px; }
+.step {
+  display: flex; gap: 0; border: 3px solid var(--dark);
+  border-bottom: none;
+}
+.step:last-child { border-bottom: 3px solid var(--dark); }
+.step-num {
+  background: var(--yellow); color: var(--dark);
+  font-family: 'Bebas Neue', sans-serif; font-size: 36px; line-height: 1;
+  min-width: 68px; display: flex; align-items: flex-start; justify-content: center;
+  padding: 20px 0; border-right: 3px solid var(--dark); flex-shrink: 0;
+}
+.step-body { padding: 20px 22px; flex: 1; }
+.step-body strong {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 6px;
+  color: var(--dark);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .step-body strong { color: var(--yellow); }
+}
+.step-body p { font-size: 14.5px; margin-bottom: 0; }
+
+/* ── Tip / Warning ── */
+.tip, .warn, .info {
+  border-left: 4px solid var(--green);
+  padding: 14px 18px; margin: 24px 0;
+  background: rgba(34,201,122,0.08);
+}
+.warn { border-color: var(--red); background: rgba(224,48,48,0.07); }
+.info { border-color: var(--blue); background: rgba(61,86,240,0.07); }
+.tip-label, .warn-label, .info-label {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.18em;
+  color: var(--green); display: block; margin-bottom: 4px;
+}
+.warn-label { color: var(--red); }
+.info-label { color: var(--blue); }
+.tip p, .warn p, .info p { font-size: 14.5px; margin-bottom: 0; }
+
+/* ── Mockup base ── */
+.mockup {
+  margin: 28px 0;
+  border: 3px solid var(--dark);
+  overflow: hidden;
+  box-shadow: 6px 6px 0 var(--dark);
+}
+.mockup-bar {
+  background: var(--dark); padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ef4444; }
+.dot-y { background: #f59e0b; }
+.dot-g { background: #22c55e; }
+.mockup-url {
+  flex: 1; background: rgba(255,255,255,0.1);
+  border-radius: 3px; padding: 4px 10px;
+  font-size: 11px; color: rgba(255,255,255,0.5); font-family: monospace;
+  text-align: center; letter-spacing: 0.02em;
+}
+.mockup-body { background: var(--white); }
+
+/* ── Mockup: Login ── */
+.mk-login {
+  background: var(--yellow);
+  padding: 32px 24px; display: flex; justify-content: center;
+}
+.mk-login-card {
+  background: var(--dark); width: 100%; max-width: 320px;
+}
+.mk-login-top {
+  background: var(--yellow); padding: 20px 24px; border-bottom: 3px solid var(--dark);
+}
+.mk-login-brand {
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--dark); letter-spacing: 0.04em;
+}
+.mk-login-sub { font-size: 10px; color: rgba(12,13,15,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.mk-login-body { padding: 20px 24px; }
+.mk-field { margin-bottom: 14px; }
+.mk-label {
+  font-family: 'Bebas Neue', sans-serif; font-size: 10px; letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45); display: block; margin-bottom: 5px;
+}
+.mk-input {
+  width: 100%; background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.15); padding: 9px 12px;
+  font-size: 13px; color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif;
+}
+.mk-btn-y {
+  width: 100%; background: var(--yellow); color: var(--dark);
+  font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.12em;
+  padding: 12px; border: none; margin-top: 6px; cursor: default;
+}
+.mk-arrow { margin-left: 6px; }
+
+/* ── Mockup: Dashboard ── */
+.mk-dash { display: flex; min-height: 240px; }
+.mk-sidebar {
+  background: var(--dark); width: 140px; flex-shrink: 0;
+  border-right: 3px solid var(--yellow); padding: 16px 0;
+}
+.mk-sb-logo {
+  padding: 0 14px 14px; border-bottom: 2px solid rgba(245,195,26,0.15);
+  margin-bottom: 10px;
+}
+.mk-sb-brand {
+  font-family: 'Bebas Neue', sans-serif; font-size: 14px; color: var(--yellow); letter-spacing: 0.04em;
+}
+.mk-sb-item {
+  padding: 9px 14px;
+  font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: rgba(247,244,236,0.5); display: flex; align-items: center; gap: 6px;
+}
+.mk-sb-item.on { background: rgba(245,195,26,0.1); color: var(--yellow); }
+.mk-dash-main { flex: 1; padding: 16px; background: #F7F4EC; }
+.mk-dash-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em;
+  color: var(--dark); margin-bottom: 12px;
+}
+.mk-cards { display: flex; gap: 8px; margin-bottom: 14px; }
+.mk-card {
+  flex: 1; background: #fff; border: 2px solid var(--dark);
+  padding: 10px 12px; text-align: center;
+}
+.mk-card-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--yellow); line-height: 1;
+}
+.mk-card-label { font-size: 9px; color: rgba(12,13,15,0.5); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+.mk-art-row {
+  background: #fff; border: 2px solid var(--dark); border-bottom: none;
+  padding: 8px 10px; display: flex; align-items: center; justify-content: space-between;
+}
+.mk-art-row:last-child { border-bottom: 2px solid var(--dark); }
+.mk-art-title { font-size: 11px; font-weight: 600; color: var(--dark); }
+.mk-art-cat {
+  font-family: 'Bebas Neue', sans-serif; font-size: 9px; letter-spacing: 0.1em;
+  background: var(--blue); color: #fff; padding: 1px 6px;
+}
+.mk-art-edit {
+  font-size: 9px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.08em;
+  color: var(--blue); cursor: default;
+}
+
+/* ── Mockup: Publicar ── */
+.mk-pub { display: flex; min-height: 300px; }
+.mk-pub-main { flex: 1; padding: 16px; background: #F7F4EC; }
+.mk-form-group { margin-bottom: 10px; }
+.mk-form-label {
+  font-family: 'Bebas Neue', sans-serif; font-size: 10px; letter-spacing: 0.12em;
+  color: rgba(12,13,15,0.5); display: block; margin-bottom: 4px;
+}
+.mk-form-input {
+  width: 100%; border: 2px solid rgba(12,13,15,0.2); padding: 7px 10px;
+  font-size: 12px; background: #fff; color: rgba(12,13,15,0.4);
+  font-family: 'DM Sans', sans-serif;
+}
+.mk-form-textarea {
+  width: 100%; border: 2px solid rgba(12,13,15,0.2); padding: 7px 10px;
+  font-size: 12px; background: #fff; color: rgba(12,13,15,0.4);
+  height: 60px; font-family: 'DM Sans', sans-serif; resize: none;
+}
+.mk-form-row { display: flex; gap: 8px; }
+.mk-form-row .mk-form-group { flex: 1; }
+.mk-pub-btn {
+  background: var(--yellow); color: var(--dark); border: 2px solid var(--dark);
+  font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.1em;
+  padding: 9px 18px; cursor: default; margin-top: 4px;
+}
+
+/* ── Callout box ── */
+.callout {
+  background: var(--dark); color: var(--yellow);
+  padding: 24px 28px; margin: 28px 0;
+  border-left: 5px solid var(--yellow);
+}
+.callout-label {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 0.18em;
+  opacity: 0.6; margin-bottom: 6px;
+}
+.callout p {
+  font-size: 15px; color: rgba(245,195,26,0.85); margin-bottom: 0; line-height: 1.55;
+}
+.callout code {
+  background: rgba(245,195,26,0.15); color: var(--yellow);
+  padding: 2px 6px; font-family: monospace; font-size: 13px;
+}
+
+/* ── Credential box ── */
+.cred-box {
+  border: 3px solid var(--dark); margin: 20px 0;
+}
+.cred-header {
+  background: var(--yellow); padding: 10px 16px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.12em;
+  color: var(--dark); border-bottom: 3px solid var(--dark);
+}
+.cred-body { background: #fff; padding: 16px; }
+.cred-row { display: flex; gap: 12px; align-items: baseline; margin-bottom: 10px; }
+.cred-row:last-child { margin-bottom: 0; }
+.cred-field {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; color: rgba(12,13,15,0.4);
+  min-width: 100px;
+}
+.cred-val {
+  font-family: monospace; font-size: 14px; color: var(--dark);
+  background: rgba(12,13,15,0.05); padding: 2px 8px;
+}
+
+/* ── FAQ ── */
+.faq { margin-top: 28px; display: flex; flex-direction: column; gap: 0; }
+.faq-item { border: 3px solid var(--dark); border-bottom: none; }
+.faq-item:last-child { border-bottom: 3px solid var(--dark); }
+.faq-q {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.02em; color: var(--dark);
+  padding: 14px 18px; background: var(--yellow);
+  border-bottom: 3px solid var(--dark);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .faq-q { color: var(--dark); }
+}
+.faq-a { padding: 14px 18px; font-size: 14.5px; line-height: 1.6; }
+
+/* ── Footer ── */
+.guide-footer {
+  background: var(--dark); padding: 32px 40px; text-align: center;
+  border-top: 4px solid var(--yellow);
+}
+.guide-footer p {
+  font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.12em;
+  color: rgba(245,195,26,0.5); margin-bottom: 0;
+}
+.guide-footer strong { color: var(--yellow); }
+
+@media (max-width: 640px) {
+  .cover, .toc, .sec { padding-left: 20px; padding-right: 20px; }
+  .cover { padding-top: 48px; padding-bottom: 44px; }
+  .mk-dash, .mk-pub { flex-direction: column; }
+  .mk-sidebar { width: 100%; border-right: none; border-bottom: 3px solid var(--yellow); }
+  .cred-row { flex-direction: column; gap: 4px; }
+}
+</style>
+
+<!-- ══ PORTADA ═══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-tag">Guía de uso · Tu Bocado Político</div>
+    <h1>Todo lo que<br>necesitas saber<br>para <em>administrar</em><br>el sitio</h1>
+    <p class="cover-sub">Esta guía explica, paso a paso y sin tecnicismos, cómo publicar noticias, editarlas, y mantener el sitio funcionando. Sin experiencia previa necesaria.</p>
+    <div class="cover-names">
+      <span class="name-chip">👋 Para Natalia</span>
+      <span class="name-chip">👋 Para Andrés</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TABLA DE CONTENIDO ════════════════════════════════ -->
+<div class="toc">
+  <div class="toc-inner">
+    <h2>En esta guía</h2>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">1</span> ¿Cómo funciona el sitio? (resumen rápido)</a></li>
+      <li><a href="#s2"><span class="toc-num">2</span> Cómo entrar al panel de administración</a></li>
+      <li><a href="#s3"><span class="toc-num">3</span> El panel: qué hay y para qué sirve</a></li>
+      <li><a href="#s4"><span class="toc-num">4</span> Publicar una noticia nueva</a></li>
+      <li><a href="#s5"><span class="toc-num">5</span> Editar o actualizar una noticia</a></li>
+      <li><a href="#s6"><span class="toc-num">6</span> Eliminar una noticia</a></li>
+      <li><a href="#s7"><span class="toc-num">7</span> Consejos de contenido</a></li>
+      <li><a href="#s8"><span class="toc-num">8</span> ¿Qué hacer si algo falla?</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ SECCIÓN 1: CÓMO FUNCIONA ═════════════════════════ -->
+<section class="sec" id="s1">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 1</div>
+    <h2>¿Cómo funciona el sitio?</h2>
+    <p>Tu Bocado Político es un sitio web que tiene <strong>dos partes</strong>:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">A</div>
+        <div class="step-body">
+          <strong>El sitio público</strong>
+          <p>Es lo que cualquier persona puede ver cuando entra a la página. Tiene las noticias, las secciones de Explícame, Opinión, etc. <strong>No necesitas contraseña</strong> para verlo — es abierto para todo el mundo.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">B</div>
+        <div class="step-body">
+          <strong>El panel de administración</strong>
+          <p>Es la "cocina" del sitio. Solo pueden entrar quienes tienen contraseña (ustedes dos). Desde ahí se publican las noticias, se editan y se eliminan. El público nunca ve este panel.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info" style="margin-top:24px;">
+      <span class="info-label">Cómo se conectan</span>
+      <p>Cuando publicas una noticia desde el panel, aparece automáticamente en el sitio público en cuestión de segundos. No hay que hacer nada más — el sistema lo actualiza solo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 2: ENTRAR AL PANEL ═══════════════════════ -->
+<section class="sec alt" id="s2">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 2</div>
+    <h2>Cómo entrar al panel</h2>
+    <p>Para administrar el sitio hay que ingresar con usuario y contraseña. Hay dos formas de llegar:</p>
+
+    <div class="callout">
+      <div class="callout-label">Dirección del panel de administración</div>
+      <p>En el navegador (Chrome, Safari, etc.), escribe esta dirección:<br>
+      <code>tubocado-politico-production.up.railway.app/admin/login.html</code></p>
+    </div>
+
+    <p>También puedes llegar desde cualquier página del sitio: al final de cada página hay un enlace discreto que dice <strong>"Ingresar"</strong> en el pie de página.</p>
+
+    <!-- Mockup login -->
+    <div class="mockup">
+      <div class="mockup-bar">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+        <span class="mockup-url">tubocado-politico-production.up.railway.app/admin/login.html</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mk-login">
+          <div class="mk-login-card">
+            <div class="mk-login-top">
+              <div class="mk-login-brand">TU<span style="opacity:.35">/</span>BOCADO POLÍTICO</div>
+              <div class="mk-login-sub">Panel de administración</div>
+            </div>
+            <div class="mk-login-body">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:#fff;letter-spacing:.02em;margin-bottom:4px;">¡Hola!</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:20px;">Ingresa con tu cuenta para publicar noticias.</div>
+              <div class="mk-field">
+                <span class="mk-label">Tu correo electrónico</span>
+                <div class="mk-input" style="color:rgba(255,255,255,.35);">natalia@tubocadopolitico.com</div>
+              </div>
+              <div class="mk-field">
+                <span class="mk-label">Contraseña</span>
+                <div class="mk-input" style="color:rgba(255,255,255,.35);">••••••••••</div>
+              </div>
+              <div class="mk-btn-y">ENTRAR →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Escribe tu correo</strong>
+          <p>Ingresa el correo con el que estás registrado en el sistema.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Escribe tu contraseña</strong>
+          <p>Ingresa tu contraseña personal. Las letras no se ven mientras escribes — eso es normal, es por seguridad.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Haz clic en "ENTRAR"</strong>
+          <p>Si los datos son correctos, entras al panel. Si aparece un mensaje de error, revisa que el correo y la contraseña estén bien escritos.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <p style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.12em;color:var(--dark);margin-bottom:12px;">TUS DATOS DE ACCESO</p>
+      <div class="cred-box">
+        <div class="cred-header">Natalia Restrepo</div>
+        <div class="cred-body">
+          <div class="cred-row">
+            <span class="cred-field">Correo</span>
+            <span class="cred-val">natalia@tubocadopolitico.com</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-field">Contraseña</span>
+            <span class="cred-val">[ver contraseña compartida por el equipo]</span>
+          </div>
+        </div>
+      </div>
+      <div class="cred-box">
+        <div class="cred-header">Andrés Navarrete</div>
+        <div class="cred-body">
+          <div class="cred-row">
+            <span class="cred-field">Correo</span>
+            <span class="cred-val">andres@tubocadopolitico.com</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-field">Contraseña</span>
+            <span class="cred-val">[ver contraseña compartida por el equipo]</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <span class="warn-label">Importante</span>
+      <p>Guarda estas contraseñas en un lugar seguro (un cuaderno, o la app de notas del celular). No las compartas con nadie más. Si necesitas cambiarlas, dile al equipo técnico.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 3: EL PANEL ══════════════════════════════ -->
+<section class="sec" id="s3">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 3</div>
+    <h2>El panel: qué hay y para qué sirve</h2>
+    <p>Una vez que ingresas, ves el <strong>Dashboard</strong> — que es la pantalla principal del panel. Así se ve:</p>
+
+    <!-- Mockup Dashboard -->
+    <div class="mockup">
+      <div class="mockup-bar">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+        <span class="mockup-url">…/admin/dashboard.html</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mk-dash">
+          <div class="mk-sidebar">
+            <div class="mk-sb-logo">
+              <div class="mk-sb-brand">TU/BOCADO</div>
+            </div>
+            <div class="mk-sb-item on">🏠 Dashboard</div>
+            <div class="mk-sb-item">✏️ Nueva noticia</div>
+            <div class="mk-sb-item">👥 Usuarios</div>
+          </div>
+          <div class="mk-dash-main">
+            <div class="mk-dash-title">Dashboard</div>
+            <div class="mk-cards">
+              <div class="mk-card">
+                <div class="mk-card-num">5</div>
+                <div class="mk-card-label">Noticias</div>
+              </div>
+              <div class="mk-card">
+                <div class="mk-card-num">2</div>
+                <div class="mk-card-label">Admins</div>
+              </div>
+              <div class="mk-card">
+                <div class="mk-card-num">0</div>
+                <div class="mk-card-label">Suscriptores</div>
+              </div>
+            </div>
+            <div class="mk-art-row">
+              <span class="mk-art-title">Marco Rubio en Colombia: los temas clave…</span>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <span class="mk-art-cat">Política</span>
+                <span class="mk-art-edit">Editar →</span>
+              </div>
+            </div>
+            <div class="mk-art-row">
+              <span class="mk-art-title">Colombia trabaja mucho — pero en la informalidad…</span>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <span class="mk-art-cat">Economía</span>
+                <span class="mk-art-edit">Editar →</span>
+              </div>
+            </div>
+            <div class="mk-art-row">
+              <span class="mk-art-title">Roy Barreras deja la política para siempre…</span>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <span class="mk-art-cat">Política</span>
+                <span class="mk-art-edit">Editar →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>El panel tiene tres secciones principales, accesibles desde el menú de la izquierda:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">🏠</div>
+        <div class="step-body">
+          <strong>Dashboard (inicio)</strong>
+          <p>Aquí ves un resumen: cuántas noticias hay publicadas, cuántos suscriptores hay, y la lista de todas las noticias con opción de editarlas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">✏️</div>
+        <div class="step-body">
+          <strong>Nueva noticia</strong>
+          <p>El formulario para escribir y publicar una noticia nueva. Desde aquí también se puede editar una existente.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">👥</div>
+        <div class="step-body">
+          <strong>Usuarios</strong>
+          <p>Aquí se ven los usuarios que tienen acceso al panel (ustedes dos). Solo los administradores pueden entrar a esta sección.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 4: PUBLICAR ══════════════════════════════ -->
+<section class="sec alt" id="s4">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 4</div>
+    <h2>Publicar una noticia nueva</h2>
+    <p>Esta es la tarea más frecuente. Para publicar una noticia, ve a <strong>✏️ Nueva noticia</strong> en el menú. Verás este formulario:</p>
+
+    <!-- Mockup Publicar -->
+    <div class="mockup">
+      <div class="mockup-bar">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+        <span class="mockup-url">…/admin/publicar.html</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mk-pub">
+          <div class="mk-sidebar" style="width:140px;background:var(--dark);border-right:3px solid var(--yellow);padding:16px 0;flex-shrink:0;">
+            <div class="mk-sb-logo"><div class="mk-sb-brand">TU/BOCADO</div></div>
+            <div class="mk-sb-item">🏠 Dashboard</div>
+            <div class="mk-sb-item on">✏️ Nueva noticia</div>
+            <div class="mk-sb-item">👥 Usuarios</div>
+          </div>
+          <div class="mk-pub-main">
+            <div class="mk-dash-title" style="margin-bottom:14px;">Nueva noticia</div>
+            <div class="mk-form-group">
+              <span class="mk-form-label">Título *</span>
+              <div class="mk-form-input">El titular que va a enganchar a la gente...</div>
+            </div>
+            <div class="mk-form-group">
+              <span class="mk-form-label">Subtítulo (opcional)</span>
+              <div class="mk-form-input">Un poco más de contexto...</div>
+            </div>
+            <div class="mk-form-row">
+              <div class="mk-form-group">
+                <span class="mk-form-label">Categoría *</span>
+                <div class="mk-form-input">📰 Noticias generales ▼</div>
+              </div>
+              <div class="mk-form-group">
+                <span class="mk-form-label">Imagen (URL, opcional)</span>
+                <div class="mk-form-input">https://...</div>
+              </div>
+            </div>
+            <div class="mk-form-group">
+              <span class="mk-form-label">Contenido *</span>
+              <div class="mk-form-textarea">Escribe aquí el contenido completo…</div>
+            </div>
+            <div class="mk-pub-btn">✅ PUBLICAR AHORA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>Llena los campos de arriba a abajo:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Título <span style="color:var(--red)">*</span></strong>
+          <p>El headline principal de la noticia. Debe ser claro, directo y llamativo. Máximo 120 caracteres. <em>Ejemplo: "Colombia ratifica acuerdo climático en la COP"</em></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Subtítulo <span style="color:var(--muted);font-size:12px">(opcional)</span></strong>
+          <p>Una frase corta que complementa el título con más contexto. Aparece debajo del headline en la página del artículo. Si no quieres ponerlo, déjalo vacío.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Categoría <span style="color:var(--red)">*</span></strong>
+          <p>Elige la que mejor describe el tema: Noticias generales, Política, Economía, Ambiente, Internacional o Urgente. Esto determina el color del tag en el sitio.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Imagen <span style="color:var(--muted);font-size:12px">(opcional)</span></strong>
+          <p>Pega el link de una imagen de internet. Tiene que ser un link que termine en .jpg, .png o .webp. Si no tienes imagen, el sistema usa un fondo de color según la categoría.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>Contenido <span style="color:var(--red)">*</span></strong>
+          <p>El texto completo de la noticia. Escríbelo directamente o cópialo de otro lado. Para separar párrafos, deja una línea en blanco entre ellos (Enter dos veces).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <strong>¿Destacar esta noticia?</strong>
+          <p>Si activas este interruptor, la noticia aparece en grande en la portada del sitio. Solo una noticia puede ser destacada a la vez. Úsalo para las noticias más importantes.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <strong>Haz clic en "PUBLICAR AHORA"</strong>
+          <p>El sistema guarda y publica la noticia inmediatamente. Aparecerá en el sitio público al instante. Verás un mensaje que dice "✅ ¡Publicado!" si todo salió bien.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-label">Truco para las imágenes</span>
+      <p>En Google Imágenes, haz clic derecho sobre la imagen que quieres → "Copiar dirección de imagen". Luego pega ese link en el campo Imagen del formulario. Funciona con la mayoría de imágenes de Google, Unsplash, o Wikimedia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 5: EDITAR ════════════════════════════════ -->
+<section class="sec" id="s5">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 5</div>
+    <h2>Editar o actualizar una noticia</h2>
+    <p>Si necesitas corregir algo después de publicar, hay dos formas de hacerlo:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">A</div>
+        <div class="step-body">
+          <strong>Desde el Dashboard</strong>
+          <p>Entra al panel → Dashboard. Verás la lista de todas las noticias. Haz clic en <strong>"Editar"</strong> al lado de la noticia que quieres modificar.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">B</div>
+        <div class="step-body">
+          <strong>Desde el artículo (si estás logueado)</strong>
+          <p>Cuando estás ingresado al panel, al leer cualquier artículo en el sitio público verás un botón amarillo con un lápiz ✏️ en la esquina inferior izquierda. Haz clic ahí para editarlo directamente.</p>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:20px;">De cualquiera de las dos formas, llegarás al mismo formulario que cuando publicaste. Modifica lo que necesites y haz clic en <strong>"GUARDAR CAMBIOS"</strong>. Los cambios se ven en el sitio inmediatamente.</p>
+
+    <div class="info">
+      <span class="info-label">Nota</span>
+      <p>Puedes cambiar cualquier cosa: el título, el contenido, la imagen, la categoría, o si la noticia es destacada o no. Todo se puede editar después de publicar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 6: ELIMINAR ══════════════════════════════ -->
+<section class="sec alt" id="s6">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 6</div>
+    <h2>Eliminar una noticia</h2>
+    <p>Para eliminar una noticia tienes que primero abrir el formulario de edición (desde el Dashboard o desde el botón ✏️ del artículo).</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Abre la noticia para editar</strong>
+          <p>Desde el Dashboard, haz clic en "Editar" al lado de la noticia que quieres eliminar.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Busca el botón rojo "🗑️ ELIMINAR"</strong>
+          <p>Al abrir una noticia para editar, aparece un botón rojo con un ícono de papelera en la esquina derecha inferior del formulario.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Confirma la eliminación</strong>
+          <p>El sistema te va a preguntar si estás seguro antes de borrar. Haz clic en "Aceptar" para confirmar. Una vez eliminada, la noticia desaparece del sitio al instante.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <span class="warn-label">Atención — no se puede deshacer</span>
+      <p>Una vez que eliminas una noticia, <strong>no se puede recuperar</strong>. Si solo quieres ocultarla temporalmente sin eliminarla, habla con el equipo técnico.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 7: CONSEJOS ══════════════════════════════ -->
+<section class="sec" id="s7">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 7</div>
+    <h2>Consejos de contenido</h2>
+    <p>Algunos tips para que las noticias queden bien y el sitio se vea profesional:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">💡</div>
+        <div class="step-body">
+          <strong>Título claro y directo</strong>
+          <p>Evita títulos vagos como "Gobierno anuncia medidas". Prefiere algo específico: "Gobierno anuncia reducción del 10% en el IVA de alimentos". El lector tiene que entender de qué trata sin leer el artículo.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">💡</div>
+        <div class="step-body">
+          <strong>Separa bien los párrafos</strong>
+          <p>En el campo de Contenido, presiona Enter dos veces entre párrafos. Así el texto se ve ordenado en el sitio. Un bloque de texto sin espacios es difícil de leer.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">💡</div>
+        <div class="step-body">
+          <strong>Imagen de buena calidad</strong>
+          <p>Busca imágenes en Unsplash (unsplash.com) — son gratis y de alta calidad. Busca el tema en inglés, abre la imagen que quieres, haz clic derecho → "Copiar dirección de imagen" y pégala en el formulario.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">💡</div>
+        <div class="step-body">
+          <strong>Solo una noticia destacada a la vez</strong>
+          <p>La noticia destacada es la que aparece grande en la portada. Si destacas una nueva, automáticamente la anterior deja de serlo. Úsala solo para la noticia más importante del momento.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">💡</div>
+        <div class="step-body">
+          <strong>Revisa antes de publicar</strong>
+          <p>Una vez que publicas, el artículo aparece inmediatamente. Lee todo el texto una vez más antes de hacer clic en "PUBLICAR AHORA". Si igual se te escapa un error, puedes editarlo después.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 8: PROBLEMAS ═════════════════════════════ -->
+<section class="sec alt" id="s8">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">Sección 8</div>
+    <h2>¿Qué hacer si algo falla?</h2>
+    <p>Estos son los problemas más comunes y cómo resolverlos:</p>
+
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">No puedo entrar al panel — dice que el correo o contraseña son incorrectos</div>
+        <div class="faq-a">
+          Verifica que estás escribiendo el correo exactamente como aparece en esta guía (sin espacios extra al final). Revisa que el bloq mayús no esté activado. Si sigue sin funcionar, contacta al equipo técnico para restablecer la contraseña.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Publiqué la noticia pero no aparece en el sitio</div>
+        <div class="faq-a">
+          Recarga la página principal del sitio presionando <strong>Ctrl + F5</strong> (Windows) o <strong>Cmd + Shift + R</strong> (Mac). A veces el navegador guarda una versión vieja de la página. Si después de 30 segundos sigue sin aparecer, avísale al equipo técnico.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">El botón de publicar no hace nada o aparece un error rojo</div>
+        <div class="faq-a">
+          El error normalmente dice qué salió mal (por ejemplo "Título y contenido son obligatorios"). Revisa que los campos marcados con <strong>*</strong> estén llenos. Si el error no tiene texto claro, intenta recargar la página e ingresar de nuevo.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">La imagen no se ve en el artículo</div>
+        <div class="faq-a">
+          El link de la imagen puede haber expirado o el sitio que la aloja no permite que otros sitios la usen. En ese caso, la imagen no aparece. La solución es buscar otra imagen (en Unsplash o Wikimedia) y editar el artículo para cambiar el link.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">El botón ✏️ de edición no aparece cuando leo un artículo</div>
+        <div class="faq-a">
+          Ese botón solo aparece cuando estás ingresado al panel en la misma sesión. Primero entra al panel de administración (haz login), y luego ve a leer el artículo en el sitio público. Ahora sí debería aparecer el botón amarillo.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">El sitio se ve raro o no carga correctamente</div>
+        <div class="faq-a">
+          Prueba cerrando y abriendo el navegador. Si el problema persiste, puede ser una falla temporal del servidor — espera unos minutos e intenta de nuevo. Si después de 15 minutos sigue mal, avísale al equipo técnico.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:32px;">
+      <div class="callout-label">Contacto técnico</div>
+      <p>Si hay un problema que no puedes resolver con esta guía, escríbele al equipo técnico. Incluye una descripción de lo que pasó y, si puedes, una foto de la pantalla (captura de pantalla) para que sea más fácil identificar el problema.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════ -->
+<div class="guide-footer">
+  <p><strong>TU/BOCADO POLÍTICO</strong> — Guía de administración · 2026<br>
+  Porque la política sí se puede masticar 🇨🇴</p>
+</div>
