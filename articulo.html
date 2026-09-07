@@ -349,7 +349,7 @@ load();
     const id = params.get('id');
     if (!id) return;
     const btn = document.createElement('a');
-    btn.href = `/admin/publicar.html?edit=${id}`;
+    btn.href = `/admin/publicar.html?id=${id}`;
     btn.title = 'Editar este artículo';
     btn.innerHTML = '✏️';
     Object.assign(btn.style, {

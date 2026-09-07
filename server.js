@@ -46,6 +46,14 @@ app.use(session({
   saveUninitialized: false,
   cookie: { maxAge: 8 * 60 * 60 * 1000 },
 }));
+
+// Bloquear acceso directo a archivos sensibles del servidor
+app.use((req, res, next) => {
+  const blocked = /^\/(?:server\.[jst]\w*|\.env|CREDENCIALES\.\w+|data\/|package(?:-lock)?\.json|node_modules\/|tests\/|start\.bat)/i;
+  if (blocked.test(req.path)) return res.status(403).end();
+  next();
+});
+
 app.use(express.static(__dirname));
 
 function auth(req, res, next) {
