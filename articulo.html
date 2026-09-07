@@ -91,6 +91,8 @@
 .share-btn:hover { background: var(--dark); color: var(--yellow); }
 .share-btn.wa { border-color: #25d366; color: #25d366; }
 .share-btn.wa:hover { background: #25d366; color: #fff; }
+.share-btn.tw { border-color: #000; color: #000; }
+.share-btn.tw:hover { background: #000; color: var(--yellow); }
 
 /* ── Cuerpo del artículo ────────────────────────── */
 .art-layout {
@@ -198,6 +200,7 @@
     <span class="art-readtime" id="artTiempo"></span>
     <div class="art-share-btns">
       <button class="share-btn wa" onclick="shareWA()">WhatsApp →</button>
+      <button class="share-btn tw" onclick="shareX()">X →</button>
       <button class="share-btn" onclick="copyLink()">Copiar link</button>
     </div>
   </div>
@@ -228,10 +231,8 @@
   <span class="footer-brand">TU/BOCADO POLÍTICO 🇨🇴</span>
   <ul class="footer-links">
     <li><a href="https://instagram.com/tubocadopolitico" target="_blank">Instagram</a></li>
-    <li><a href="#">TikTok</a></li>
-    <li><a href="#">YouTube</a></li>
     <li><a href="nosotros.html">Nosotros</a></li>
-    <li><a href="suscribirme.html">Contacto</a></li>
+    <li><a href="suscribirme.html">Suscribirse</a></li>
     <li><a href="/admin/login.html" style="opacity:.85;font-size:12px;letter-spacing:.1em;">Ingresar</a></li>
   </ul>
   <p class="footer-copy">© 2026 Tu Bocado Político — Hecho con actitud. Porque la política sí se puede masticar.</p>
@@ -325,6 +326,9 @@ function showError() {
 function shareWA() {
   window.open(`https://wa.me/?text=${encodeURIComponent(document.title + ' ' + location.href)}`);
 }
+function shareX() {
+  window.open(`https://x.com/intent/post?text=${encodeURIComponent(document.title)}&url=${encodeURIComponent(location.href)}`);
+}
 function copyLink() {
   navigator.clipboard.writeText(location.href).then(() => {
     const btn = event.target;
@@ -337,6 +341,7 @@ function copyLink() {
 load();
 </script>
 
+<script src="/nav-drawer.js"></script>
 <script src="/mascota.js"></script>
 
 <!-- Botón edición inline para admins -->
