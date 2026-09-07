@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suscriptores — Admin TBP</title>
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">
+      <img src="/assets/logo.jpg" alt="TBP Logo">
+      <div><div class="sb-brand">TU<span>/</span>BOCADO</div><div class="sb-tag">Admin</div></div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+    <a class="sb-item" href="publicar.html"><span class="ico">✏️</span> Nueva noticia</a>
+    <a class="sb-item on" href="suscriptores.html"><span class="ico">📬</span> Suscriptores</a>
+    <a class="sb-item" href="newsletter.html"><span class="ico">📧</span> Enviar newsletter</a>
+    <a class="sb-item admin-only" href="usuarios.html"><span class="ico">👥</span> Usuarios</a>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-uname" id="userNombre">—</div>
+    <div class="sb-urol" id="userRol">—</div>
+    <button class="sb-out" onclick="TBP.logout()">🚪 Cerrar sesión</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <h1>Suscriptores</h1>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <span id="totalBadge" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--yellow);background:var(--dark);padding:6px 16px;letter-spacing:.06em;">0 suscriptores</span>
+      <button class="btn btn-ghost" onclick="exportCSV()">⬇ EXPORTAR CSV</button>
+      <a class="btn btn-yellow" href="newsletter.html">📧 ENVIAR NEWSLETTER</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card" style="max-width:900px">
+      <table>
+        <thead>
+          <tr><th>Nombre</th><th>Correo</th><th>Fuente</th><th>Temas</th><th>Desde</th></tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="5" style="padding:40px;text-align:center;color:var(--muted)">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="_layout.js"></script>
+<script>
+let data = [];
+
+async function init() {
+  await TBP.requireAuth();
+  cargar();
+}
+
+async function cargar() {
+  const r = await fetch('/api/admin/suscriptores');
+  data = await r.json();
+  document.getElementById('totalBadge').textContent = `${data.length} suscriptor${data.length === 1 ? '' : 'es'}`;
+  document.getElementById('tbody').innerHTML = data.length
+    ? data.map(s => `
+      <tr>
+        <td style="font-weight:600">${s.nombre}</td>
+        <td style="color:var(--muted)">${s.email}</td>
+        <td style="color:var(--muted);font-size:13px">${s.fuente || '—'}</td>
+        <td style="font-size:13px">${(s.temas||[]).join(', ') || '—'}</td>
+        <td style="color:var(--muted);font-size:13px">${TBP.fmtFecha(s.created_at)}</td>
+      </tr>`).join('')
+    : '<tr><td colspan="5" style="padding:40px;text-align:center;color:var(--muted)">Aún no hay suscriptores.</td></tr>';
+}
+
+function exportCSV() {
+  if (!data.length) { TBP.toast('No hay suscriptores para exportar', 'error'); return; }
+  const rows = [['Nombre','Correo','Fuente','Temas','Fecha']];
+  data.forEach(s => rows.push([
+    s.nombre, s.email, s.fuente || '', (s.temas||[]).join(';'),
+    new Date(s.created_at).toLocaleDateString('es-CO'),
+  ]));
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url;
+  a.download = `suscriptores-tbp-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+init();
+</script>
+</body>
+</html>

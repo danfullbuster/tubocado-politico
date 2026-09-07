@@ -1,8 +1,9 @@
 require('dotenv').config({ path: require('path').join(__dirname, '.env') });
-const express  = require('express');
-const session  = require('express-session');
-const bcrypt   = require('bcryptjs');
-const path     = require('path');
+const express    = require('express');
+const session    = require('express-session');
+const bcrypt     = require('bcryptjs');
+const path       = require('path');
+const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 
 const app  = express();
@@ -240,6 +241,109 @@ app.delete('/api/admin/usuarios/:id', adminOnly, async (req, res) => {
     await db.collection('usuarios').deleteOne({ id });
     res.json({ ok: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── EMAIL ─────────────────────────────────────────────────────────────
+function createTransporter() {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return null;
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD },
+  });
+}
+
+function buildEmailHtml(asunto, cuerpo, nombre) {
+  const paragraphs = cuerpo.split(/\n\n+/)
+    .map(p => `<p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:#1a1a1a;">${p.replace(/\n/g,'<br>')}</p>`)
+    .join('');
+  const saludo = nombre ? `<p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:#1a1a1a;">Hola ${nombre},</p>` : '';
+  return `<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:32px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-top:6px solid #F5C31A;">
+        <!-- Header -->
+        <tr><td style="background:#0C0D0F;padding:20px 32px;">
+          <span style="font-family:Impact,Arial Black,sans-serif;font-size:26px;letter-spacing:.05em;color:#F5C31A;">TU<span style="color:rgba(245,195,26,.45)">/</span>BOCADO</span>
+          <span style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,195,26,.5);margin-left:12px;">POLÍTICO</span>
+        </td></tr>
+        <!-- Subject bar -->
+        <tr><td style="background:#F5C31A;padding:14px 32px;">
+          <span style="font-family:Impact,Arial Black,sans-serif;font-size:18px;letter-spacing:.03em;color:#0C0D0F;text-transform:uppercase;">${asunto}</span>
+        </td></tr>
+        <!-- Body -->
+        <tr><td style="padding:32px 32px 8px;">${saludo}${paragraphs}</td></tr>
+        <!-- CTA -->
+        <tr><td style="padding:8px 32px 32px;text-align:center;">
+          <a href="https://tubocado-politico-production.up.railway.app" style="display:inline-block;background:#0C0D0F;color:#F5C31A;font-family:Impact,Arial Black,sans-serif;font-size:16px;letter-spacing:.08em;text-decoration:none;padding:14px 32px;text-transform:uppercase;">Ver todas las noticias →</a>
+        </td></tr>
+        <!-- Footer -->
+        <tr><td style="background:#f4f4f4;padding:20px 32px;border-top:2px solid #e4e4e4;">
+          <p style="margin:0;font-size:12px;color:#888;text-align:center;line-height:1.6;">
+            Recibiste esto porque te suscribiste a Tu Bocado Político.<br>
+            Para cancelar tu suscripción responde este correo con el asunto "Cancelar".
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+app.get('/api/admin/newsletter/status', auth, (req, res) => {
+  res.json({ configurado: !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) });
+});
+
+app.post('/api/admin/newsletter', auth, async (req, res) => {
+  try {
+    const { asunto, cuerpo } = req.body;
+    if (!asunto?.trim() || !cuerpo?.trim())
+      return res.status(400).json({ error: 'Asunto y contenido son obligatorios' });
+
+    const transporter = createTransporter();
+    if (!transporter)
+      return res.status(503).json({ error: 'Correo no configurado. Agrega GMAIL_USER y GMAIL_APP_PASSWORD en las variables de entorno.' });
+
+    const suscriptores = await db.collection('suscriptores').find().toArray();
+    if (!suscriptores.length)
+      return res.status(400).json({ error: 'No hay suscriptores registrados' });
+
+    let enviados = 0, errores = 0;
+    for (const s of suscriptores) {
+      try {
+        await transporter.sendMail({
+          from: `"Tu Bocado Político" <${process.env.GMAIL_USER}>`,
+          to: s.email,
+          subject: asunto,
+          html: buildEmailHtml(asunto, cuerpo, s.nombre),
+        });
+        enviados++;
+      } catch(e) {
+        errores++;
+      }
+    }
+
+    await db.collection('newsletters').insertOne({
+      id: Date.now(),
+      asunto,
+      enviado_por: req.session.user.nombre,
+      total: suscriptores.length,
+      enviados,
+      errores,
+      created_at: new Date(),
+    });
+
+    res.json({ ok: true, enviados, errores, total: suscriptores.length });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/api/admin/newsletters', auth, async (req, res) => {
+  try {
+    res.json(await db.collection('newsletters').find().sort({ created_at: -1 }).limit(20).toArray());
+  } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 // ── Start ─────────────────────────────────────────────────────────────

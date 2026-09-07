@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newsletter — Admin TBP</title>
+<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<link rel="stylesheet" href="admin.css">
+<style>
+.nl-layout { display: grid; grid-template-columns: 1fr 420px; gap: 0; align-items: flex-start; }
+.nl-form-col { padding: 32px; border-right: 3px solid var(--border-color); }
+.nl-preview-col { padding: 32px; background: var(--bg-2); }
+.preview-frame {
+  border: 2px solid var(--border-color); background: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+}
+.pf-header { background: #0C0D0F; padding: 16px 24px; }
+.pf-brand { font-family: Impact, 'Arial Black', sans-serif; font-size: 22px; letter-spacing: .05em; color: #F5C31A; }
+.pf-brand span { color: rgba(245,195,26,.4); }
+.pf-subject { background: #F5C31A; padding: 12px 24px; font-family: Impact, 'Arial Black', sans-serif; font-size: 16px; text-transform: uppercase; color: #0C0D0F; letter-spacing: .03em; min-height: 44px; }
+.pf-body { padding: 24px; font-size: 15px; line-height: 1.7; color: #1a1a1a; min-height: 120px; white-space: pre-wrap; word-break: break-word; }
+.pf-cta { padding: 0 24px 24px; }
+.pf-cta-btn { display: inline-block; background: #0C0D0F; color: #F5C31A; font-family: Impact, 'Arial Black', sans-serif; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; padding: 12px 24px; }
+.pf-footer { background: #f4f4f4; padding: 16px 24px; border-top: 2px solid #e4e4e4; font-size: 11px; color: #888; text-align: center; line-height: 1.6; }
+
+.stat-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.stat-box { flex: 1; min-width: 100px; background: var(--bg-2); border: 2px solid var(--border-color); padding: 14px 18px; text-align: center; }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--yellow); letter-spacing: .04em; line-height: 1; }
+.stat-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-top: 4px; }
+
+.hist-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); font-size: 13px; gap: 12px; }
+.hist-row:last-child { border-bottom: none; }
+.hist-asunto { font-weight: 600; flex: 1; }
+.hist-meta { color: var(--muted); white-space: nowrap; }
+
+.send-result { display: none; background: var(--dark); border: 3px solid var(--yellow); padding: 20px 24px; margin-top: 20px; }
+.send-result h3 { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--yellow); letter-spacing: .06em; margin-bottom: 12px; }
+
+.no-email-warn {
+  background: #1a1200; border: 2px solid var(--yellow); padding: 16px 20px;
+  font-size: 13px; line-height: 1.6; color: rgba(245,195,26,.85);
+  margin-bottom: 24px;
+}
+.no-email-warn strong { color: var(--yellow); }
+.no-email-warn code { background: rgba(245,195,26,.15); padding: 2px 6px; font-family: monospace; font-size: 12px; }
+
+@media (max-width: 860px) {
+  .nl-layout { grid-template-columns: 1fr; }
+  .nl-form-col { border-right: none; border-bottom: 3px solid var(--border-color); }
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">
+      <img src="/assets/logo.jpg" alt="TBP Logo">
+      <div><div class="sb-brand">TU<span>/</span>BOCADO</div><div class="sb-tag">Admin</div></div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-item" href="dashboard.html"><span class="ico">🏠</span> Dashboard</a>
+    <a class="sb-item" href="publicar.html"><span class="ico">✏️</span> Nueva noticia</a>
+    <a class="sb-item" href="suscriptores.html"><span class="ico">📬</span> Suscriptores</a>
+    <a class="sb-item on" href="newsletter.html"><span class="ico">📧</span> Enviar newsletter</a>
+    <a class="sb-item admin-only" href="usuarios.html"><span class="ico">👥</span> Usuarios</a>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-uname" id="userNombre">—</div>
+    <div class="sb-urol" id="userRol">—</div>
+    <button class="sb-out" onclick="TBP.logout()">🚪 Cerrar sesión</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <h1>Enviar Newsletter</h1>
+    <a class="btn btn-ghost" href="suscriptores.html">📬 Ver suscriptores</a>
+  </div>
+  <div class="content">
+
+    <!-- Stats -->
+    <div class="stat-row" id="statRow">
+      <div class="stat-box"><div class="stat-num" id="statTotal">—</div><div class="stat-lbl">Suscriptores</div></div>
+      <div class="stat-box"><div class="stat-num" id="statEnviados">—</div><div class="stat-lbl">Enviados total</div></div>
+      <div class="stat-box"><div class="stat-num" id="statUltimo">—</div><div class="stat-lbl">Último envío</div></div>
+    </div>
+
+    <!-- Aviso si falta configuración -->
+    <div class="no-email-warn" id="emailWarn" style="display:none">
+      ⚠️ <strong>Correo no configurado.</strong> Para poder enviar el newsletter, el administrador del servidor debe agregar estas variables de entorno:<br><br>
+      <code>GMAIL_USER</code> — correo Gmail de TBP (ej: <code>hola.tbp@gmail.com</code>)<br>
+      <code>GMAIL_APP_PASSWORD</code> — contraseña de aplicación generada en la cuenta Google<br><br>
+      Puedes seguir redactando y guardar el borrador para cuando esté configurado.
+    </div>
+
+    <div class="nl-layout">
+      <!-- Formulario -->
+      <div class="nl-form-col">
+        <div class="form-group">
+          <label class="form-label">Asunto del correo <span class="req">*</span></label>
+          <input class="form-input" id="fAsunto" type="text" placeholder="Ej: Tu bocado político del lunes 6 de sep" oninput="actualizarPreview()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contenido del newsletter <span class="req">*</span>
+            <span style="font-weight:400;font-size:12px;color:var(--muted);margin-left:8px;">Separa párrafos con una línea en blanco</span>
+          </label>
+          <textarea class="form-input" id="fCuerpo" rows="16"
+            style="resize:vertical;font-size:14px;line-height:1.65;"
+            placeholder="Escribe aquí el contenido del newsletter...
+
+Párrafo 1: presenta el tema de la semana.
+
+Párrafo 2: desarrolla la noticia principal.
+
+Párrafo 3: cierre y llamado a la acción."
+            oninput="actualizarPreview()"></textarea>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button class="btn btn-yellow" style="flex:1;min-width:200px;" id="btnEnviar" onclick="enviar()">📧 ENVIAR A TODOS LOS SUSCRIPTORES</button>
+          <span id="contadorLabel" style="font-size:13px;color:var(--muted)"></span>
+        </div>
+
+        <!-- Resultado del envío -->
+        <div class="send-result" id="sendResult">
+          <h3 id="resTitle">✅ Newsletter enviado</h3>
+          <div id="resBody" style="font-size:14px;color:rgba(247,244,236,.8);line-height:1.7;"></div>
+        </div>
+
+        <!-- Historial -->
+        <div style="margin-top:40px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.12em;color:var(--muted);border-bottom:2px solid var(--border-color);padding-bottom:8px;margin-bottom:12px;">HISTORIAL DE ENVÍOS</div>
+          <div id="historial">
+            <div style="font-size:13px;color:var(--muted);padding:12px 0">Cargando...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="nl-preview-col">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--muted);margin-bottom:14px;">PREVISUALIZACIÓN DEL CORREO</div>
+        <div class="preview-frame">
+          <div class="pf-header"><span class="pf-brand">TU<span>/</span>BOCADO</span></div>
+          <div class="pf-subject" id="pvAsunto">Asunto del newsletter</div>
+          <div class="pf-body" id="pvCuerpo">El contenido aparecerá aquí mientras escribes...</div>
+          <div class="pf-cta"><span class="pf-cta-btn">Ver todas las noticias →</span></div>
+          <div class="pf-footer">Recibiste esto porque te suscribiste a Tu Bocado Político.<br>Para cancelar responde con el asunto "Cancelar".</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="_layout.js"></script>
+<script>
+let totalSuscriptores = 0;
+let emailConfigurado = false;
+
+async function init() {
+  await TBP.requireAuth();
+
+  // Cargar stats de suscriptores
+  try {
+    const r = await fetch('/api/admin/suscriptores');
+    const s = await r.json();
+    totalSuscriptores = s.length;
+    document.getElementById('statTotal').textContent = s.length;
+    document.getElementById('contadorLabel').textContent = `Se enviará a ${s.length} persona${s.length === 1 ? '' : 's'}`;
+  } catch(e) {}
+
+  // Verificar si el email está configurado
+  try {
+    const r = await fetch('/api/admin/newsletter/status');
+    const d = await r.json();
+    emailConfigurado = d.configurado;
+    if (!emailConfigurado) {
+      document.getElementById('emailWarn').style.display = 'block';
+      document.getElementById('btnEnviar').textContent = '⚠️ CORREO NO CONFIGURADO';
+      document.getElementById('btnEnviar').style.opacity = '.5';
+      document.getElementById('btnEnviar').style.cursor = 'not-allowed';
+    }
+  } catch(e) {}
+
+  // Historial
+  cargarHistorial();
+}
+
+async function cargarHistorial() {
+  try {
+    const r = await fetch('/api/admin/newsletters');
+    const hist = await r.json();
+    if (!hist.length) {
+      document.getElementById('historial').innerHTML = '<div style="font-size:13px;color:var(--muted);padding:12px 0">Aún no se ha enviado ningún newsletter.</div>';
+      return;
+    }
+    document.getElementById('statEnviados').textContent = hist.reduce((a,h) => a + (h.enviados||0), 0);
+    document.getElementById('statUltimo').textContent = hist.length ? TBP.fmtFecha(hist[0].created_at) : '—';
+    document.getElementById('historial').innerHTML = hist.map(h => `
+      <div class="hist-row">
+        <div class="hist-asunto">${h.asunto}</div>
+        <div class="hist-meta">
+          <span style="color:var(--green)">✓ ${h.enviados}</span>
+          ${h.errores ? `<span style="color:var(--red);margin-left:8px">✗ ${h.errores}</span>` : ''}
+          <span style="margin-left:10px;">${TBP.fmtFecha(h.created_at)}</span>
+        </div>
+      </div>`).join('');
+  } catch(e) {}
+}
+
+function actualizarPreview() {
+  const asunto = document.getElementById('fAsunto').value || 'Asunto del newsletter';
+  const cuerpo = document.getElementById('fCuerpo').value || 'El contenido aparecerá aquí mientras escribes...';
+  document.getElementById('pvAsunto').textContent = asunto;
+  const paragraphs = cuerpo.split(/\n\n+/)
+    .map(p => `<p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#1a1a1a;">${p.replace(/\n/g,'<br>')}</p>`)
+    .join('');
+  document.getElementById('pvCuerpo').innerHTML = '<p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#1a1a1a;">Hola [nombre],</p>' + paragraphs;
+}
+
+async function enviar() {
+  const asunto = document.getElementById('fAsunto').value.trim();
+  const cuerpo = document.getElementById('fCuerpo').value.trim();
+  if (!asunto || !cuerpo) { TBP.toast('Completa el asunto y el contenido', 'error'); return; }
+  if (!totalSuscriptores) { TBP.toast('No hay suscriptores registrados', 'error'); return; }
+
+  if (!TBP.confirm(`¿Enviar este newsletter a ${totalSuscriptores} suscriptor${totalSuscriptores === 1 ? '' : 'es'}?`)) return;
+
+  const btn = document.getElementById('btnEnviar');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+
+  try {
+    const r = await fetch('/api/admin/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ asunto, cuerpo }),
+    });
+    const d = await r.json();
+    const res = document.getElementById('sendResult');
+    res.style.display = 'block';
+    if (r.ok) {
+      document.getElementById('resTitle').textContent = '✅ Newsletter enviado';
+      document.getElementById('resBody').innerHTML = `
+        <strong style="color:var(--yellow)">${d.enviados}</strong> correos enviados exitosamente
+        ${d.errores ? `<br><span style="color:var(--red)">⚠️ ${d.errores} no se pudieron enviar</span>` : ''}
+        <br><br>El newsletter quedó registrado en el historial.
+      `;
+      TBP.toast(`✅ Newsletter enviado a ${d.enviados} persona${d.enviados === 1 ? '' : 's'}`);
+      cargarHistorial();
+    } else {
+      document.getElementById('resTitle').innerHTML = '<span style="color:var(--red)">❌ Error al enviar</span>';
+      document.getElementById('resBody').textContent = d.error || 'Ocurrió un error inesperado.';
+      TBP.toast(d.error || 'Error al enviar', 'error');
+    }
+  } catch(e) {
+    TBP.toast('Error de conexión', 'error');
+  }
+  btn.disabled = false; btn.textContent = '📧 ENVIAR A TODOS LOS SUSCRIPTORES';
+}
+
+init();
+</script>
+</body>
+</html>
