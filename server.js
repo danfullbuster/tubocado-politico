@@ -247,8 +247,13 @@ app.delete('/api/admin/usuarios/:id', adminOnly, async (req, res) => {
 function createTransporter() {
   if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return null;
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD },
+    connectionTimeout: 12000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
   });
 }
 
@@ -293,8 +298,16 @@ function buildEmailHtml(asunto, cuerpo, nombre) {
 </html>`;
 }
 
-app.get('/api/admin/newsletter/status', auth, (req, res) => {
-  res.json({ configurado: !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) });
+app.get('/api/admin/newsletter/status', auth, async (req, res) => {
+  const configurado = !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
+  if (!configurado) return res.json({ configurado: false });
+  try {
+    const t = createTransporter();
+    await t.verify();
+    res.json({ configurado: true, conexion: 'ok', usuario: process.env.GMAIL_USER });
+  } catch(e) {
+    res.json({ configurado: true, conexion: 'error', error: e.message });
+  }
 });
 
 app.post('/api/admin/newsletter', auth, async (req, res) => {
