@@ -157,7 +157,7 @@
 <body>
 
 <nav class="nav">
-  <a class="nav-brand" href="index.html"><img class="nav-logo" src="/assets/logo.jpg" alt="Logo TBP">TU<span class="slash">/</span>BOCADO</a>
+  <a class="nav-brand" href="index.html"><span class="nav-logo" aria-label="Logo TBP"></span>TU<span class="slash">/</span>BOCADO</a>
   <ul class="nav-links">
     <li><a href="noticias.html">Noticias</a></li>
     <li><a href="opinion.html">Opinión</a></li>
@@ -338,5 +338,33 @@ load();
 </script>
 
 <script src="/mascota.js"></script>
+
+<!-- Botón edición inline para admins -->
+<script>
+(async function() {
+  try {
+    const r = await fetch('/api/me');
+    if (!r.ok) return;
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) return;
+    const btn = document.createElement('a');
+    btn.href = `/admin/publicar.html?edit=${id}`;
+    btn.title = 'Editar este artículo';
+    btn.innerHTML = '✏️';
+    Object.assign(btn.style, {
+      position: 'fixed', bottom: '80px', left: '16px', zIndex: '9995',
+      background: '#F5C31A', color: '#0C0D0F',
+      width: '44px', height: '44px', borderRadius: '50%',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: '20px', textDecoration: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+      transition: 'transform .15s, box-shadow .15s',
+    });
+    btn.addEventListener('mouseenter', () => { btn.style.transform='scale(1.1)'; btn.style.boxShadow='0 4px 14px rgba(245,195,26,0.5)'; });
+    btn.addEventListener('mouseleave', () => { btn.style.transform='scale(1)'; btn.style.boxShadow='0 2px 8px rgba(0,0,0,0.4)'; });
+    document.body.appendChild(btn);
+  } catch(e) {}
+})();
+</script>
 </body>
 </html>

@@ -75,9 +75,11 @@ img { max-width: 100%; }
 }
 .nav-logo {
   height: 38px; width: 38px;
-  border-radius: 50%; object-fit: cover;
+  border-radius: 50%;
   border: 2px solid var(--yellow);
   flex-shrink: 0;
+  background: url('/assets/logo.jpg') center / 165% no-repeat;
+  display: inline-block;
 }
 .nav-brand .slash { color: var(--blue); margin: 0 2px; }
 .nav-links {

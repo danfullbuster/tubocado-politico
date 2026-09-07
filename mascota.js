@@ -1,21 +1,21 @@
-/* Tu Bocado Político — Palomita política 8-bit v1 */
+/* Tu Bocado Político — Brayan Sleyder (tinguá bogotana) 8-bit v1 */
 (function () {
   'use strict';
 
   // ── Paleta ────────────────────────────────────────────────────
   const P = {
     _: null,
-    A: '#2a2a38',   // outline oscuro (azul-gris)
-    B: '#4a4a60',   // cuerpo gris oscuro
-    C: '#7878a0',   // cuerpo gris medio
-    D: '#d0d0e0',   // pecho blanco/gris claro
-    E: '#6b3fa0',   // cuello iridiscente morado
-    F: '#3a8050',   // cuello iridiscente verde
-    G: '#cc5500',   // pico naranja
-    H: '#ffeeee',   // ojo (fondo claro)
-    I: '#cc2200',   // ojo (pupila roja - paloma)
-    J: '#cc5500',   // patas naranjas
-    K: '#383845',   // barra alar oscura
+    A: '#1a1a28',   // outline muy oscuro
+    B: '#2a2a3e',   // body oscuro (cabeza, cuerpo base)
+    C: '#3c3c54',   // body slate medio
+    D: '#7a5528',   // espalda marrón (back)
+    E: '#cc2200',   // pico y escudo rojo
+    F: '#f0c820',   // punta pico amarilla
+    G: '#dcdcec',   // franja blanca flanco / undertail
+    H: '#b8d038',   // patas verde-amarillo
+    I: '#dd2800',   // escudo rojo frontal (igual a E pero semántico)
+    J: '#b8d038',   // patas (igual a H)
+    K: '#4a3020',   // ala/espalda oscura
     M: '#c8860a',   // galleta relleno
     N: '#8b4513',   // galleta borde
     O: '#f0b040',   // galleta brillo
@@ -24,179 +24,186 @@
   const _='_',A='A',B='B',C='C',D='D',E='E',F='F',G='G',H='H',I='I',J='J',K='K',M='M',N='N',O='O';
 
   // ── Frames base (12×16) ───────────────────────────────────────
+  // Tinguá mirando a la derecha. Escudo rojo en la frente, pico rojo+amarillo,
+  // cuerpo oscuro, espalda marrón, franja blanca en el flanco.
   const IDLE_A = [
-    [_,_,_,_,B,B,B,_,_,_,_,_],
-    [_,_,_,B,C,C,B,B,_,_,_,_],
-    [_,_,_,C,G,G,H,I,_,_,_,_],
-    [_,_,E,E,F,E,E,_,_,_,_,_],
-    [_,E,E,F,E,E,E,E,_,_,_,_],
-    [_,A,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,B,C,C,B,A,_,_,_],
-    [B,C,C,D,D,D,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,C,B,_,_,_],
-    [B,C,K,C,D,D,C,K,B,_,_,_],
-    [_,B,C,C,D,D,C,B,_,_,_,_],
-    [_,_,B,B,C,C,B,_,_,_,_,_],
-    [_,_,_,C,C,C,_,_,_,_,_,_],
-    [_,_,_,J,_,J,_,_,_,_,_,_],
-    [_,_,J,J,_,J,J,_,_,_,_,_],
+    [_,_,_,_,I,I,I,_,_,_,_,_],   // escudo frontal
+    [_,_,_,I,B,B,I,B,_,_,_,_],   // cabeza + escudo
+    [_,_,_,B,B,E,E,E,F,_,_,_],   // cabeza + pico rojo + tip amarillo
+    [_,_,_,_,B,D,B,_,_,_,_,_],   // cuello
+    [_,_,A,B,D,D,D,B,A,_,_,_],   // espalda
+    [_,A,B,C,D,D,C,C,B,A,_,_],   // cuerpo
+    [A,B,C,D,D,C,C,C,C,B,_,_],   // cuerpo ancho
+    [B,C,G,G,C,C,C,C,B,_,_,_],   // franja blanca flanco
+    [B,C,G,C,C,C,C,B,_,_,_,_],   // vientre
+    [_,B,C,C,C,C,B,_,_,_,_,_],   // bajo cuerpo
+    [_,_,B,G,G,B,_,_,_,_,_,_],   // undertail blanco
+    [_,_,_,B,B,_,_,_,_,_,_,_],   // cola
+    [_,_,_,J,_,J,_,_,_,_,_,_],   // patas
+    [_,_,J,J,_,J,J,_,_,_,_,_],   // pies
+    [_,_,_,_,_,_,_,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   const IDLE_B = [
-    [_,_,_,_,B,B,B,_,_,_,_,_],
-    [_,_,_,B,C,C,B,B,_,_,_,_],
-    [_,_,_,C,G,G,H,I,_,_,_,_],
-    [_,_,E,E,F,E,E,_,_,_,_,_],
-    [_,E,E,F,E,E,E,E,_,_,_,_],
-    [_,A,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,B,C,C,B,A,_,_,_],
-    [B,D,D,D,D,C,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,C,B,_,_,_],
-    [B,C,K,C,D,D,C,K,B,_,_,_],
-    [_,B,D,C,D,D,C,B,_,_,_,_],
-    [_,_,B,B,C,C,B,_,_,_,_,_],
-    [_,_,_,C,C,C,_,_,_,_,_,_],
+    [_,_,_,_,I,I,I,_,_,_,_,_],
+    [_,_,_,I,B,B,I,B,_,_,_,_],
+    [_,_,_,B,B,E,E,E,F,_,_,_],
+    [_,_,_,_,B,D,B,_,_,_,_,_],
+    [_,_,A,B,D,D,D,B,A,_,_,_],
+    [_,A,B,C,D,D,C,C,B,A,_,_],
+    [A,B,G,D,D,C,C,C,C,B,_,_],   // franja blanca en posición diferente (cola arriba)
+    [B,C,G,G,C,C,C,C,B,_,_,_],
+    [B,C,C,C,C,C,C,B,_,_,_,_],
+    [_,B,C,C,C,C,B,_,_,_,_,_],
+    [_,_,B,G,G,B,_,_,_,_,_,_],
+    [_,_,_,B,B,_,_,_,_,_,_,_],
     [_,_,_,J,_,J,_,_,_,_,_,_],
     [_,_,J,J,_,J,J,_,_,_,_,_],
+    [_,_,_,_,_,_,_,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   // Frame gordo (14×17)
   const FAT_A = [
-    [_,_,_,_,_,B,B,B,_,_,_,_,_,_],
-    [_,_,_,_,B,C,C,B,B,_,_,_,_,_],
-    [_,_,_,_,C,G,G,H,I,_,_,_,_,_],
-    [_,_,_,E,E,F,E,E,_,_,_,_,_,_],
-    [_,_,E,E,F,E,E,E,E,_,_,_,_,_],
-    [_,A,B,B,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,C,B,C,C,C,B,A,_,_,_],
-    [B,C,C,D,D,D,D,C,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,D,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,D,D,C,B,_,_,_],
-    [B,C,K,D,D,D,D,D,K,C,B,_,_,_],
-    [_,B,C,C,D,D,D,C,C,B,_,_,_,_],
-    [_,_,B,B,C,C,C,C,B,_,_,_,_,_],
-    [_,_,_,_,C,C,C,_,_,_,_,_,_,_],
+    [_,_,_,_,_,I,I,I,_,_,_,_,_,_],
+    [_,_,_,_,I,B,B,I,B,_,_,_,_,_],
+    [_,_,_,_,B,B,E,E,E,F,_,_,_,_],
+    [_,_,_,_,_,B,D,B,_,_,_,_,_,_],
+    [_,_,_,A,B,D,D,D,B,A,_,_,_,_],
+    [_,_,A,B,C,D,D,D,C,B,A,_,_,_],
+    [_,A,B,C,D,D,D,C,C,C,B,A,_,_],
+    [A,B,C,D,D,D,C,C,C,C,C,B,_,_],
+    [B,C,G,G,G,C,C,C,C,C,B,_,_,_],
+    [B,C,G,G,C,C,C,C,C,B,_,_,_,_],
+    [B,C,C,C,C,C,C,C,B,_,_,_,_,_],
+    [_,B,C,C,C,C,C,B,_,_,_,_,_,_],
+    [_,_,B,G,G,G,B,_,_,_,_,_,_,_],
+    [_,_,_,B,B,B,_,_,_,_,_,_,_,_],
     [_,_,_,_,J,_,J,_,_,_,_,_,_,_],
     [_,_,_,J,J,_,J,J,_,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   const FAT_B = [
-    [_,_,_,_,_,B,B,B,_,_,_,_,_,_],
-    [_,_,_,_,B,C,C,B,B,_,_,_,_,_],
-    [_,_,_,_,C,G,G,H,I,_,_,_,_,_],
-    [_,_,_,E,E,F,E,E,_,_,_,_,_,_],
-    [_,_,E,E,F,E,E,E,E,_,_,_,_,_],
-    [_,A,B,B,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,C,B,C,C,C,B,A,_,_,_],
-    [B,D,D,D,D,D,C,C,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,D,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,D,D,C,B,_,_,_],
-    [B,C,K,D,D,D,D,D,K,C,B,_,_,_],
-    [_,B,D,C,D,D,D,C,C,B,_,_,_,_],
-    [_,_,B,B,C,C,C,C,B,_,_,_,_,_],
-    [_,_,_,_,C,C,C,_,_,_,_,_,_,_],
+    [_,_,_,_,_,I,I,I,_,_,_,_,_,_],
+    [_,_,_,_,I,B,B,I,B,_,_,_,_,_],
+    [_,_,_,_,B,B,E,E,E,F,_,_,_,_],
+    [_,_,_,_,_,B,D,B,_,_,_,_,_,_],
+    [_,_,_,A,B,D,D,D,B,A,_,_,_,_],
+    [_,_,A,B,C,D,D,D,C,B,A,_,_,_],
+    [_,A,B,C,D,D,D,C,C,C,B,A,_,_],
+    [A,B,G,D,D,D,C,C,C,C,C,B,_,_],
+    [B,C,G,G,G,C,C,C,C,C,B,_,_,_],
+    [B,C,G,C,C,C,C,C,C,B,_,_,_,_],
+    [B,C,C,C,C,C,C,C,B,_,_,_,_,_],
+    [_,B,C,C,C,C,C,B,_,_,_,_,_,_],
+    [_,_,B,G,G,G,B,_,_,_,_,_,_,_],
+    [_,_,_,B,B,B,_,_,_,_,_,_,_,_],
     [_,_,_,_,J,_,J,_,_,_,_,_,_,_],
     [_,_,_,J,J,_,J,J,_,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_,_,_],
   ];
-  // Frame comiendo — pico extendido (paloma picoteando)
+  // Frame comiendo (pico extendido)
   const EAT_A = [
     [_,_,_,_,_,_,_,_,_,_,_,_],
-    [_,_,_,_,B,B,B,_,_,_,_,_],
-    [_,_,_,B,C,C,B,B,_,_,_,_],
-    [_,G,G,G,H,I,C,_,_,_,_,_],
-    [_,_,E,E,F,E,E,_,_,_,_,_],
-    [_,E,E,F,E,E,E,_,_,_,_,_],
-    [A,B,B,B,B,B,B,A,_,_,_,_],
-    [B,C,C,C,B,C,C,B,A,_,_,_],
-    [B,C,D,D,D,C,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,C,B,_,_,_],
-    [B,C,K,C,D,D,C,K,B,_,_,_],
-    [_,B,C,C,D,D,C,B,_,_,_,_],
-    [_,_,B,B,C,C,B,_,_,_,_,_],
+    [_,_,_,_,I,I,I,_,_,_,_,_],
+    [_,_,_,I,B,B,I,B,_,_,_,_],
+    [_,_,_,B,B,E,E,E,F,_,_,_],
+    [_,_,A,B,D,D,D,B,A,_,_,_],
+    [_,A,B,C,D,D,C,C,B,A,_,_],
+    [A,B,C,D,D,C,C,C,C,B,_,_],
+    [B,C,G,G,C,C,C,C,B,_,_,_],
+    [B,C,G,C,C,C,C,B,_,_,_,_],
+    [_,B,C,C,C,C,B,_,_,_,_,_],
+    [_,_,B,G,G,B,_,_,_,_,_,_],
+    [_,_,_,B,B,_,_,_,_,_,_,_],
+    [_,_,_,_,_,_,_,_,_,_,_,_],
     [_,_,_,J,_,J,_,_,_,_,_,_],
     [_,_,J,J,_,J,J,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
   const EAT_B = [
-    [_,_,_,_,B,B,B,_,_,_,_,_],
-    [_,_,_,B,C,C,B,B,_,_,_,_],
-    [_,_,_,C,G,G,_,I,_,_,_,_],
-    [_,_,E,G,G,E,E,_,_,_,_,_],
-    [_,E,E,F,E,E,E,E,_,_,_,_],
-    [_,A,B,B,B,B,B,A,_,_,_,_],
-    [A,B,C,C,B,C,C,B,A,_,_,_],
-    [B,C,C,D,D,D,C,C,B,_,_,_],
-    [B,C,D,D,D,D,D,C,B,_,_,_],
-    [B,C,K,C,D,D,C,K,B,_,_,_],
-    [_,B,C,C,D,D,C,B,_,_,_,_],
-    [_,_,B,B,C,C,B,_,_,_,_,_],
-    [_,_,_,C,C,C,_,_,_,_,_,_],
+    [_,_,_,_,I,I,I,_,_,_,_,_],
+    [_,_,_,I,B,B,I,B,_,_,_,_],
+    [_,_,_,B,B,E,E,E,_,_,_,_],   // pico abierto arriba
+    [_,_,_,_,_,E,E,F,F,_,_,_],   // mandíbula inferior
+    [_,_,A,B,D,D,D,B,A,_,_,_],
+    [_,A,B,C,D,D,C,C,B,A,_,_],
+    [A,B,C,D,D,C,C,C,C,B,_,_],
+    [B,C,G,G,C,C,C,C,B,_,_,_],
+    [B,C,G,C,C,C,C,B,_,_,_,_],
+    [_,B,C,C,C,C,B,_,_,_,_,_],
+    [_,_,B,G,G,B,_,_,_,_,_,_],
+    [_,_,_,B,B,_,_,_,_,_,_,_],
     [_,_,_,J,_,J,_,_,_,_,_,_],
     [_,_,J,J,_,J,J,_,_,_,_,_],
     [_,_,_,_,_,_,_,_,_,_,_,_],
+    [_,_,_,_,_,_,_,_,_,_,_,_],
   ];
-  // Galleta 10×10
+  // Milhojas colombiana 10×12 (capas de hojaldre + crema + glasé)
+  // M=hojaldre dorado, O=hojaldre claro, N=borde/sombra, G=crema blanca, F=glasé azúcar
   const COOKIE = [
-    [_,_,N,N,N,N,N,N,_,_],
-    [_,N,M,M,M,M,M,M,N,_],
-    [N,M,M,N,M,M,M,M,M,N],
-    [N,M,N,M,O,N,M,M,M,N],
-    [N,M,M,O,M,M,N,M,M,N],
-    [N,M,M,M,M,O,M,M,N,N],
-    [N,M,N,M,M,M,M,N,M,N],
-    [N,M,M,M,N,M,M,M,M,N],
-    [_,N,M,M,M,M,M,M,N,_],
-    [_,_,N,N,N,N,N,N,_,_],
+    [_,_,N,N,N,N,N,N,_,_],   // glasé arriba
+    [_,N,F,F,F,F,F,F,N,_],   // glasé blanco
+    [N,F,F,O,F,F,O,F,F,N],   // glasé con brillo
+    [N,N,N,N,N,N,N,N,N,N],   // borde capa 1
+    [N,M,M,O,M,M,O,M,M,N],   // hojaldre 1
+    [N,G,G,G,G,G,G,G,G,N],   // crema
+    [N,G,G,G,G,G,G,G,G,N],   // crema
+    [N,N,N,N,N,N,N,N,N,N],   // borde capa 2
+    [N,M,O,M,M,O,M,M,O,N],   // hojaldre 2
+    [N,M,M,M,M,M,M,M,M,N],   // hojaldre 2 base
+    [_,N,N,N,N,N,N,N,N,_],   // base
+    [_,_,_,_,_,_,_,_,_,_],
   ];
 
   // ── Frases ───────────────────────────────────────────────────
   const FRASES_COMER = [
-    '¡Arrú! ¡Qué rico bocadito, parce! 🍪',
-    '¡Gracias! Las palomas también merecemos galleticas 🐦',
-    '¡Arrú arrú! ¡Más, más!',
-    '¡Qué delicia! Mejor que las migajas del Congreso 🏛️',
-    '¡Eso sí se llama política de verdad! 🇨🇴',
-    '¡Mmm! La democracia sabe rico hoy 😏',
-    '¡Juepucha, qué buena! Dame otra plis 🙏',
+    '¡Ay, qué chimba de milhojas, parce! 🥐',
+    '¡Gracias! Las tinguás también merecemos milhojas 🐦',
+    '¡Crico crico! ¡Más capas, más crema!',
+    '¡Qué delicia! Mejor que los peces del Juan Amarillo 🌿',
+    '¡Eso sí es política de verdad, parcero! 🇨🇴',
+    '¡Mmm! La democracia sabe a milhojas hoy 😏',
+    '¡Juepucha, qué rica! Dame otra plis 🙏',
     '¡Tô engordando pero feliz! 😄',
-    '¡Arrú! Ya no quepo en la Plaza de Bolívar 🏛️',
-    '¡Mejor que las palomitas de maíz del cine!',
+    '¡Crico! Ya no quepo en el humedal de La Conejera 🌿',
+    '¡Mejor que los peces del Jaboque, oe!',
   ];
   const FRASES_GORDO = [
-    '¡Arrú! Ya estoy gordita 😅',
+    '¡Crico crico! Ya estoy gordito 😅',
     '¡Me estás engordando con tanto bocado! 🍪',
-    '¡Barrigona pero feliz, parce! 🇨🇴',
-    '¡Tanto bocado y ya no puedo volar! 😂',
+    '¡Barrigón pero feliz, parce! 🇨🇴',
+    '¡Tanto bocado y ya no puedo volar de humedal en humedal! 😂',
   ];
   const FRASES_TRUCO = [
-    '¡Arrú! ¿Eso o no es un truco? 🎪',
-    '¡Así hace la paloma política! 💫',
-    '¡Mejor que el Congreso, jaja! 🎭',
+    '¡Crico! ¿Eso o no es un truco? 🎪',
+    '¡Así hace la tinguá política! 💫',
+    '¡Mejor que el Congreso, oe! 🎭',
     '¡Aprendo trucos más rápido que las reformas! 🔄',
   ];
   const FRASES_IDLE = [
-    '¿Sabías que llevo 10 años en la Plaza de Bolívar? 🏛️',
-    'Arrú... ¿me das un bocado, parce? 🍞',
-    'Yo vi cuando aprobaron esa ley. Estaba en la escalinata del Congreso.',
-    'El Congreso tiene 108 senadores. Yo tengo 108 plumas. ¿Coincidencia? 🤔',
+    '¿Sabías que vivo en el humedal La Vaca? 🌿 Los políticos, no.',
+    'Crico crico... ¿me das un bocadito, parce? 🍞',
+    'Yo ví cuando aprobaron esa ley. Estaba en el humedal Córdoba.',
+    'El Congreso tiene 108 senadores. El humedal Jaboque: 108 problemas. ¿Coincidencia? 🤔',
     'Suscríbete al boletín — llega fresquito cada lunes 📩',
-    'Arrú arrú... la política se entiende mejor con bocados 💛',
+    'Crico crico... la política se entiende mejor con bocados 💛',
     '¿Leíste la noticia de hoy? Dale clic y te cuento',
-    '¡Ey! No me mires así, que yo también tengo derechos 🐦',
-    'En Bogotá hay más palomas que votos válidos 😅',
+    '¡Ey! No me mires así, soy un ave protegida 🐦',
+    'En Bogotá destruyen más humedales que votos válidos hay 😅',
     '¡Política sin rollos! Eso es lo que hace TBP 🇨🇴',
-    '¿Quién le mete la mano a tu bolsillo? Yo lo sé... 🤔',
+    '¿Quién drena los humedales bogotanos? Yo lo sé... 🤔',
     '¡Ey parce! ¿Me vas a dar galleta o qué?',
+    'Me llamo Brayan Sleyder. Soy la tinguá más informada del humedal.',
+    '¡Crico! Aquí Brayan, reportando desde La Conejera 📡',
   ];
 
   // ── Niveles de gordura ────────────────────────────────────────
   const GORDURA = [
-    { galletas: 0,  label: 'Flaquita',   scale: 1.0  },
-    { galletas: 3,  label: 'Gordita',    scale: 1.25 },
-    { galletas: 6,  label: 'Barrigona',  scale: 1.5  },
-    { galletas: 10, label: 'Mazacota',   scale: 1.8  },
-    { galletas: 15, label: 'MEGA GORDA', scale: 2.1  },
+    { galletas: 0,  label: 'Brayan Sleyder',       scale: 1.0  },
+    { galletas: 3,  label: 'Brayan Bien Comido',   scale: 1.25 },
+    { galletas: 6,  label: 'Brayan Barrigón',      scale: 1.5  },
+    { galletas: 10, label: 'Brayan Mazacote',      scale: 1.8  },
+    { galletas: 15, label: 'MEGA BRAYAN SLEYDER',  scale: 2.1  },
   ];
 
   function getNivel(n) {
@@ -273,7 +280,7 @@
 
     // ── Tab lateral ──
     const tab = document.createElement('button');
-    tab.title = 'La palomita política';
+    tab.title = 'Brayan Sleyder';
     Object.assign(tab.style, {
       position:'fixed', right:'0', bottom:'100px', zIndex:'9989',
       background:'rgba(12,13,15,0.85)', border:'2px solid rgba(245,195,26,0.45)',
@@ -282,7 +289,7 @@
       transition:'background .15s, border-color .15s',
       backdropFilter:'blur(4px)',
     });
-    tab.innerHTML = '<span style="font-size:18px;line-height:1">🕊️</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:9px;color:#F5C31A;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg)">PALOMA</span>';
+    tab.innerHTML = '<span style="font-size:18px;line-height:1">🐦</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:9px;color:#F5C31A;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg)">BRAYAN</span>';
     tab.addEventListener('mouseenter', () => { tab.style.background='rgba(245,195,26,0.15)'; tab.style.borderColor='rgba(245,195,26,0.8)'; });
     tab.addEventListener('mouseleave', () => { tab.style.background='rgba(12,13,15,0.85)'; tab.style.borderColor='rgba(245,195,26,0.45)'; });
     document.body.appendChild(tab);
@@ -290,7 +297,7 @@
     // ── Botón cerrar ──
     const btnClose = document.createElement('button');
     btnClose.textContent = '✕';
-    btnClose.title = 'Esconder la palomita';
+    btnClose.title = 'Esconder a Brayan';
     Object.assign(btnClose.style, {
       position:'absolute', top:'4px', right:'6px',
       background:'none', border:'none', cursor:'pointer',
@@ -332,7 +339,7 @@
     const bubbleTxt = document.createElement('span');
     bubble.appendChild(arrow); bubble.appendChild(bubbleTxt);
 
-    // ── Canvas paloma ──
+    // ── Canvas tinguá ──
     const canvas = document.createElement('canvas');
     canvas.width = FCW; canvas.height = FCH;
     Object.assign(canvas.style, {
@@ -348,7 +355,7 @@
       fontFamily:'"Bebas Neue",sans-serif', fontSize:'10px',
       letterSpacing:'.1em', color:'#F5C31A', margin:'2px 0 4px',
     });
-    badge.textContent = 'FLAQUITA';
+    badge.textContent = 'DELGADITO';
 
     // ── Botones ──
     const btnRow = document.createElement('div');
@@ -372,16 +379,16 @@
 
     // Botón galleta
     const cookieCanvas = document.createElement('canvas');
-    cookieCanvas.width = 10*S; cookieCanvas.height = 10*S;
+    cookieCanvas.width = 10*S; cookieCanvas.height = 12*S;
     Object.assign(cookieCanvas.style, { imageRendering:'pixelated', display:'block' });
     const cctx = cookieCanvas.getContext('2d');
     cctx.imageSmoothingEnabled = false;
     dibujar(cctx, COOKIE);
 
-    const btnGalleta = mkBtn('', 'Aliméntame con una galletica 🍪');
+    const btnGalleta = mkBtn('', 'Dale una milhojas a Brayan 🥐');
     btnGalleta.prepend(cookieCanvas);
     const galletaLbl = document.createElement('span');
-    galletaLbl.textContent = 'GALLETA';
+    galletaLbl.textContent = 'MILHOJAS';
     btnGalleta.appendChild(galletaLbl);
 
     const btnTruco = mkBtn('🎪 TRUCO', 'Hazme hacer un truco');
@@ -448,7 +455,7 @@
       }
       applyScale();
       try { localStorage.setItem('tbp-galletas', galletasComidas); } catch(e) {}
-      counter.textContent = galletasComidas === 1 ? '1 galleta comida 🍪' : `${galletasComidas} galletas comidas 🍪`;
+      counter.textContent = galletasComidas === 1 ? '1 milhojas comida 🥐' : `${galletasComidas} milhojas comidas 🥐`;
       btnGalleta.style.transform = 'scale(0.88)';
       setTimeout(() => btnGalleta.style.transform = 'scale(1)', 150);
     }
@@ -503,7 +510,7 @@
     loop();
     applyScale();
     badge.textContent = getNivel(galletasComidas).label.toUpperCase();
-    counter.textContent = galletasComidas > 0 ? `${galletasComidas} galleta${galletasComidas===1?'':' comidas'} 🍪` : '0 galletas';
+    counter.textContent = galletasComidas > 0 ? `${galletasComidas} milhojas comidas 🥐` : '0 milhojas';
     setVisible(false);
   }
 
