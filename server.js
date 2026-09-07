@@ -1,10 +1,8 @@
 require('dotenv').config({ path: require('path').join(__dirname, '.env') });
-require('dns').setDefaultResultOrder('ipv4first');
 const express    = require('express');
 const session    = require('express-session');
 const bcrypt     = require('bcryptjs');
 const path       = require('path');
-const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 
 const app  = express();
@@ -244,18 +242,28 @@ app.delete('/api/admin/usuarios/:id', adminOnly, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// ── EMAIL ─────────────────────────────────────────────────────────────
-function createTransporter() {
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return null;
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD },
-    connectionTimeout: 12000,
-    greetingTimeout: 10000,
-    socketTimeout: 20000,
+// ── EMAIL (Brevo HTTP API) ────────────────────────────────────────────
+async function sendBrevoEmail({ to, toName, subject, html }) {
+  const apiKey = process.env.BREVO_API_KEY;
+  const senderEmail = process.env.BREVO_SENDER_EMAIL || process.env.GMAIL_USER;
+  const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': apiKey,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      sender: { name: 'Tu Bocado Político', email: senderEmail },
+      to: [{ email: to, name: toName || to }],
+      subject,
+      htmlContent: html,
+    }),
   });
+  if (!r.ok) {
+    const err = await r.text();
+    throw new Error(`Brevo ${r.status}: ${err}`);
+  }
+  return true;
 }
 
 function buildEmailHtml(asunto, cuerpo, nombre) {
@@ -300,12 +308,15 @@ function buildEmailHtml(asunto, cuerpo, nombre) {
 }
 
 app.get('/api/admin/newsletter/status', auth, async (req, res) => {
-  const configurado = !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
+  const configurado = !!(process.env.BREVO_API_KEY && (process.env.BREVO_SENDER_EMAIL || process.env.GMAIL_USER));
   if (!configurado) return res.json({ configurado: false });
   try {
-    const t = createTransporter();
-    await t.verify();
-    res.json({ configurado: true, conexion: 'ok', usuario: process.env.GMAIL_USER });
+    const r = await fetch('https://api.brevo.com/v3/account', {
+      headers: { 'api-key': process.env.BREVO_API_KEY },
+    });
+    if (!r.ok) throw new Error(`Brevo API ${r.status}`);
+    const account = await r.json();
+    res.json({ configurado: true, conexion: 'ok', cuenta: account.email });
   } catch(e) {
     res.json({ configurado: true, conexion: 'error', error: e.message });
   }
@@ -317,9 +328,8 @@ app.post('/api/admin/newsletter', auth, async (req, res) => {
     if (!asunto?.trim() || !cuerpo?.trim())
       return res.status(400).json({ error: 'Asunto y contenido son obligatorios' });
 
-    const transporter = createTransporter();
-    if (!transporter)
-      return res.status(503).json({ error: 'Correo no configurado. Agrega GMAIL_USER y GMAIL_APP_PASSWORD en las variables de entorno.' });
+    if (!process.env.BREVO_API_KEY)
+      return res.status(503).json({ error: 'Correo no configurado. Agrega BREVO_API_KEY en las variables de entorno.' });
 
     const suscriptores = await db.collection('suscriptores').find().toArray();
     if (!suscriptores.length)
@@ -328,9 +338,9 @@ app.post('/api/admin/newsletter', auth, async (req, res) => {
     let enviados = 0, errores = 0;
     for (const s of suscriptores) {
       try {
-        await transporter.sendMail({
-          from: `"Tu Bocado Político" <${process.env.GMAIL_USER}>`,
+        await sendBrevoEmail({
           to: s.email,
+          toName: s.nombre,
           subject: asunto,
           html: buildEmailHtml(asunto, cuerpo, s.nombre),
         });
