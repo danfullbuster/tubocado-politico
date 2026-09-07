@@ -620,23 +620,103 @@ a:focus-visible, button:focus-visible {
   .voces-grid { grid-template-columns: 1fr; }
   .voce-card { border-right: none; border-bottom: 4px solid var(--yellow); }
   .voce-card:last-child { border-bottom: none; }
-  .investigacion { grid-template-columns: 1fr; }
+  .investigacion { grid-template-columns: 1fr; padding: 40px 24px; }
   .inv-left { border-right: none; padding-right: 0; padding-bottom: 40px; border-bottom: 2px solid rgba(255,255,255,0.15); margin-bottom: 32px; }
   .inv-right { padding-left: 0; }
+  .nl-wrap { padding: 48px 24px; }
+  .bocados-wrap { padding: 36px 24px; }
+  .grid-wrap, .explicame-wrap { padding: 32px 24px; }
 }
+
 @media (max-width: 600px) {
+  /* NAV */
+  .nav { padding: 0 14px; gap: 10px; height: 52px; }
+  .nav-brand { font-size: 22px; }
+  .nav-cta { font-size: 12px; padding: 6px 12px; letter-spacing: 0.07em; }
+
+  /* TICKER */
+  .ticker-label { padding: 0 10px; font-size: 11px; margin-right: 10px; }
+
+  /* ARTICLE GRID */
   .article-grid { grid-template-columns: 1fr; }
   .article-grid .card { border-right: none; border-bottom: 3px solid var(--dark); }
   .article-grid .card:last-child { border-bottom: none; }
+
+  /* CARD BODY */
+  .card-body { padding: 16px; }
+  .card-body h3 { font-size: 19px; }
+  .card-top { height: 140px; }
+
+  /* EXPLAIN GRID */
   .explain-grid { grid-template-columns: 1fr; }
-  .explain-card { border-right: none; border-bottom: 3px solid var(--dark); }
+  .explain-card { border-right: none; border-bottom: 3px solid var(--dark); padding: 22px 18px; }
   .explain-card:last-child { border-bottom: none; }
-  .page-hero { padding: 36px 20px 32px; }
-  footer { padding: 24px 16px; }
-  .voce-card { grid-template-columns: 120px 1fr; }
-  .al-bocado-card { flex: 0 0 180px; }
-  .investigacion { padding: 36px 20px; }
+
+  /* PAGE HERO */
+  .page-hero { padding: 30px 18px 26px; }
+  .page-hero h1 { font-size: clamp(34px, 10vw, 60px); }
+  .page-hero p { font-size: 15px; }
+
+  /* SECTION HEADER */
+  .sec-hd h2 { font-size: 17px; letter-spacing: 0.12em; }
+  .sec-hd { margin-bottom: 16px; }
+
+  /* VOCES */
+  .voce-card { grid-template-columns: 110px 1fr; }
+  .voce-photo { min-height: 160px; }
+  .voce-body { padding: 16px 14px; }
+
+  /* AL BOCADO */
+  .al-bocado-card { flex: 0 0 180px; padding: 12px 14px; }
+
+  /* BOCADOS STRIP */
+  .bocados-wrap { padding: 24px 14px; }
+  .bocado { min-width: 210px; max-width: 210px; padding: 16px 14px; }
+
+  /* INVESTIGACION */
+  .investigacion { padding: 30px 18px; }
+  .inv-num { font-size: 34px; }
+
+  /* NEWSLETTER */
+  .nl-wrap { padding: 40px 16px; }
+  .nl-form { flex-direction: column; border: none; max-width: 100%; }
+  .nl-input { border: 3px solid #fff; padding: 12px 16px; width: 100%; }
+  .nl-btn { border: 3px solid #fff; border-top: none; padding: 13px 16px;
+             text-align: center; border-left: 3px solid #fff; }
+
+  /* FOOTER */
+  footer { padding: 22px 16px; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .footer-links { gap: 10px 16px; }
+
+  /* SECTION PADDING */
+  .grid-wrap, .explicame-wrap { padding: 24px 14px; }
 }
+
+@media (max-width: 480px) {
+  /* NAV — oculta botón en pantallas muy pequeñas */
+  .nav-cta { display: none; }
+  .nav-brand { font-size: 20px; gap: 7px; }
+  .nav-logo { width: 32px; height: 32px; }
+
+  /* VOCE CARD — foto encima del contenido */
+  .voce-card { grid-template-columns: 1fr; }
+  .voce-photo { min-height: 110px; }
+  .voce-card { border-bottom: 4px solid var(--yellow); }
+
+  /* INVESTIGACION stats */
+  .inv-num { font-size: 30px; }
+  .inv-stat-text h4 { font-size: 13px; }
+  .inv-stat-text p { font-size: 11px; }
+
+  /* BOCADOS */
+  .bocados-wrap { padding: 20px 12px; }
+
+  /* NEWSLETTER */
+  .nl-wrap { padding: 36px 14px; }
+  .nl-wrap h2 { font-size: clamp(28px, 9vw, 48px); }
+  .nl-wrap p { font-size: 14px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
 }

@@ -114,16 +114,23 @@
 /* ─── RESPONSIVE HERO ────────────────────────────────── */
 @media (max-width: 860px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .hero-right { flex-direction: row; border-top: 3px solid var(--dark); }
-  .hero-panel { border-right: 3px solid var(--dark); border-bottom: none; }
+  .hero-right { flex-direction: row; border-top: 3px solid var(--dark); overflow-x: auto; }
+  .hero-panel { border-right: 3px solid var(--dark); border-bottom: none; flex: 0 0 240px; min-width: 0; }
   .hero-panel:last-child { border-right: none; }
   .grid-wrap, .explicame-wrap { padding: 28px 20px; }
 }
 @media (max-width: 600px) {
-  .hero-left { padding: 32px 20px; }
-  .grid-wrap, .explicame-wrap { padding: 28px 16px; }
-  .bocados-wrap { padding: 28px 16px; }
-  .nl-wrap { padding: 48px 16px; }
+  .hero-left { padding: 30px 18px; }
+  .hero-h1 { font-size: clamp(38px, 9vw, 72px); }
+  .hero-panel { flex: 0 0 200px; padding: 18px 16px; }
+  .hero-panel h3 { font-size: 15px; }
+  .grid-wrap, .explicame-wrap { padding: 24px 14px; }
+  .bocados-wrap { padding: 22px 14px; }
+  .nl-wrap { padding: 40px 14px; }
+}
+@media (max-width: 480px) {
+  .hero-panel { flex: 0 0 175px; }
+  .hero-badge { display: none; }
 }
 </style>
 </head>
