@@ -274,7 +274,7 @@
     Object.assign(wrap.style, {
       position:'fixed', bottom:'16px', right:'16px', zIndex:'9990',
       userSelect:'none', display:'flex', flexDirection:'column', alignItems:'center',
-      background:'rgba(12,13,15,0.78)', border:'2px solid rgba(245,195,26,0.35)',
+      background:'rgba(12,13,15,0.78)', border:'2px solid rgba(232,181,22,0.35)',
       padding:'10px 10px 8px', backdropFilter:'blur(4px)',
     });
 
@@ -283,15 +283,15 @@
     tab.title = 'Brayan Sleyder';
     Object.assign(tab.style, {
       position:'fixed', right:'0', bottom:'100px', zIndex:'9989',
-      background:'rgba(12,13,15,0.85)', border:'2px solid rgba(245,195,26,0.45)',
+      background:'rgba(12,13,15,0.85)', border:'2px solid rgba(232,181,22,0.45)',
       borderRight:'none', cursor:'pointer', padding:'10px 6px',
       display:'flex', flexDirection:'column', alignItems:'center', gap:'4px',
       transition:'background .15s, border-color .15s',
       backdropFilter:'blur(4px)',
     });
-    tab.innerHTML = '<span style="font-size:18px;line-height:1">🐦</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:9px;color:#F5C31A;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg)">BRAYAN</span>';
-    tab.addEventListener('mouseenter', () => { tab.style.background='rgba(245,195,26,0.15)'; tab.style.borderColor='rgba(245,195,26,0.8)'; });
-    tab.addEventListener('mouseleave', () => { tab.style.background='rgba(12,13,15,0.85)'; tab.style.borderColor='rgba(245,195,26,0.45)'; });
+    tab.innerHTML = '<span style="font-size:18px;line-height:1">🐦</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:9px;color:#E8B516;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg)">BRAYAN</span>';
+    tab.addEventListener('mouseenter', () => { tab.style.background='rgba(232,181,22,0.15)'; tab.style.borderColor='rgba(232,181,22,0.8)'; });
+    tab.addEventListener('mouseleave', () => { tab.style.background='rgba(12,13,15,0.85)'; tab.style.borderColor='rgba(232,181,22,0.45)'; });
     document.body.appendChild(tab);
 
     // ── Botón cerrar ──
@@ -301,11 +301,11 @@
     Object.assign(btnClose.style, {
       position:'absolute', top:'4px', right:'6px',
       background:'none', border:'none', cursor:'pointer',
-      color:'rgba(245,195,26,0.4)', fontSize:'12px', lineHeight:'1',
+      color:'rgba(232,181,22,0.4)', fontSize:'12px', lineHeight:'1',
       padding:'2px 4px', transition:'color .15s',
     });
-    btnClose.addEventListener('mouseenter', () => btnClose.style.color = '#F5C31A');
-    btnClose.addEventListener('mouseleave', () => btnClose.style.color = 'rgba(245,195,26,0.4)');
+    btnClose.addEventListener('mouseenter', () => btnClose.style.color = '#E8B516');
+    btnClose.addEventListener('mouseleave', () => btnClose.style.color = 'rgba(232,181,22,0.4)');
 
     function setVisible(v) {
       wrap.style.display = v ? 'flex' : 'none';
@@ -320,10 +320,10 @@
     // ── Burbuja ──
     const bubble = document.createElement('div');
     Object.assign(bubble.style, {
-      background:'#0C0D0F', color:'#F5C31A',
+      background:'#0C0D0F', color:'#E8B516',
       fontFamily:'"DM Sans","Segoe UI",sans-serif',
       fontSize:'12px', fontWeight:'600', lineHeight:'1.4',
-      padding:'8px 12px', border:'2px solid #F5C31A',
+      padding:'8px 12px', border:'2px solid #E8B516',
       maxWidth:'180px', textAlign:'center',
       opacity:'0', transform:'translateY(6px)',
       transition:'opacity .25s,transform .25s',
@@ -334,7 +334,7 @@
       position:'absolute', bottom:'-8px', left:'50%', transform:'translateX(-50%)',
       width:'0', height:'0',
       borderLeft:'6px solid transparent', borderRight:'6px solid transparent',
-      borderTop:'8px solid #F5C31A',
+      borderTop:'8px solid #E8B516',
     });
     const bubbleTxt = document.createElement('span');
     bubble.appendChild(arrow); bubble.appendChild(bubbleTxt);
@@ -353,7 +353,7 @@
     const badge = document.createElement('div');
     Object.assign(badge.style, {
       fontFamily:'"Bebas Neue",sans-serif', fontSize:'10px',
-      letterSpacing:'.1em', color:'#F5C31A', margin:'2px 0 4px',
+      letterSpacing:'.1em', color:'#E8B516', margin:'2px 0 4px',
     });
     badge.textContent = 'DELGADITO';
 
@@ -365,15 +365,15 @@
       const b = document.createElement('button');
       b.title = title;
       Object.assign(b.style, {
-        background:'none', border:'2px solid #F5C31A', cursor:'pointer',
+        background:'none', border:'2px solid #E8B516', cursor:'pointer',
         padding:'4px 8px', display:'flex', alignItems:'center', gap:'5px',
         transition:'border-color .15s, transform .1s',
         fontFamily:'"Bebas Neue",sans-serif', fontSize:'11px',
-        letterSpacing:'.08em', color:'#F5C31A', whiteSpace:'nowrap',
+        letterSpacing:'.08em', color:'#E8B516', whiteSpace:'nowrap',
       });
       b.textContent = label;
       b.addEventListener('mouseenter', () => b.style.borderColor='#fff');
-      b.addEventListener('mouseleave', () => b.style.borderColor='#F5C31A');
+      b.addEventListener('mouseleave', () => b.style.borderColor='#E8B516');
       return b;
     }
 
@@ -400,7 +400,7 @@
     const counter = document.createElement('div');
     Object.assign(counter.style, {
       fontFamily:'"Bebas Neue",sans-serif', fontSize:'10px',
-      letterSpacing:'.08em', color:'rgba(245,195,26,.4)', marginTop:'3px',
+      letterSpacing:'.08em', color:'rgba(232,181,22,.4)', marginTop:'3px',
     });
     counter.textContent = '0 galletas';
 

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap');
 
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--yellow:#F5C31A;--blue:#3D56F0;--dark:#0C0D0F;--gray:#F4F4EF;--muted:#888;--border:rgba(12,13,15,.1);--sw:240px}
+:root{--yellow:#E8B516;--blue:#3D56F0;--dark:#0C0D0F;--gray:#F4F4EF;--muted:#888;--border:rgba(12,13,15,.1);--sw:240px}
 body{font-family:'DM Sans',sans-serif;background:var(--gray);color:var(--dark);display:flex;min-height:100vh}
 
 /* ── Sidebar ── */
@@ -11,12 +11,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray);color:var(--dark);d
 .sb-logo{display:flex;align-items:center;gap:10px}
 .sb-logo img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--yellow)}
 .sb-brand{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--yellow);letter-spacing:.04em}
-.sb-brand span{color:rgba(245,195,26,.35)}
+.sb-brand span{color:rgba(232,181,22,.35)}
 .sb-tag{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-top:1px}
 .sb-nav{flex:1;padding:12px 0}
 .sb-item{display:flex;align-items:center;gap:10px;padding:11px 20px;color:rgba(255,255,255,.55);text-decoration:none;font-size:14px;font-weight:500;transition:all .15s;border:none;background:none;width:100%;cursor:pointer;text-align:left}
 .sb-item:hover{color:#fff;background:rgba(255,255,255,.05)}
-.sb-item.on{color:var(--yellow);background:rgba(245,195,26,.08);border-left:3px solid var(--yellow)}
+.sb-item.on{color:var(--yellow);background:rgba(232,181,22,.08);border-left:3px solid var(--yellow)}
 .sb-item .ico{font-size:17px;width:22px;text-align:center}
 .sb-user{padding:16px 20px;border-top:2px solid rgba(255,255,255,.07)}
 .sb-uname{color:#fff;font-weight:600;font-size:13px}

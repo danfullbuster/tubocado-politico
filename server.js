@@ -277,21 +277,21 @@ function buildEmailHtml(asunto, cuerpo, nombre) {
 <body style="margin:0;padding:0;background:#f4f4f4;font-family:'Helvetica Neue',Arial,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:32px 0;">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-top:6px solid #F5C31A;">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-top:6px solid #E8B516;">
         <!-- Header -->
         <tr><td style="background:#0C0D0F;padding:20px 32px;">
-          <span style="font-family:Impact,Arial Black,sans-serif;font-size:26px;letter-spacing:.05em;color:#F5C31A;">TU<span style="color:rgba(245,195,26,.45)">/</span>BOCADO</span>
-          <span style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,195,26,.5);margin-left:12px;">POLÍTICO</span>
+          <span style="font-family:Impact,Arial Black,sans-serif;font-size:26px;letter-spacing:.05em;color:#E8B516;">TU<span style="color:rgba(232,181,22,.45)">/</span>BOCADO</span>
+          <span style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,181,22,.5);margin-left:12px;">POLÍTICO</span>
         </td></tr>
         <!-- Subject bar -->
-        <tr><td style="background:#F5C31A;padding:14px 32px;">
+        <tr><td style="background:#E8B516;padding:14px 32px;">
           <span style="font-family:Impact,Arial Black,sans-serif;font-size:18px;letter-spacing:.03em;color:#0C0D0F;text-transform:uppercase;">${asunto}</span>
         </td></tr>
         <!-- Body -->
         <tr><td style="padding:32px 32px 8px;">${saludo}${paragraphs}</td></tr>
         <!-- CTA -->
         <tr><td style="padding:8px 32px 32px;text-align:center;">
-          <a href="https://tubocado-politico-production.up.railway.app" style="display:inline-block;background:#0C0D0F;color:#F5C31A;font-family:Impact,Arial Black,sans-serif;font-size:16px;letter-spacing:.08em;text-decoration:none;padding:14px 32px;text-transform:uppercase;">Ver todas las noticias →</a>
+          <a href="https://tubocado-politico-production.up.railway.app" style="display:inline-block;background:#0C0D0F;color:#E8B516;font-family:Impact,Arial Black,sans-serif;font-size:16px;letter-spacing:.08em;text-decoration:none;padding:14px 32px;text-transform:uppercase;">Ver todas las noticias →</a>
         </td></tr>
         <!-- Footer -->
         <tr><td style="background:#f4f4f4;padding:20px 32px;border-top:2px solid #e4e4e4;">

@@ -359,13 +359,13 @@ load();
     btn.innerHTML = '✏️';
     Object.assign(btn.style, {
       position: 'fixed', bottom: '80px', left: '16px', zIndex: '9995',
-      background: '#F5C31A', color: '#0C0D0F',
+      background: '#E8B516', color: '#0C0D0F',
       width: '44px', height: '44px', borderRadius: '50%',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: '20px', textDecoration: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
       transition: 'transform .15s, box-shadow .15s',
     });
-    btn.addEventListener('mouseenter', () => { btn.style.transform='scale(1.1)'; btn.style.boxShadow='0 4px 14px rgba(245,195,26,0.5)'; });
+    btn.addEventListener('mouseenter', () => { btn.style.transform='scale(1.1)'; btn.style.boxShadow='0 4px 14px rgba(232,181,22,0.5)'; });
     btn.addEventListener('mouseleave', () => { btn.style.transform='scale(1)'; btn.style.boxShadow='0 2px 8px rgba(0,0,0,0.4)'; });
     document.body.appendChild(btn);
   } catch(e) {}

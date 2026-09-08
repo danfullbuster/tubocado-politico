@@ -27,9 +27,9 @@ const TBP = {
     t.style.cssText = `
       position:fixed;bottom:24px;right:24px;z-index:9999;
       background:${type==='error'?'#c0392b':'#0C0D0F'};
-      color:${type==='error'?'#fff':'#F5C31A'};
+      color:${type==='error'?'#fff':'#E8B516'};
       font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.06em;
-      padding:14px 24px;border:3px solid ${type==='error'?'#c0392b':'#F5C31A'};
+      padding:14px 24px;border:3px solid ${type==='error'?'#c0392b':'#E8B516'};
       opacity:0;transform:translateY(60px);transition:all .3s;
     `;
     requestAnimationFrame(() => {
