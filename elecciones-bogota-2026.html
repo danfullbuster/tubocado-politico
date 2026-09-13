@@ -673,6 +673,8 @@ tr.focus td:first-child { border-left: 2px solid var(--accent); }
     <div class="tabs" id="tabs-chap">
       <button class="tbn active" onclick="tab('c-comp','tabs-chap',this)">Chapinero vs Bogotá</button>
       <button class="tbn" onclick="tab('c-barrios','tabs-chap',this)">Barrios y zonas</button>
+      <button class="tbn" onclick="tab('c-demo','tabs-chap',this)">Perfil demográfico</button>
+      <button class="tbn" onclick="tab('c-jal','tabs-chap',this)">JAL 2023</button>
       <button class="tbn" onclick="tab('c-estrat','tabs-chap',this)">Estrategia</button>
     </div>
 
@@ -723,6 +725,191 @@ tr.focus td:first-child { border-left: 2px solid var(--accent); }
           <tr><td>Norte alto (Chicó Navarra)</td><td>6</td><td>Residencial lujoso</td><td style="color:var(--red)">Derecha fuerte</td><td style="color:var(--red)">★ Muy bajo</td></tr>
         </tbody>
       </table></div>
+    </div>
+
+    <!-- ═══ PERFIL DEMOGRÁFICO ═══ -->
+    <div id="c-demo" class="tab-p">
+      <div class="stat-grid" style="margin-bottom:20px">
+        <div class="stat"><div class="stat-n g">171.8K</div><div class="stat-lbl">Personas habilitadas para votar (Registraduría, JAL 2023)</div></div>
+        <div class="stat"><div class="stat-n y">150.7K</div><div class="stat-lbl">Población total estimada 2023 (Alcaldía Bogotá)</div></div>
+        <div class="stat"><div class="stat-n y">46%</div><div class="stat-lbl">Participación JAL 2023 — baja vs presidencial (~67%)</div></div>
+        <div class="stat"><div class="stat-n r">45%</div><div class="stat-lbl">Hogares estrato 6 — mayor concentración de Bogotá</div></div>
+      </div>
+      <div class="two" style="margin-bottom:16px">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Mapa de calor · UPZ por tendencia electoral</div>
+          <div style="display:grid;gap:6px;margin-bottom:8px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div style="background:rgba(224,82,82,.15);border:1px solid rgba(224,82,82,.35);border-radius:6px;padding:10px">
+                <div style="font-size:9px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:3px">UPZ 88 · Estrato 5–6</div>
+                <div style="font-size:12px;font-weight:700;color:var(--red)">El Refugio</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">El Chicó, La Cabrera, Toscana, El Nogal, Los Rosales</div>
+                <div style="font-size:10px;color:var(--red);margin-top:3px;font-weight:600">De la E. ~75%+ (est.)</div>
+              </div>
+              <div style="background:rgba(224,82,82,.12);border:1px solid rgba(224,82,82,.28);border-radius:6px;padding:10px">
+                <div style="font-size:9px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:3px">UPZ 97 · Estrato 5–6</div>
+                <div style="font-size:12px;font-weight:700;color:var(--red)">Chicó Lago</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">Chicó Norte I/II/III, El Retiro, Zona Rosa, Quinta Camacho</div>
+                <div style="font-size:10px;color:var(--red);margin-top:3px;font-weight:600">De la E. ~70%+ (est.)</div>
+              </div>
+            </div>
+            <div style="background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.3);border-radius:6px;padding:10px">
+              <div style="font-size:9px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:3px">UPZ 99 · Estrato 3–4 · ZONA LGBTQ+ · UNIVERSIDADES ← Territorio prioritario</div>
+              <div style="font-size:12px;font-weight:700;color:var(--yellow)">Chapinero Central</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">Chapinero Centro, Marly, Sucre, Cataluña, Chapinero Norte · Theatron, UNAL, Tadeo</div>
+              <div style="font-size:10px;color:var(--yellow);margin-top:3px;font-weight:600">~48% der / ~42% izq (est.) · Mayor oportunidad para Dani G.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div style="background:rgba(61,158,255,.12);border:1px solid rgba(61,158,255,.3);border-radius:6px;padding:10px">
+                <div style="font-size:9px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:3px">UPZ 90 · Estrato 2–4</div>
+                <div style="font-size:12px;font-weight:700;color:var(--blue)">Pardo Rubio</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">Bosque Calderón, Juan XXIII, La Salle, Chapinero Alto · ladera media (20 barrios)</div>
+                <div style="font-size:10px;color:var(--blue);margin-top:3px;font-weight:600">Cepeda ~55%+ (est.)</div>
+              </div>
+              <div style="background:rgba(76,175,130,.15);border:1px solid rgba(76,175,130,.3);border-radius:6px;padding:10px">
+                <div style="font-size:9px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:3px">UPZ 89 · Estrato 1–2</div>
+                <div style="font-size:12px;font-weight:700;color:var(--accent)">San Isidro Patios</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">San Isidro, La Sureña, La Esperanza Nororiental · cerros orientales</div>
+                <div style="font-size:10px;color:var(--accent);margin-top:3px;font-weight:600">Cepeda ~65%+ (est.)</div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);font-style:italic">* Votos por UPZ no publicados oficialmente. Estimados basados en perfil socioeconómico y presidenciales 2026.</div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Distribución por estrato (Chapinero)</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px">
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>Estrato 6</span><span style="color:var(--red);font-weight:600">45%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:45%;height:100%;background:var(--red);border-radius:3px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>Estrato 4</span><span style="color:var(--orange);font-weight:600">30.8%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:30.8%;height:100%;background:var(--orange);border-radius:3px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>Estrato 5</span><span style="color:var(--yellow);font-weight:600">11.7%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:11.7%;height:100%;background:var(--yellow);border-radius:3px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>Estratos 1–2 (ladera)</span><span style="color:var(--accent);font-weight:600">~12.5%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:12.5%;height:100%;background:var(--accent);border-radius:3px"></div></div></div>
+            <div style="font-size:10px;color:var(--muted)">Fuente: SDP Bogotá. La mayor concentración de estrato 6 de toda la ciudad.</div>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Distribución por edad (est. ASIS Chapinero 2024)</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px">
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>0–17 años (niñez/adolescencia)</span><span style="color:var(--muted);font-weight:600">~12%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:12%;height:100%;background:var(--muted);border-radius:3px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--accent)">18–29 años (jóvenes) ← base Dani G.</span><span style="color:var(--accent);font-weight:600">~18%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:18%;height:100%;background:var(--accent);border-radius:3px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>30–59 años (adultez — mayor grupo)</span><span style="color:var(--blue);font-weight:600">~42%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:42%;height:100%;background:var(--blue);border-radius:3px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>60+ años (vejez — alta proporción)</span><span style="color:var(--yellow);font-weight:600">~28%</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:28%;height:100%;background:var(--yellow);border-radius:3px"></div></div></div>
+            <div style="font-size:10px;color:var(--muted)">Chapinero es una de las localidades más envejecidas de Bogotá (como Teusaquillo y Usaquén). Adolescencia = grupo más pequeño.</div>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Género · Censo electoral (est.)</div>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;background:rgba(61,158,255,.1);border:1px solid rgba(61,158,255,.25);border-radius:6px;padding:10px;text-align:center">
+              <div style="font-size:18px;font-weight:700;color:var(--blue);font-family:'Space Mono',monospace">~54%</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">Mujeres</div>
+              <div style="font-size:10px;color:var(--muted)">~92K habilitadas</div>
+            </div>
+            <div style="flex:1;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.2);border-radius:6px;padding:10px;text-align:center">
+              <div style="font-size:18px;font-weight:700;color:var(--red);font-family:'Space Mono',monospace">~46%</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">Hombres</div>
+              <div style="font-size:10px;color:var(--muted)">~79K habilitados</div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">Est. basado en proporción Bogotá: 2.79M mujeres vs 2.39M hombres (Registraduría 2023).</div>
+        </div>
+      </div>
+      <div class="two">
+        <div class="infobox">
+          <div class="infobox-title">Educación · La localidad más académica</div>
+          <div class="infobox-body" style="font-size:12px">
+            <div style="margin-bottom:5px"><strong style="color:var(--text)">Universidades:</strong> UNAL (campus completo), Los Andes, Jorge Tadeo Lozano, EAN, Universidad Piloto, Javeriana (campus Chapinero). Concentración única en Bogotá.</div>
+            <div style="margin-bottom:5px">Solo <strong style="color:var(--text)">3 colegios distritales</strong> — educación pública básica muy limitada. Mayoría en colegios privados (coherente con estratos 4–6).</div>
+            <div>Alto nivel de escolaridad en estratos altos. En Pardo Rubio y San Isidro Patios (ladera, estrato 1–3) el acceso educativo es más difícil.</div>
+          </div>
+        </div>
+        <div class="infobox">
+          <div class="infobox-title">Comunidad LGBTQ+ · Referente de Bogotá</div>
+          <div class="infobox-body" style="font-size:12px">
+            <div style="margin-bottom:5px">Chapinero (especialmente UPZ 99) es el <strong style="color:var(--text)">epicentro cultural LGBTQ+ de Bogotá</strong> — lugar de expresión y reunión, no sólo de residencia.</div>
+            <div style="margin-bottom:5px"><strong style="color:var(--text)">Theatron</strong>: uno de los espacios de entretenimiento LGBTQ+ más grandes de Latinoamérica, capacidad +4.000 personas.</div>
+            <div style="margin-bottom:5px">DANE 2020: ~2.6% de colombianos se identifica como LGB → <strong style="color:var(--text)">~4.000 residentes LGBT (est.)</strong> más decenas de miles que frecuentan la zona.</div>
+            <div>Primer edil LGBT de Bogotá fue de Chapinero (Sebastián Romero, 2007). En 2025: primer Consejo Local LGBTI realizado.</div>
+          </div>
+        </div>
+      </div>
+      <div class="infobox info" style="margin-top:10px">
+        <div class="infobox-title">Participación juvenil · Dato clave para la campaña de Dani G.</div>
+        <div class="infobox-body" style="font-size:12px">Consejo Local de Juventud 2025: <strong style="color:var(--text)">1.976 votos</strong> con <strong style="color:var(--text)">11 listas inscritas</strong> — el mayor número de listas independientes juveniles de Bogotá. Base juvenil activa y organizada. Daniel Galeano fue elegido Consejero de Juventud en este proceso, lo que le da reconocimiento previo en la localidad.</div>
+      </div>
+    </div>
+
+    <!-- ═══ JAL 2023 ═══ -->
+    <div id="c-jal" class="tab-p">
+      <div class="sec-sub">Elecciones JAL · Chapinero · 29 octubre 2023 · Datos oficiales Registraduría Nacional</div>
+      <div class="stat-grid" style="margin-bottom:16px">
+        <div class="stat"><div class="stat-n g">171.8K</div><div class="stat-lbl">Habilitados para votar</div></div>
+        <div class="stat"><div class="stat-n y">79.084</div><div class="stat-lbl">Votos emitidos</div></div>
+        <div class="stat"><div class="stat-n y">46.0%</div><div class="stat-lbl">Participación (baja — típica JAL)</div></div>
+        <div class="stat"><div class="stat-n">7</div><div class="stat-lbl">Ediles elegidos 2024–2027</div></div>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Votos por partido · Resultado oficial</div>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px">
+        <div style="background:var(--surface2);border-radius:6px;padding:11px 14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+            <div><span style="font-size:13px;font-weight:700;color:var(--red)">Centro Democrático</span><span style="font-size:10px;color:var(--muted);margin-left:8px">Ganó Chapinero · 26.7%</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--red)">20.449</div>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:66.7%;height:100%;background:var(--red);border-radius:3px"></div></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">Más votada: Mariapaz Buitrago Aristizabal — 6.565 votos individuales</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:11px 14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+            <div><span style="font-size:13px;font-weight:700;color:var(--text)">Nuevo Liberalismo</span><span style="font-size:10px;color:var(--muted);margin-left:8px">13.6%</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700">10.400</div>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:34%;height:100%;background:#8B5CF6;border-radius:3px"></div></div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:11px 14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+            <div><span style="font-size:13px;font-weight:700;color:var(--accent)">Alianza Verde</span><span style="font-size:10px;color:var(--muted);margin-left:8px">11.0%</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--accent)">8.466</div>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:27.5%;height:100%;background:var(--accent);border-radius:3px"></div></div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:11px 14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+            <div><span style="font-size:13px;font-weight:700;color:var(--red)">Partido Liberal</span><span style="font-size:10px;color:var(--muted);margin-left:8px">10.4%</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--red)">7.989</div>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:26%;height:100%;background:var(--red);border-radius:3px;opacity:.55"></div></div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:11px 14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+            <div><span style="font-size:13px;font-weight:700;color:var(--blue)">Pacto Histórico</span><span style="font-size:10px;color:var(--muted);margin-left:8px">10.1%</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--blue)">7.736</div>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:25.2%;height:100%;background:var(--blue);border-radius:3px"></div></div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:11px 14px;border:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+            <div><span style="font-size:13px;font-weight:600;color:var(--muted)">Votos en blanco</span><span style="font-size:10px;color:var(--muted);margin-left:8px">11.4%</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--muted)">8.717</div>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:28.4%;height:100%;background:var(--muted);border-radius:3px;opacity:.4"></div></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">Alto porcentaje de protesta/desinterés en elecciones JAL</div>
+        </div>
+      </div>
+      <div class="two">
+        <div class="infobox warn">
+          <div class="infobox-title">Lo que implica para 2027</div>
+          <div class="infobox-body" style="font-size:12px">
+            <div style="margin-bottom:5px">› CD ganó con 20.4K votos — para <strong style="color:var(--text)">ganar una curul JAL en 2027 probablemente se necesitan ~3.000–5.000 votos individuales</strong> si el partido llega al cociente.</div>
+            <div style="margin-bottom:5px">› Pacto Histórico con 7.7K quedó 5to — la izquierda puede recuperarse con buena candidatura local y campaña territorial.</div>
+            <div style="margin-bottom:5px">› El 46% de participación es mejorable: activar voto joven dormido puede mover la aguja significativamente.</div>
+            <div>› 8.7K votos en blanco = electorado disponible que no encontró opción convincente.</div>
+          </div>
+        </div>
+        <div class="infobox ok">
+          <div class="infobox-title">Base disponible para Dani G.</div>
+          <div class="infobox-body" style="font-size:12px">
+            <div style="margin-bottom:5px">Pacto Histórico + Alianza Verde + blanco disponible = <strong style="color:var(--text)">~25K votos</strong> de base alternativa/progresista no bien activada en 2023.</div>
+            <div style="margin-bottom:5px">Con jóvenes activos (1.976 ya votaron en Consejo de Juventud 2025) + comunidad LGBTQ+ + vecinos ladera (Pardo Rubio, San Isidro) hay margen real para un edil joven.</div>
+            <div>Chapinero Central y Pardo Rubio son los sectores menos copados por CD — zona de concentración prioritaria.</div>
+          </div>
+        </div>
+      </div>
+      <p class="nota">Fuente: Registraduría Nacional del Estado Civil vía La República. 531/531 mesas reportadas (100%). Elecciones territoriales 29 oct 2023. Datos de segunda vuelta presidencial 2026: El Espectador (De la Espriella 53.759 / Cepeda 30.420 en Chapinero).</p>
     </div>
 
     <div id="c-estrat" class="tab-p">
