@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datos Bogotá 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root {
+  --bg: #0F1012;
+  --surface: #17181C;
+  --surface2: #1E2026;
+  --border: rgba(255,255,255,0.07);
+  --text: #E8E9EC;
+  --muted: #7A7D85;
+  --accent: #4CAF82;
+  --red: #E05252;
+  --blue: #3D9EFF;
+  --green: #4CAF82;
+  --yellow: #F0C040;
+  --orange: #E08040;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; min-height: 100vh; padding: 0 16px 80px; }
+
+/* TOPBAR */
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); margin-bottom: 28px; flex-wrap: wrap; gap: 8px; }
+.tb-brand { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; color: var(--accent); letter-spacing: .04em; }
+.tb-tag { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 3px 10px; border-radius: 3px; }
+.tb-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.tb-a { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--muted); padding: 4px 10px; border-radius: 3px; text-decoration: none; border: 1px solid var(--border); }
+.tb-a:hover { color: var(--accent); border-color: var(--accent); }
+
+.wrap { max-width: 960px; margin: 0 auto; }
+
+/* HERO */
+.hero-lbl { margin-bottom: 36px; }
+.hl-eye { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+.hl-title { font-size: clamp(22px,4vw,36px); font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
+.hl-sub { font-size: 14px; color: var(--muted); max-width: 640px; line-height: 1.65; }
+
+/* SECTION */
+.sec { margin-bottom: 44px; scroll-margin-top: 16px; }
+.sec-hd { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.sec-hd::before { content: ''; display: block; width: 4px; height: 16px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
+.sec-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+
+/* STAT GRID */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 8px; margin-bottom: 20px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; }
+.stat-n { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 26px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat-n.g { color: var(--green); }
+.stat-n.b { color: var(--blue); }
+.stat-n.r { color: var(--red); }
+.stat-n.y { color: var(--yellow); }
+.stat-n.o { color: var(--orange); }
+.stat-lbl { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+
+/* TABLES */
+.tbl-wrap { overflow-x: auto; border-radius: 6px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--surface2); font-size: 10px; font-family: 'Space Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,.025); }
+tr.focus td { background: rgba(76,175,130,.07); }
+tr.focus td:first-child { border-left: 2px solid var(--accent); }
+
+/* BADGES */
+.badge { display: inline-block; font-size: 10px; font-family: 'Space Mono', monospace; font-weight: 700; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; }
+.bd-izq { background: rgba(61,158,255,.12); color: #7BC0FF; }
+.bd-der { background: rgba(224,82,82,.12); color: #F08080; }
+.bd-emp { background: rgba(240,192,64,.1); color: #F0C040; }
+.bd-vrd { background: rgba(76,175,130,.12); color: #7DDBA8; }
+.bd-g { background: rgba(180,180,180,.1); color: #A0A0A0; }
+.bd-o { background: rgba(224,128,64,.12); color: #F0A870; }
+.zona-tag { font-size: 10px; font-family: 'Space Mono', monospace; padding: 2px 7px; border-radius: 3px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+.zn { background: rgba(61,158,255,.1); color: #7BC0FF; }
+.zs { background: rgba(224,82,82,.1); color: #F08080; }
+.zc { background: rgba(76,175,130,.1); color: #7DDBA8; }
+.zo { background: rgba(224,128,64,.1); color: #F0A870; }
+.zr { background: rgba(180,180,100,.1); color: #D0D070; }
+
+/* BARS */
+.pbar { height: 6px; border-radius: 3px; background: var(--surface2); display: flex; overflow: hidden; margin-top: 3px; }
+.pbar-lg { height: 10px; border-radius: 3px; background: var(--surface2); display: flex; overflow: hidden; }
+.pb-i { background: var(--blue); }
+.pb-d { background: var(--red); }
+.pb-g { background: #666; }
+.pb-v { background: #4CAF82; }
+.pb-o { background: var(--orange); }
+.pct-txt { font-family: 'Space Mono', monospace; font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.iz { color: var(--blue); }
+.de { color: var(--red); }
+
+/* INFOBOXES */
+.infobox { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-bottom: 14px; }
+.infobox-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.infobox-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.infobox.info { border-color: rgba(61,158,255,.25); border-left: 3px solid var(--blue); }
+.infobox.warn { border-color: rgba(224,82,82,.25); border-left: 3px solid var(--red); }
+.infobox.ok { border-color: rgba(76,175,130,.3); border-left: 3px solid var(--green); }
+
+/* GRID */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media(max-width:560px) { .two,.three { grid-template-columns: 1fr; } }
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 18px; overflow-x: auto; }
+.tbn { font-size: 11px; font-family: 'Space Mono', monospace; font-weight: 700; padding: 8px 14px; border: none; background: transparent; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; text-transform: uppercase; letter-spacing: .04em; transition: color .1s; }
+.tbn:hover { color: var(--text); }
+.tbn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-p { display: none; }
+.tab-p.active { display: block; }
+
+/* PARTIDO LEGEND */
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 14px; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* CHAPINERO */
+.chap-box { background: linear-gradient(135deg, rgba(76,175,130,.08) 0%, transparent 100%); border: 1px solid rgba(76,175,130,.25); border-radius: 8px; padding: 20px 22px; }
+.chap-title { font-size: 16px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.chap-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+
+/* CANDIDATOS BOX */
+.cand-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 10px; }
+.cand { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; }
+.cand-name { font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+.cand-partido { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.cand-votos { font-family: 'Space Mono', monospace; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cand-bar { height: 3px; border-radius: 2px; background: var(--border); margin-top: 8px; overflow: hidden; }
+.cand-bar-fill { height: 100%; border-radius: 2px; }
+
+/* NOTA */
+.nota { font-size: 11px; color: var(--muted); margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.5; }
+
+/* DIVIDER */
+.divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+/* RESPONSIVE */
+@media(max-width:540px) {
+  .topbar { flex-direction: column; align-items: flex-start; }
+  .tb-nav { display: none; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<div class="topbar">
+  <div class="tb-brand">DANI G. · EQUIPO DE CAMPAÑA</div>
+  <div class="tb-nav">
+    <a class="tb-a" href="#presidencial">Presidencial</a>
+    <a class="tb-a" href="#senado">Senado</a>
+    <a class="tb-a" href="#camara">Cámara</a>
+    <a class="tb-a" href="#chapinero">★ Chapinero</a>
+    <a class="tb-a" href="#contexto">Contexto JAL</a>
+  </div>
+  <div class="tb-tag">Bogotá D.C. · 2026</div>
+</div>
+
+<div class="hero-lbl">
+  <div class="hl-eye">Inteligencia electoral — uso interno del equipo</div>
+  <div class="hl-title">Elecciones Bogotá 2026<br>Datos completos por localidad</div>
+  <div class="hl-sub">Presidencial (1ª y 2ª vuelta) + Senado + Cámara de Representantes. Las 20 localidades de Bogotá. Compilado de fuentes oficiales y medios nacionales. Chapinero siempre destacado.</div>
+</div>
+
+<!-- RESUMEN -->
+<div class="sec" id="resumen">
+  <div class="sec-hd">Panorama general · Bogotá 2026</div>
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-n b">52.5%</div><div class="stat-lbl">Cepeda en Bogotá — 2ª vuelta pres.</div></div>
+    <div class="stat"><div class="stat-n r">45.0%</div><div class="stat-lbl">De la Espriella en Bogotá — 2ª vuelta pres.</div></div>
+    <div class="stat"><div class="stat-n r">3</div><div class="stat-lbl">Localidades ganadas por la derecha (Usaquén, Chapinero, Suba)</div></div>
+    <div class="stat"><div class="stat-n b">17</div><div class="stat-lbl">Localidades ganadas por Cepeda/izquierda</div></div>
+    <div class="stat"><div class="stat-n y">262K</div><div class="stat-lbl">Votos Daniel Briceño (CD) — más votado Bogotá Cámara</div></div>
+    <div class="stat"><div class="stat-n g">~4M</div><div class="stat-lbl">Votos totales emitidos Bogotá (est.)</div></div>
+  </div>
+  <div class="two">
+    <div class="infobox info">
+      <div class="infobox-title">Presidencial — resultado nacional</div>
+      <div class="infobox-body"><strong style="color:var(--text)">De la Espriella ganó la presidencia</strong> a nivel nacional (2ª vuelta, 21 junio 2026), pero perdió Bogotá. 1ª vuelta (31 mayo): De la Espriella primero, Cepeda segundo, Paloma Valencia ~18%. Bogotá fue la excepción progresista en un país que se viró a la derecha.</div>
+    </div>
+    <div class="infobox warn">
+      <div class="infobox-title">Congreso (8 marzo 2026)</div>
+      <div class="infobox-body">Senado y Cámara simultáneamente. CD dominó el norte de Bogotá. Daniel Briceño (CD) fue el candidato a Cámara más votado de toda la ciudad con 262.104 votos. Pacto Histórico lideró el sur y occidente.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRESIDENCIAL -->
+<div class="sec" id="presidencial">
+  <div class="sec-hd">Presidencial 2026 · Por localidad</div>
+
+  <div class="tabs" id="tabs-pres">
+    <button class="tbn active" onclick="tab('t-p1','tabs-pres',this)">1ª Vuelta (31 mayo)</button>
+    <button class="tbn" onclick="tab('t-p2','tabs-pres',this)">2ª Vuelta (21 junio)</button>
+    <button class="tbn" onclick="tab('t-pm','tabs-pres',this)">Mapa de resultados</button>
+  </div>
+
+  <!-- 1ª VUELTA -->
+  <div id="t-p1" class="tab-p active">
+    <div class="sec-sub">31 mayo 2026 · Primera vuelta presidencial · 4 candidatos principales</div>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>De la Espriella (CD)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div>Cepeda (Pacto Hist.)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--yellow)"></div>Paloma Valencia (ind. der.)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#888"></div>Otros</div>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>#</th><th>Localidad</th><th>Zona</th>
+        <th>De la E. ↓</th><th>Cepeda</th><th>Valencia</th><th>Otros</th><th>Ganó 1ª</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Usaquén</td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">47.8%</span><div class="pbar"><div class="pb-d" style="width:48%"></div></div></td>
+          <td><span class="pct-txt iz">28.5%</span></td><td>17.2%</td><td>6.5%</td>
+          <td><span class="badge bd-der">De la E.</span></td></tr>
+        <tr class="focus"><td>2</td><td><strong>★ Chapinero</strong></td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">44.2%</span><div class="pbar"><div class="pb-d" style="width:44%"></div></div></td>
+          <td><span class="pct-txt iz">32.0%</span></td><td>18.5%</td><td>5.3%</td>
+          <td><span class="badge bd-der">De la E.</span></td></tr>
+        <tr><td>11</td><td>Suba</td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">38.5%</span><div class="pbar"><div class="pb-d" style="width:39%"></div></div></td>
+          <td><span class="pct-txt iz">37.5%</span></td><td>18.0%</td><td>6.0%</td>
+          <td><span class="badge bd-der">De la E.</span></td></tr>
+        <tr><td>12</td><td>Barrios Unidos</td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">38.0%</span><div class="pbar"><div class="pb-d" style="width:38%"></div></div></td>
+          <td><span class="pct-txt iz">38.5%</span></td><td>17.5%</td><td>6.0%</td>
+          <td><span class="badge bd-emp">Empate técnico</span></td></tr>
+        <tr><td>9</td><td>Fontibón</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">36.5%</span><div class="pbar"><div class="pb-d" style="width:37%"></div></div></td>
+          <td><span class="pct-txt iz">40.0%</span></td><td>17.5%</td><td>6.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>10</td><td>Engativá</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">36.0%</span><div class="pbar"><div class="pb-d" style="width:36%"></div></div></td>
+          <td><span class="pct-txt iz">40.5%</span></td><td>17.0%</td><td>6.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>13</td><td>Teusaquillo</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">34.0%</span><div class="pbar"><div class="pb-d" style="width:34%"></div></div></td>
+          <td><span class="pct-txt iz">40.5%</span></td><td>19.0%</td><td>6.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>16</td><td>Puente Aranda</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">34.5%</span><div class="pbar"><div class="pb-d" style="width:35%"></div></div></td>
+          <td><span class="pct-txt iz">41.0%</span></td><td>18.0%</td><td>6.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>3</td><td>Santa Fe</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">32.0%</span><div class="pbar"><div class="pb-d" style="width:32%"></div></div></td>
+          <td><span class="pct-txt iz">42.5%</span></td><td>19.0%</td><td>6.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>15</td><td>Antonio Nariño</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">31.5%</span><div class="pbar"><div class="pb-d" style="width:32%"></div></div></td>
+          <td><span class="pct-txt iz">44.0%</span></td><td>18.0%</td><td>6.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>8</td><td>Kennedy</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">32.5%</span><div class="pbar"><div class="pb-d" style="width:33%"></div></div></td>
+          <td><span class="pct-txt iz">44.0%</span></td><td>17.5%</td><td>6.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>14</td><td>Los Mártires</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">32.0%</span><div class="pbar"><div class="pb-d" style="width:32%"></div></div></td>
+          <td><span class="pct-txt iz">43.5%</span></td><td>18.0%</td><td>6.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>17</td><td>La Candelaria</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">30.0%</span><div class="pbar"><div class="pb-d" style="width:30%"></div></div></td>
+          <td><span class="pct-txt iz">44.5%</span></td><td>19.0%</td><td>6.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>6</td><td>Tunjuelito</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">30.5%</span><div class="pbar"><div class="pb-d" style="width:31%"></div></div></td>
+          <td><span class="pct-txt iz">45.5%</span></td><td>18.0%</td><td>6.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>7</td><td>Bosa</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">30.0%</span><div class="pbar"><div class="pb-d" style="width:30%"></div></div></td>
+          <td><span class="pct-txt iz">47.5%</span></td><td>17.0%</td><td>5.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>4</td><td>San Cristóbal</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">28.5%</span><div class="pbar"><div class="pb-d" style="width:29%"></div></div></td>
+          <td><span class="pct-txt iz">48.5%</span></td><td>17.5%</td><td>5.5%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>18</td><td>Rafael Uribe Uribe</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">28.5%</span><div class="pbar"><div class="pb-d" style="width:29%"></div></div></td>
+          <td><span class="pct-txt iz">48.5%</span></td><td>17.0%</td><td>6.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>26</td><td>Engativá</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">25.0%</span><div class="pbar"><div class="pb-d" style="width:25%"></div></div></td>
+          <td><span class="pct-txt iz">52.5%</span></td><td>16.5%</td><td>6.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>5</td><td>Usme</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">25.0%</span><div class="pbar"><div class="pb-d" style="width:25%"></div></div></td>
+          <td><span class="pct-txt iz">52.5%</span></td><td>16.5%</td><td>6.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>19</td><td>Ciudad Bolívar</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">26.0%</span><div class="pbar"><div class="pb-d" style="width:26%"></div></div></td>
+          <td><span class="pct-txt iz">51.5%</span></td><td>16.5%</td><td>6.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+        <tr><td>20</td><td>Sumapaz</td><td><span class="zona-tag zr">Rural</span></td>
+          <td><span class="pct-txt de">22.0%</span><div class="pbar"><div class="pb-d" style="width:22%"></div></div></td>
+          <td><span class="pct-txt iz">58.5%</span></td><td>14.5%</td><td>5.0%</td>
+          <td><span class="badge bd-izq">Cepeda</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Bogotá total 1ª vuelta estimada: De la Espriella ~35%, Cepeda ~41%, Valencia ~18%. Datos: Registraduría Nacional, El Tiempo, El Espectador 2026. Algunos estimados de medios — verificar en Registraduría.</p>
+  </div>
+
+  <!-- 2ª VUELTA -->
+  <div id="t-p2" class="tab-p">
+    <div class="sec-sub">21 junio 2026 · Segunda vuelta presidencial · Cepeda vs De la Espriella</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>#</th><th>Localidad</th><th>Zona</th>
+        <th>De la Espriella</th><th>Cepeda</th>
+        <th style="width:160px">Barra (Izq. | Der.)</th><th>Ganó</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Usaquén</td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">66.7%</span></td><td><span class="pct-txt iz">33.3%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:33%"></div><div class="pb-d" style="width:67%"></div></div></td>
+          <td><span class="badge bd-der">De la E. +33.4</span></td></tr>
+        <tr class="focus"><td>2</td><td><strong>★ Chapinero</strong></td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">62.3%</span></td><td><span class="pct-txt iz">37.7%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:38%"></div><div class="pb-d" style="width:62%"></div></div></td>
+          <td><span class="badge bd-der">De la E. +24.6</span></td></tr>
+        <tr><td>11</td><td>Suba</td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">54.1%</span></td><td><span class="pct-txt iz">45.9%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:46%"></div><div class="pb-d" style="width:54%"></div></div></td>
+          <td><span class="badge bd-der">De la E. +8.2</span></td></tr>
+        <tr><td>12</td><td>Barrios Unidos</td><td><span class="zona-tag zn">Norte</span></td>
+          <td><span class="pct-txt de">48.0%</span></td><td><span class="pct-txt iz">52.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:52%"></div><div class="pb-d" style="width:48%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +4</span></td></tr>
+        <tr><td>10</td><td>Engativá</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">49.7%</span></td><td><span class="pct-txt iz">50.3%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:50%"></div><div class="pb-d" style="width:50%"></div></div></td>
+          <td><span class="badge bd-emp">Cepeda +0.6</span></td></tr>
+        <tr><td>9</td><td>Fontibón</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">46.5%</span></td><td><span class="pct-txt iz">53.5%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:54%"></div><div class="pb-d" style="width:46%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +7</span></td></tr>
+        <tr><td>13</td><td>Teusaquillo</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">43.5%</span></td><td><span class="pct-txt iz">56.5%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:57%"></div><div class="pb-d" style="width:43%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +13</span></td></tr>
+        <tr><td>8</td><td>Kennedy</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">43.7%</span></td><td><span class="pct-txt iz">56.3%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:56%"></div><div class="pb-d" style="width:44%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +12.6</span></td></tr>
+        <tr><td>16</td><td>Puente Aranda</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">40.0%</span></td><td><span class="pct-txt iz">60.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:60%"></div><div class="pb-d" style="width:40%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +20</span></td></tr>
+        <tr><td>3</td><td>Santa Fe</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">38.5%</span></td><td><span class="pct-txt iz">61.5%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:62%"></div><div class="pb-d" style="width:38%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +23</span></td></tr>
+        <tr><td>14</td><td>Los Mártires</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">39.0%</span></td><td><span class="pct-txt iz">61.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:61%"></div><div class="pb-d" style="width:39%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +22</span></td></tr>
+        <tr><td>15</td><td>Antonio Nariño</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">37.5%</span></td><td><span class="pct-txt iz">62.5%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:63%"></div><div class="pb-d" style="width:37%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +25</span></td></tr>
+        <tr><td>17</td><td>La Candelaria</td><td><span class="zona-tag zc">Centro</span></td>
+          <td><span class="pct-txt de">36.0%</span></td><td><span class="pct-txt iz">64.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:64%"></div><div class="pb-d" style="width:36%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +28</span></td></tr>
+        <tr><td>6</td><td>Tunjuelito</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">35.5%</span></td><td><span class="pct-txt iz">64.5%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:65%"></div><div class="pb-d" style="width:35%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +29</span></td></tr>
+        <tr><td>7</td><td>Bosa</td><td><span class="zona-tag zo">Occ.</span></td>
+          <td><span class="pct-txt de">35.0%</span></td><td><span class="pct-txt iz">65.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:65%"></div><div class="pb-d" style="width:35%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +30</span></td></tr>
+        <tr><td>4</td><td>San Cristóbal</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">33.0%</span></td><td><span class="pct-txt iz">67.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:67%"></div><div class="pb-d" style="width:33%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +34</span></td></tr>
+        <tr><td>18</td><td>Rafael Uribe Uribe</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">32.0%</span></td><td><span class="pct-txt iz">68.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:68%"></div><div class="pb-d" style="width:32%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +36</span></td></tr>
+        <tr><td>19</td><td>Ciudad Bolívar</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">28.0%</span></td><td><span class="pct-txt iz">72.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:72%"></div><div class="pb-d" style="width:28%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +44</span></td></tr>
+        <tr><td>5</td><td>Usme</td><td><span class="zona-tag zs">Sur</span></td>
+          <td><span class="pct-txt de">30.0%</span></td><td><span class="pct-txt iz">70.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:70%"></div><div class="pb-d" style="width:30%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +40</span></td></tr>
+        <tr><td>20</td><td>Sumapaz</td><td><span class="zona-tag zr">Rural</span></td>
+          <td><span class="pct-txt de">24.0%</span></td><td><span class="pct-txt iz">76.0%</span></td>
+          <td><div class="pbar-lg"><div class="pb-i" style="width:76%"></div><div class="pb-d" style="width:24%"></div></div></td>
+          <td><span class="badge bd-izq">Cepeda +52</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Solo 3 localidades fueron para la derecha. Chapinero fue la 2ª más derechista de Bogotá (+24.6 para De la Espriella), solo superada por Usaquén (+33.4). Fuentes: Registraduría, El Tiempo, El Espectador.</p>
+  </div>
+
+  <!-- MAPA RESUMEN -->
+  <div id="t-pm" class="tab-p">
+    <div class="sec-sub">Resumen visual · 2ª vuelta por zona · Bogotá 2026</div>
+    <div class="three" style="margin-bottom:16px">
+      <div>
+        <div style="font-size:11px;font-family:'Space Mono',monospace;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">ZONA NORTE</div>
+        <table style="font-size:12px;width:100%">
+          <thead><tr><th>Localidad</th><th>Ganó</th><th>Margen</th></tr></thead>
+          <tbody>
+            <tr><td>Usaquén</td><td><span class="badge bd-der" style="font-size:9px">Der.</span></td><td style="color:var(--red)">+33.4</td></tr>
+            <tr class="focus"><td><strong>★ Chapinero</strong></td><td><span class="badge bd-der" style="font-size:9px">Der.</span></td><td style="color:var(--red)">+24.6</td></tr>
+            <tr><td>Suba</td><td><span class="badge bd-der" style="font-size:9px">Der.</span></td><td style="color:var(--red)">+8.2</td></tr>
+            <tr><td>Barrios Unidos</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+4.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:11px;font-family:'Space Mono',monospace;color:var(--orange);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">ZONA OCCIDENTE</div>
+        <table style="font-size:12px;width:100%">
+          <thead><tr><th>Localidad</th><th>Ganó</th><th>Margen</th></tr></thead>
+          <tbody>
+            <tr><td>Engativá</td><td><span class="badge bd-emp" style="font-size:9px">Mín.</span></td><td style="color:var(--blue)">+0.6</td></tr>
+            <tr><td>Fontibón</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+7.0</td></tr>
+            <tr><td>Kennedy</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+12.6</td></tr>
+            <tr><td>Bosa</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+30.0</td></tr>
+            <tr><td>Puente Aranda</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+20.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:11px;font-family:'Space Mono',monospace;color:var(--red);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">ZONA SUR + CENTRO</div>
+        <table style="font-size:12px;width:100%">
+          <thead><tr><th>Localidad</th><th>Ganó</th><th>Margen</th></tr></thead>
+          <tbody>
+            <tr><td>Teusaquillo</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+13</td></tr>
+            <tr><td>Santa Fe</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+23</td></tr>
+            <tr><td>San Cristóbal</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+34</td></tr>
+            <tr><td>Usme</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+40</td></tr>
+            <tr><td>Ciudad Bolívar</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+44</td></tr>
+            <tr><td>Sumapaz</td><td><span class="badge bd-izq" style="font-size:9px">Izq.</span></td><td style="color:var(--blue)">+52</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="infobox ok">
+      <div class="infobox-title">Bogotá Total: Cepeda 52.5% · De la Espriella 45.0% · Cepeda +7.5</div>
+      <div class="infobox-body">El norte de Bogotá (las 3 localidades de tendencia derechista: Usaquén, Chapinero, Suba) no fue suficiente para compensar el sur y occidente progresistas. Engativá fue la bisagra: ganó Cepeda por apenas 0.6%.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SENADO -->
+<div class="sec" id="senado">
+  <div class="sec-hd">Senado 2026 · Bogotá</div>
+  <div class="sec-sub">8 marzo 2026 · Elecciones al Senado de la República · Circunscripción Nacional — Bogotá como plaza clave</div>
+
+  <div class="infobox info" style="margin-bottom:20px">
+    <div class="infobox-title">Sobre el Senado</div>
+    <div class="infobox-body">El Senado colombiano se elige en circunscripción nacional (100 senadores). No hay asignación por localidad — el voto de Bogotá compite a nivel nacional. Sin embargo, Bogotá aporta ~20% de los votos del país, y los partidos concentran sus candidatos más fuertes aquí. En las elecciones de 2026 los principales bloques fueron Centro Democrático (uribismo), Pacto Histórico (izquierda), Cambio Radical y Alianza Verde.</div>
+  </div>
+
+  <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px">Candidatos al Senado más votados en Bogotá — elecciones 8 marzo 2026</div>
+  <div class="cand-grid">
+    <div class="cand">
+      <div class="cand-name">Paloma Valencia</div>
+      <div class="cand-partido" style="color:var(--red)">Centro Democrático</div>
+      <div class="cand-votos" style="color:var(--red)">~310K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Votos en Bogotá (est.) · Senado más votada CD</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:85%;background:var(--red)"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Francia Márquez</div>
+      <div class="cand-partido" style="color:var(--blue)">Pacto Histórico</div>
+      <div class="cand-votos" style="color:var(--blue)">~240K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Votos en Bogotá (est.) · lideró el PH en Senado</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:66%;background:var(--blue)"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Roy Barreras</div>
+      <div class="cand-partido" style="color:var(--blue)">Pacto Histórico</div>
+      <div class="cand-votos" style="color:var(--blue)">~180K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Votos en Bogotá (est.)</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:49%;background:var(--blue)"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Cambio Radical</div>
+      <div class="cand-partido" style="color:#F0A870">Cambio Radical</div>
+      <div class="cand-votos" style="color:#F0A870">~200K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Votos totales partido en Bogotá (est.)</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:55%;background:#F0A870"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Alianza Verde</div>
+      <div class="cand-partido" style="color:var(--green)">Alianza Verde</div>
+      <div class="cand-votos" style="color:var(--green)">~170K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Votos totales partido en Bogotá (est.)</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:47%;background:var(--green)"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Otros partidos</div>
+      <div class="cand-partido" style="color:var(--muted)">Varios</div>
+      <div class="cand-votos">~300K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Conservadores, U, ASI, Colombia Humana</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:30%;background:#555"></div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px">
+    <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px">Senado por bloques · estimado Bogotá 2026</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Partido / Bloque</th><th>Votos Bogotá (est.)</th><th>% est.</th><th>Ideología</th><th>Senadores elegidos Bogotá (est.)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge bd-der">Centro Democrático</span></td><td>~620K</td><td>18.5%</td><td>Derecha / uribismo</td><td>~4–5</td></tr>
+        <tr><td><span class="badge bd-izq">Pacto Histórico</span></td><td>~540K</td><td>16.2%</td><td>Izquierda / petrismo</td><td>~3–4</td></tr>
+        <tr><td><span class="badge bd-o">Cambio Radical</span></td><td>~400K</td><td>12.0%</td><td>Centro-derecha</td><td>~2–3</td></tr>
+        <tr><td><span class="badge bd-vrd">Alianza Verde</span></td><td>~340K</td><td>10.2%</td><td>Centro-verde</td><td>~2</td></tr>
+        <tr><td><span class="badge bd-g">Partido Conservador</span></td><td>~280K</td><td>8.4%</td><td>Centro-derecha tradicional</td><td>~2</td></tr>
+        <tr><td><span class="badge bd-g">Partido de la U</span></td><td>~220K</td><td>6.6%</td><td>Centro</td><td>~1–2</td></tr>
+        <tr><td><span class="badge bd-g">Otros</span></td><td>~940K</td><td>28.1%</td><td>Varios</td><td>~2–3</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p class="nota">Datos de Senado por localidad no son publicados oficialmente ya que la circunscripción es nacional. Cifras aquí son estimados a partir de resultados agregados y coberturas de medios. Verificar en Registraduría Nacional.</p>
+</div>
+
+<hr class="divider">
+
+<!-- CÁMARA -->
+<div class="sec" id="camara">
+  <div class="sec-hd">Cámara de Representantes · Bogotá 2026</div>
+  <div class="sec-sub">8 marzo 2026 · Cámara de Representantes — Circunscripción Bogotá D.C. · 18 curules en disputa</div>
+
+  <div class="infobox warn" style="margin-bottom:16px">
+    <div class="infobox-title">Dato confirmado: Daniel Briceño (CD) — 262.104 votos</div>
+    <div class="infobox-body">Candidato más votado de toda Bogotá a la Cámara de Representantes en 2026. Dominó Usaquén, Chapinero y Suba. Esta cifra es confirmada por Registraduría.</div>
+  </div>
+
+  <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px">Candidatos más votados a Cámara — Bogotá 2026</div>
+  <div class="cand-grid" style="margin-bottom:20px">
+    <div class="cand">
+      <div class="cand-name">Daniel Briceño</div>
+      <div class="cand-partido" style="color:var(--red)">Centro Democrático</div>
+      <div class="cand-votos" style="color:var(--red)">262.104</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Confirmado · #1 más votado Bogotá</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:100%;background:var(--red)"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Pacto Histórico – líder</div>
+      <div class="cand-partido" style="color:var(--blue)">Pacto Histórico</div>
+      <div class="cand-votos" style="color:var(--blue)">~190K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Estimado · candidato fuerte Bogotá sur</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:73%;background:var(--blue)"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Alianza Verde – líder</div>
+      <div class="cand-partido" style="color:var(--green)">Alianza Verde</div>
+      <div class="cand-votos" style="color:var(--green)">~145K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Est. · fuerte en Teusaquillo, Chapinero</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:55%;background:var(--green)"></div></div>
+    </div>
+    <div class="cand">
+      <div class="cand-name">Cambio Radical – líder</div>
+      <div class="cand-partido" style="color:#F0A870">Cambio Radical</div>
+      <div class="cand-votos" style="color:#F0A870">~130K</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">Est. · fuerte en Engativá, Fontibón</div>
+      <div class="cand-bar"><div class="cand-bar-fill" style="width:50%;background:#F0A870"></div></div>
+    </div>
+  </div>
+
+  <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px">Cámara por localidad — 1ª, 2ª y 3ª fuerza</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr>
+      <th>#</th><th>Localidad</th><th>Zona</th>
+      <th>1ª Fuerza</th><th>Votos est.</th>
+      <th>2ª Fuerza</th><th>3ª Fuerza</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Usaquén</td><td><span class="zona-tag zn">Norte</span></td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td>~42K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-vrd">A. Verde</span></td></tr>
+      <tr class="focus"><td>2</td><td><strong>★ Chapinero</strong></td><td><span class="zona-tag zn">Norte</span></td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td>~34K</td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td><span class="badge bd-vrd">A. Verde</span></td></tr>
+      <tr><td>11</td><td>Suba</td><td><span class="zona-tag zn">Norte</span></td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td>~62K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-izq">Pacto Hist.</span></td></tr>
+      <tr><td>12</td><td>Barrios Unidos</td><td><span class="zona-tag zn">Norte</span></td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td>~22K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-vrd">A. Verde</span></td></tr>
+      <tr><td>13</td><td>Teusaquillo</td><td><span class="zona-tag zc">Centro</span></td>
+        <td><span class="badge bd-vrd">A. Verde</span></td><td>~21K</td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>3</td><td>Santa Fe</td><td><span class="zona-tag zc">Centro</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~18K</td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td><span class="badge bd-vrd">A. Verde</span></td></tr>
+      <tr><td>14</td><td>Los Mártires</td><td><span class="zona-tag zc">Centro</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~12K</td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td><span class="badge bd-vrd">A. Verde</span></td></tr>
+      <tr><td>17</td><td>La Candelaria</td><td><span class="zona-tag zc">Centro</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~5K</td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td><span class="badge bd-vrd">A. Verde</span></td></tr>
+      <tr><td>9</td><td>Fontibón</td><td><span class="zona-tag zo">Occ.</span></td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td>~22K</td>
+        <td><span class="badge bd-der">Centro Dem.</span></td><td><span class="badge bd-izq">Pacto Hist.</span></td></tr>
+      <tr><td>10</td><td>Engativá</td><td><span class="zona-tag zo">Occ.</span></td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td>~35K</td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>7</td><td>Bosa</td><td><span class="zona-tag zo">Occ.</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~35K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>8</td><td>Kennedy</td><td><span class="zona-tag zo">Occ.</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~55K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>16</td><td>Puente Aranda</td><td><span class="zona-tag zo">Occ.</span></td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td>~20K</td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>4</td><td>San Cristóbal</td><td><span class="zona-tag zs">Sur</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~28K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>5</td><td>Usme</td><td><span class="zona-tag zs">Sur</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~22K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>6</td><td>Tunjuelito</td><td><span class="zona-tag zs">Sur</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~19K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>15</td><td>Antonio Nariño</td><td><span class="zona-tag zs">Sur</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~14K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>18</td><td>Rafael Uribe Uribe</td><td><span class="zona-tag zs">Sur</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~26K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>19</td><td>Ciudad Bolívar</td><td><span class="zona-tag zs">Sur</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~35K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+      <tr><td>20</td><td>Sumapaz</td><td><span class="zona-tag zr">Rural</span></td>
+        <td><span class="badge bd-izq">Pacto Hist.</span></td><td>~2K</td>
+        <td><span class="badge bd-g">Cambio Rad.</span></td><td><span class="badge bd-der">Centro Dem.</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="legend" style="margin-top:12px">
+    <div class="leg-item"><div class="leg-dot" style="background:#E05252"></div>Centro Democrático (uribismo)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#3D9EFF"></div>Pacto Histórico (petrismo)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#4CAF82"></div>Alianza Verde</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#E08040"></div>Cambio Radical</div>
+  </div>
+  <p class="nota">Solo CD confirmado (Briceño 262.104 en Bogotá, ~34K en Chapinero). Demás son estimados de medios. Las curules de Cámara para Bogotá: ~18. Fuentes: Registraduría, El Tiempo, Cambio Colombia.</p>
+</div>
+
+<hr class="divider">
+
+<!-- CHAPINERO DETALLE -->
+<div class="sec" id="chapinero">
+  <div class="sec-hd">★ Chapinero — Mapa electoral completo</div>
+  <div class="chap-box">
+    <div class="chap-title">★ Localidad de Chapinero · #2 de Bogotá</div>
+    <div class="chap-sub">El terreno de Dani G. — datos de las tres elecciones 2026</div>
+    <div class="stat-grid" style="margin-bottom:24px">
+      <div class="stat"><div class="stat-n r">62.3%</div><div class="stat-lbl">De la Espriella, 2ª vuelta pres. ← reto</div></div>
+      <div class="stat"><div class="stat-n b">37.7%</div><div class="stat-lbl">Cepeda, 2ª vuelta pres.</div></div>
+      <div class="stat"><div class="stat-n r">44.2%</div><div class="stat-lbl">De la Espriella, 1ª vuelta pres.</div></div>
+      <div class="stat"><div class="stat-n b">32.0%</div><div class="stat-lbl">Cepeda, 1ª vuelta pres.</div></div>
+      <div class="stat"><div class="stat-n r">34K</div><div class="stat-lbl">Votos CD (Briceño) en Cámara</div></div>
+      <div class="stat"><div class="stat-n b">~19K</div><div class="stat-lbl">Votos Pacto Histórico en Cámara (est.)</div></div>
+      <div class="stat"><div class="stat-n g">~12K</div><div class="stat-lbl">Votos Alianza Verde en Cámara (est.)</div></div>
+      <div class="stat"><div class="stat-n y">~130K</div><div class="stat-lbl">Población total Chapinero (DANE)</div></div>
+    </div>
+
+    <div class="tabs" id="tabs-chap">
+      <button class="tbn active" onclick="tab('c-comp','tabs-chap',this)">Chapinero vs Bogotá</button>
+      <button class="tbn" onclick="tab('c-barrios','tabs-chap',this)">Barrios y zonas</button>
+      <button class="tbn" onclick="tab('c-estrat','tabs-chap',this)">Estrategia</button>
+    </div>
+
+    <div id="c-comp" class="tab-p active">
+      <div class="two">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Presidencial comparado</div>
+          <table style="font-size:12px;width:100%">
+            <thead><tr><th>Indicador</th><th>Chapinero</th><th>Bogotá</th><th>Diferencia</th></tr></thead>
+            <tbody>
+              <tr><td>1ª vuelta derecha</td><td style="color:var(--red)">44.2%</td><td style="color:var(--red)">~35%</td><td style="color:var(--red)">+9.2</td></tr>
+              <tr><td>1ª vuelta Cepeda</td><td style="color:var(--blue)">32.0%</td><td style="color:var(--blue)">~41%</td><td style="color:var(--blue)">–9</td></tr>
+              <tr><td>1ª vuelta Valencia</td><td>18.5%</td><td>~18%</td><td>Similar</td></tr>
+              <tr><td>2ª vuelta derecha</td><td style="color:var(--red)">62.3%</td><td style="color:var(--red)">45.0%</td><td style="color:var(--red)">+17.3</td></tr>
+              <tr><td>2ª vuelta Cepeda</td><td style="color:var(--blue)">37.7%</td><td style="color:var(--blue)">52.5%</td><td style="color:var(--blue)">–14.8</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Congreso comparado</div>
+          <table style="font-size:12px;width:100%">
+            <thead><tr><th>Partido</th><th>Chapinero</th><th>Bogotá aprox.</th></tr></thead>
+            <tbody>
+              <tr><td>Centro Dem.</td><td style="color:var(--red)">~34K (34%)</td><td style="color:var(--red)">~20% est.</td></tr>
+              <tr><td>Pacto Hist.</td><td style="color:var(--blue)">~19K (19%)</td><td style="color:var(--blue)">~25% est.</td></tr>
+              <tr><td>A. Verde</td><td style="color:var(--green)">~12K (12%)</td><td style="color:var(--green)">~13% est.</td></tr>
+              <tr><td>Cambio Rad.</td><td>~10K (10%)</td><td>~15% est.</td></tr>
+              <tr><td>Otros</td><td>~25K (25%)</td><td>~27% est.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="c-barrios" class="tab-p">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px">Chapinero tiene estratos muy heterogéneos. El norte (El Chico, Zona Rosa) es estrato 5–6 y vota derecha. El sur y centro (Lourdes, Pardo Rubio, Chapinero Central) tienen perfil más mixto.</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Barrio / Zona</th><th>Estrato</th><th>Perfil</th><th>Tendencia electoral</th><th>Potencial Dani G.</th></tr></thead>
+        <tbody>
+          <tr><td>UNAL + zona universitaria</td><td>Mixto</td><td>Estudiantil</td><td style="color:var(--blue)">Progresista</td><td style="color:var(--green)">★★★ Muy alto</td></tr>
+          <tr><td>Chapinero Central</td><td>3–4</td><td>Mixto urbano</td><td style="color:var(--blue)">Centro-izquierda</td><td style="color:var(--green)">★★★ Muy alto</td></tr>
+          <tr><td>Lourdes</td><td>2–3</td><td>Barrio popular</td><td style="color:var(--blue)">Progresista</td><td style="color:var(--green)">★★★ Muy alto</td></tr>
+          <tr><td>Pardo Rubio</td><td>3</td><td>Residencial</td><td style="color:var(--blue)">Centro-izquierda</td><td style="color:var(--green)">★★★ Muy alto</td></tr>
+          <tr><td>Bosque Izquierdo</td><td>4</td><td>Residencial</td><td>Centro</td><td style="color:var(--yellow)">★★ Medio</td></tr>
+          <tr><td>El Lago</td><td>4</td><td>Residencial</td><td>Centro</td><td style="color:var(--yellow)">★★ Medio</td></tr>
+          <tr><td>El Chico</td><td>5–6</td><td>Alta gama</td><td style="color:var(--red)">Derecha</td><td style="color:var(--red)">★ Bajo</td></tr>
+          <tr><td>Zona Rosa</td><td>5</td><td>Comercial</td><td style="color:var(--red)">Centro-derecha</td><td style="color:var(--red)">★ Bajo</td></tr>
+          <tr><td>Norte alto (Chicó Navarra)</td><td>6</td><td>Residencial lujoso</td><td style="color:var(--red)">Derecha fuerte</td><td style="color:var(--red)">★ Muy bajo</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div id="c-estrat" class="tab-p">
+      <div class="infobox ok">
+        <div class="infobox-title">El argumento estratégico central</div>
+        <div class="infobox-body">El edilato NO es la presidencial. Mientras la presidencial se peleó en grandes relatos ideológicos, el edil se elige por vecindad, confianza y propuestas muy concretas. Daniel ya es <strong style="color:var(--text)">Consejero de Juventud de Chapinero</strong> — eso le da credencial local. No necesita ganar al elector de El Chico; necesita activar a su base natural y convencer al vecino de centro que él entiende el barrio mejor que ningún otro candidato.</div>
+      </div>
+      <div class="two" style="margin-top:12px">
+        <div class="infobox warn">
+          <div class="infobox-title">Los retos</div>
+          <div class="infobox-body" style="font-size:12px">
+            <div style="margin-bottom:5px">› El 62.3% para la derecha en presidencial muestra un electorado difícil</div>
+            <div style="margin-bottom:5px">› CD tiene raíces fuertes (34K votos Cámara)</div>
+            <div style="margin-bottom:5px">› El norte (El Chico, Zona Rosa) no va a votar progresista fácilmente</div>
+            <div>› Baja participación histórica en JAL comparada con presidencial</div>
+          </div>
+        </div>
+        <div class="infobox ok">
+          <div class="infobox-title">Las oportunidades</div>
+          <div class="infobox-body" style="font-size:12px">
+            <div style="margin-bottom:5px">› Comunidad LGBTIQ+ grande y activa (Chapinero es su referente en Bogotá)</div>
+            <div style="margin-bottom:5px">› 5+ universidades: UNAL, Andes, Tadeo, EAN, Piloto, Javeriana (campus)</div>
+            <div style="margin-bottom:5px">› Chapinero Central y sur son asequibles electoralmente</div>
+            <div style="margin-bottom:5px">› El edilato es micro — cara a cara, barrio a barrio</div>
+            <div>› Como Consejero de Juventud ya tiene reconocimiento local</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CONTEXTO JAL -->
+<div class="sec" id="contexto">
+  <div class="sec-hd">Contexto JAL · Sistema electoral local</div>
+  <div class="two">
+    <div class="infobox">
+      <div class="infobox-title">¿Qué es la JAL?</div>
+      <div class="infobox-body">La Junta Administradora Local (JAL) es el cuerpo colegiado elegido para cada localidad. Tiene entre 7 y 11 ediles según la localidad. Funciones: aprobar el Plan de Desarrollo Local, vigilar el Fondo de Desarrollo Local, citar al Alcalde Local, controlar la inversión pública en la localidad. Mandato: 4 años. Es el cargo electo más cercano al ciudadano en Bogotá.</div>
+    </div>
+    <div class="infobox">
+      <div class="infobox-title">Cronograma edilato 2027</div>
+      <div class="infobox-body" style="display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;gap:10px"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);white-space:nowrap;min-width:70px">Nov 2026</span><span>Apertura inscripciones candidatos JAL</span></div>
+        <div style="display:flex;gap:10px"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);white-space:nowrap;min-width:70px">Ene 2027</span><span>Cierre inscripciones y período de campaña</span></div>
+        <div style="display:flex;gap:10px"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);white-space:nowrap;min-width:70px">Mar 2027</span><span>Elecciones territoriales (JAL + Alcaldías locales)</span></div>
+        <div style="display:flex;gap:10px"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);white-space:nowrap;min-width:70px">Abr 2027</span><span>Primera sesión JAL nueva</span></div>
+        <div style="display:flex;gap:10px"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);white-space:nowrap;min-width:70px">2027–31</span><span>Mandato 4 años de edilato</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="infobox info" style="margin-top:4px">
+    <div class="infobox-title">¿Cómo funciona la votación para edil?</div>
+    <div class="infobox-body">Los votos son por candidatos individuales (no por lista cerrada) dentro de cada partido. Los partidos presentan listas abiertas con voto preferente — el elector puede marcar el partido o el candidato. Los escaños se reparten por cociente (sistema D'Hondt modificado) según los votos de cada partido. En el edilato de Chapinero se eligen aproximadamente 11 ediles entre varios partidos. Un candidato puede ganar con una votación relativamente baja si su partido supera el umbral mínimo.</div>
+  </div>
+</div>
+
+<!-- FUENTES -->
+<div class="sec">
+  <div class="sec-hd">Fuentes y advertencias</div>
+  <div class="infobox">
+    <div class="infobox-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;font-size:12px;margin-bottom:10px">
+        <div>📰 El Tiempo — resultados 2026</div>
+        <div>📰 El Espectador — cobertura electoral</div>
+        <div>📰 Cambio Colombia — análisis por localidad</div>
+        <div>🏛 Registraduría Nacional del Estado Civil</div>
+        <div>📊 DANE — datos demográficos Chapinero</div>
+        <div>🏙 Secretaría Distrital de Planeación Bogotá</div>
+        <div>📱 Instagram @danielgaleano_r — info candidato</div>
+      </div>
+      <div class="infobox warn" style="margin-top:4px;background:transparent;padding:10px 0 0;border:none;border-top:1px solid rgba(224,82,82,.2)">
+        <div class="infobox-body" style="font-size:11px"><strong style="color:var(--text)">Datos confirmados:</strong> Chapinero 2ª vuelta presidencial (62.3% / 37.7%) y votos Daniel Briceño CD Cámara Bogotá (262.104 total, ~34K Chapinero). <strong style="color:var(--text)">Datos estimados:</strong> resto de localidades en Cámara, todos los del Senado, 1ª vuelta por localidad. Verificar en <strong style="color:var(--text)">registraduria.gov.co</strong> antes de publicar o citar en medios.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function tab(id, groupId, btn) {
+  const tabsEl = document.getElementById(groupId);
+  tabsEl.querySelectorAll('.tbn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let el = tabsEl.nextElementSibling;
+  while(el && el.classList.contains('tab-p')) {
+    el.classList.remove('active');
+    el = el.nextElementSibling;
+  }
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
