@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/assets/logo.jpg">
+<link rel="icon" type="image/png" href="assets/logo.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta property="og:site_name" content="Tu Bocado Político">
 <meta property="og:type" content="website">
@@ -401,7 +401,18 @@ async function initIndex() {
   try {
     const r = await fetch('/api/noticias');
     noticias = await r.json();
-  } catch(e) { return; }
+  } catch(e) {
+    // Sin servidor: limpiar los "Cargando..." y mostrar estado offline
+    const heroTitulo = document.getElementById('heroTitulo');
+    if (heroTitulo) heroTitulo.textContent = 'Abre en producción para ver el contenido';
+    const heroSub = document.getElementById('heroSub');
+    if (heroSub) heroSub.textContent = 'tubocado-politico-production.up.railway.app';
+    const bocados = document.getElementById('bocadosStrip');
+    if (bocados) bocados.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">Iniciá el servidor local para ver las noticias</div>';
+    const grid = document.getElementById('indexGrid');
+    if (grid) grid.innerHTML = '';
+    return;
+  }
   if (!noticias.length) return;
 
   // ── AL BOCADO strip ─────────────────────────
@@ -482,8 +493,8 @@ async function initIndex() {
 
 initIndex();
 </script>
-<script src="/nav-drawer.js"></script>
-<script src="/mascota.js"></script>
+<script src="nav-drawer.js"></script>
+<script src="mascota.js"></script>
 </body>
 </html>
 
